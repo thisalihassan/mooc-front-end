@@ -1,0 +1,89 @@
+{
+    "data": {
+        "title": "AI Quiz",
+        "detail": "No copy Paste Allowed. Write it in your own words",
+        "category": "AI",
+        "createDate": "22.09.2019",
+        "status": "ACTIVE",
+        "label": "EDUCATION",
+        "labelColor": "secondary",
+        "id": 2,
+        "questions": [{
+                "id": 0,
+                "title": "Question 1",
+                "question": "What is a neural network?",
+                "answerType": 1
+            },
+            {
+                "id": 1,
+                "title": "Question 2",
+                "question": "How do you train a neural network?",
+                "answerType": 3,
+                "answers": [{
+                        "id": 0,
+                        "label": "18-24"
+                    },
+                    {
+                        "id": 1,
+                        "label": "24-30"
+                    },
+                    {
+                        "id": 2,
+                        "label": "30-40"
+                    },
+                    {
+                        "id": 3,
+                        "label": "40-50"
+                    },
+                    {
+                        "id": 4,
+                        "label": "50+"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "title": "Question 3",
+                "question": "What is a gradient descent?",
+                "answerType": 3,
+                "answers": [{
+                        "id": 0,
+                        "label": "Male"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Female"
+                    },
+                    {
+                        "id": 2,
+                        "label": "Other"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "title": "Question 4",
+                "question": "How to increase accuracy of a NN?",
+                "answerType": 3,
+                "answers": [{
+                        "id": 0,
+                        "label": "Employed for wages"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Self-employed"
+                    },
+                    {
+                        "id": 2,
+                        "label": "Out of work and looking for work"
+                    },
+                    {
+                        "id": 3,
+                        "label": "Retired"
+                    }
+                ]
+            }
+        ]
+    }
+
+}
