@@ -6,6 +6,7 @@ export const defaultLocale = "en";
 export const defaultSearch = "Course";
 export const localeOptions = [
   { id: "en", name: "English" },
+
   { id: "ur", name: "Urdu" },
 ];
 export const fileMaxSize = 4 * 1000 * 1000;
