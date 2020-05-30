@@ -13,7 +13,7 @@ import {
   ModalHeader,
   Card,
   CardBody,
-  Row
+  Row,
 } from "reactstrap";
 import io from "socket.io-client";
 import { Colxx } from "../../components/CustomBootstrap";
@@ -29,7 +29,7 @@ import {
   searchKeyword,
   GetSubscription,
   getmyCourse,
-  getNotifications
+  getNotifications,
 } from "../../redux/actions";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
@@ -37,9 +37,9 @@ import moment from "moment";
 import {
   menuHiddenBreakpoint,
   localeOptions,
-  searchBy
+  searchBy,
 } from "../../constants/defaultValues";
-export const socket = io(":5000");
+export const socket = io(URL);
 
 class TopNav extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class TopNav extends Component {
       loadNotification: true,
       getUnSeen: [],
       modalOpen: false,
-      today: null
+      today: null,
     };
   }
   async makecoursesList() {
@@ -84,7 +84,7 @@ class TopNav extends Component {
       const body = JSON.stringify({ course });
       await axios
         .post(URL + "api/assignment/todayassignments", body, config)
-        .then(res => this.setState({ today: res.data }));
+        .then((res) => this.setState({ today: res.data }));
     }
     this.props.getNotifications(this.state.listCourse, this.props.user._id);
   }
@@ -100,7 +100,7 @@ class TopNav extends Component {
     if (this.props.notify.length > 0 && this.state.loadNotification) {
       this.setState({
         notifications: this.props.notify,
-        loadNotification: false
+        loadNotification: false,
       });
     }
     if (this.props.user && this.state.listCourse.length == 0) {
@@ -120,18 +120,18 @@ class TopNav extends Component {
     // }
     if (this.state.notifications !== prevState.notifications) {
       let mess;
-      this.state.socket.on("show_notification", mess => {
+      this.state.socket.on("show_notification", (mess) => {
         if (mess !== this.state.notifications[0])
-          this.setState(prevState => ({
-            notifications: [mess, ...prevState.notifications]
+          this.setState((prevState) => ({
+            notifications: [mess, ...prevState.notifications],
           }));
       });
     }
   }
-  handleSearchChange = selection => {
+  handleSearchChange = (selection) => {
     this.props.searchSelection(selection);
   };
-  handleChangeLocale = locale => {
+  handleChangeLocale = (locale) => {
     this.props.changeLocale(locale);
   };
   isInFullScreen = () => {
@@ -144,7 +144,7 @@ class TopNav extends Component {
       (document.msFullscreenElement && document.msFullscreenElement !== null)
     );
   };
-  handleSearchIconClick = e => {
+  handleSearchIconClick = (e) => {
     if (window.innerWidth < menuHiddenBreakpoint) {
       let elem = e.target;
       if (!e.target.classList.contains("search")) {
@@ -201,13 +201,13 @@ class TopNav extends Component {
       if (input && input.classList) input.classList.remove("mobile-view");
       this.removeEventsSearch();
       this.setState({
-        searchKeyword: ""
+        searchKeyword: "",
       });
     }
   }
   handleSearchInputChange(e) {
     this.setState({
-      searchKeyword: e.target.value
+      searchKeyword: e.target.value,
     });
   }
   handleSearchInputKeyPress(e) {
@@ -220,7 +220,7 @@ class TopNav extends Component {
   dropDownSearch() {}
   search() {
     this.setState({
-      searchKeyword: ""
+      searchKeyword: "",
     });
   }
 
@@ -250,14 +250,14 @@ class TopNav extends Component {
       }
     }
     this.setState({
-      isInFullScreen: !isInFullScreen
+      isInFullScreen: !isInFullScreen,
     });
   };
 
   handleLogout = () => {
     this.props.logout();
   };
-  switchAccount = e => {
+  switchAccount = (e) => {
     e.preventDefault();
     axios.get(URL + "api/auth/welcome", {}, config);
     window.location.reload();
@@ -290,7 +290,7 @@ class TopNav extends Component {
   }
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
   render() {
@@ -304,7 +304,7 @@ class TopNav extends Component {
           <NavLink
             to="#"
             className="menu-button d-none d-md-block"
-            onClick={e =>
+            onClick={(e) =>
               this.menuButtonClick(e, menuClickCount, containerClassnames)
             }
           >
@@ -330,7 +330,7 @@ class TopNav extends Component {
           <NavLink
             to="#"
             className="menu-button-mobile d-xs-block d-sm-block d-md-none"
-            onClick={e => this.mobileMenuButtonClick(e, containerClassnames)}
+            onClick={(e) => this.mobileMenuButtonClick(e, containerClassnames)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
               <rect x="0.5" y="0.5" width="25" height="1" />
@@ -345,12 +345,12 @@ class TopNav extends Component {
               id="searchKeyword"
               placeholder={messages["menu.search"]}
               value={this.state.searchKeyword}
-              onChange={e => this.handleSearchInputChange(e)}
-              onKeyPress={e => this.handleSearchInputKeyPress(e)}
+              onChange={(e) => this.handleSearchInputChange(e)}
+              onKeyPress={(e) => this.handleSearchInputKeyPress(e)}
             />
             <span
               className="search-icon"
-              onClick={e => this.handleSearchIconClick(e)}
+              onClick={(e) => this.handleSearchIconClick(e)}
             >
               <i className="simple-icon-magnifier" />
             </span>
@@ -369,7 +369,7 @@ class TopNav extends Component {
                 </span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
-                {searchBy.map(item => {
+                {searchBy.map((item) => {
                   return (
                     <DropdownItem
                       onClick={() => this.handleSearchChange(item.id)}
@@ -393,7 +393,7 @@ class TopNav extends Component {
                 <span className="name">{this.props.locale.toUpperCase()}</span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
-                {localeOptions.map(l => {
+                {localeOptions.map((l) => {
                   return (
                     <DropdownItem
                       onClick={() => this.handleChangeLocale(l.id)}
@@ -437,7 +437,7 @@ class TopNav extends Component {
                     <PerfectScrollbar
                       options={{
                         suppressScrollX: true,
-                        wheelPropagation: false
+                        wheelPropagation: false,
                       }}
                     >
                       {this.state.notifications.map((n, index) => {
@@ -445,7 +445,7 @@ class TopNav extends Component {
                         let itself = false;
                         if (n.course) {
                           match = this.state.listCourse.find(
-                            u => u === n.course
+                            (u) => u === n.course
                           );
                         }
                         if (n.user) {
@@ -509,7 +509,7 @@ class TopNav extends Component {
                 </DropdownToggle>
                 <DropdownMenu className="mt-3" right>
                   {user.roll.toLowerCase() !== "admin" && (
-                    <DropdownItem onClick={e => this.switchAccount(e)}>
+                    <DropdownItem onClick={(e) => this.switchAccount(e)}>
                       Switch
                     </DropdownItem>
                   )}
@@ -612,7 +612,7 @@ const mapStateToProps = ({
   auth,
   subscribtion,
   course,
-  notifications
+  notifications,
 }) => {
   const { containerClassnames, menuClickCount } = menu;
   const { locale, searchBy } = settings;
@@ -629,7 +629,7 @@ const mapStateToProps = ({
     menuClickCount,
     locale,
     searchBy,
-    user
+    user,
   };
 };
 export default injectIntl(
@@ -642,6 +642,6 @@ export default injectIntl(
     searchKeyword,
     GetSubscription,
     getmyCourse,
-    getNotifications
+    getNotifications,
   })(TopNav)
 );

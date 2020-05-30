@@ -172,7 +172,7 @@ class ChatApplication extends Component {
       });
     }
     if (this.state.socket == null) {
-      this.state.socket = io(":5000");
+      this.state.socket = io(URL);
     }
     const name = this.state.name;
     const myroom = this.state.room;

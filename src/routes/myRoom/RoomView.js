@@ -32,7 +32,7 @@ import { socket } from "../../containers/TopNav";
 import axios from "axios";
 import { BURL, URL, config, AURL, SURL } from "../../constants/defaultValues";
 import queryString from "query-string";
-
+import NewWindow from "react-new-window";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -276,6 +276,9 @@ class ChatApplication extends Component {
         })
       );
       this.setState({
+        modalOpen: !this.state.modalOpen,
+      });
+      this.setState({
         videoURL:
           BURL +
           "?id=" +
@@ -301,6 +304,15 @@ class ChatApplication extends Component {
   }
   toggleModal = () => {
     this.setState({
+      videoURL:
+        BURL +
+        "?id=" +
+        this.state.room +
+        "&u=" +
+        this.props.user._id +
+        "&s=video&q=start",
+    });
+    this.setState({
       modalOpen: !this.state.modalOpen,
     });
   };
@@ -311,9 +323,9 @@ class ChatApplication extends Component {
     if (owner && user)
       return (
         <Fragment>
-          <Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
-            <iframe src={this.state.videoURL} />
-          </Modal>
+          {this.state.modalOpen && (
+            <NewWindow url={this.state.videoURL}></NewWindow>
+          )}
           <Row className="app-row">
             <Colxx xxs="6" className="VideoContainer"></Colxx>
             <Colxx xxs="12" className="chat-app">
@@ -330,54 +342,30 @@ class ChatApplication extends Component {
                   </td>
                   <td id="a">
                     {owner._id === user._id && (
-                      <a
-                        href={`${AURL}?id=${this.state.room}&u=start`}
-                        target="_blank"
+                      <Button
+                        onClick={() => this.startVideoBroadcasting(owner, user)}
                       >
-                        <Button
-                          onClick={() =>
-                            this.startVideoBroadcasting(owner, user)
-                          }
-                        >
-                          <i className="simple-icon-phone" />
-                        </Button>
-                      </a>
+                        <i className="simple-icon-phone" />
+                      </Button>
                     )}
                     {owner && user && owner._id !== user._id && (
-                      <a
-                        href={`${AURL}?id=${this.state.room}&u=join`}
-                        target="_blank"
-                      >
-                        <Button>
-                          <i className="simple-icon-phone" />
-                        </Button>
-                      </a>
+                      <Button onClick={this.toggleModal}>
+                        <i className="simple-icon-phone" />
+                      </Button>
                     )}
                   </td>
                   <td id="b">
                     {owner._id === user._id && (
-                      <a
-                        href={`${BURL}?id=${this.state.room}&u=${user._id}&s=video&q=start`}
-                        target="_blank"
+                      <Button
+                        onClick={() => this.startVideoBroadcasting(owner, user)}
                       >
-                        <Button
-                          onClick={() =>
-                            this.startVideoBroadcasting(owner, user)
-                          }
-                        >
-                          <i className="simple-icon-camrecorder" />
-                        </Button>
-                      </a>
+                        <i className="simple-icon-camrecorder" />
+                      </Button>
                     )}
                     {owner && user && owner._id !== user._id && (
-                      <a
-                        href={`${BURL}?id=${this.state.room}&u=${user._id}`}
-                        target="_blank"
-                      >
-                        <Button>
-                          <i className="simple-icon-camrecorder" />
-                        </Button>
-                      </a>
+                      <Button>
+                        <i className="simple-icon-camrecorder" />
+                      </Button>
                     )}
                   </td>
                   <td id="c">
