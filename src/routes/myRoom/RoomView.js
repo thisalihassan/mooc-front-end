@@ -290,6 +290,26 @@ class ChatApplication extends Component {
     }
   }
 
+  startScreenBroadcasting(owner, user) {
+    if (owner._id === user._id) {
+      const myroom = this.state.room;
+      const check = true;
+      const id = this.props.user._id;
+      const msg = "Screen broadcasting has started";
+      const tuple = { myroom, msg, check, id };
+      this.state.socket.emit("sendMessage", tuple, () =>
+        this.setState({
+          messageInput: "",
+        })
+      );
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+      });
+      this.setState({
+        videoURL: SURL + "?id=" + this.state.room,
+      });
+    }
+  }
   deletConversation(e) {
     this.props.deleteConversation(this.state.room);
     window.location.reload();
@@ -302,6 +322,14 @@ class ChatApplication extends Component {
     this.state.socket.emit("disconnectuser", tuple, () => console.log("Leave"));
     this.props.history.push("/app/myrooms/rooms");
   }
+  toggleScreen = () => {
+    this.setState({
+      videoURL: SURL + "?id=" + this.state.room,
+    });
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  };
   toggleModal = () => {
     this.setState({
       videoURL:
@@ -370,18 +398,18 @@ class ChatApplication extends Component {
                   </td>
                   <td id="c">
                     {owner && user && owner._id === user._id && (
-                      <a href={`${SURL}?id=${this.state.room}`} target="_blank">
-                        <Button>
-                          <i className="simple-icon-screen-desktop" />
-                        </Button>
-                      </a>
+                      <Button
+                        onClick={() =>
+                          this.startScreenBroadcasting(owner, user)
+                        }
+                      >
+                        <i className="simple-icon-screen-desktop" />
+                      </Button>
                     )}
                     {owner && user && owner._id !== user._id && (
-                      <a href={`${SURL}?id=${this.state.room}`} target="_blank">
-                        <Button>
-                          <i className="simple-icon-screen-desktop" />
-                        </Button>
-                      </a>
+                      <Button onClick={this.toggleScreen}>
+                        <i className="simple-icon-screen-desktop" />
+                      </Button>
                     )}
                   </td>
                 </tr>
