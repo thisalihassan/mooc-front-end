@@ -310,6 +310,26 @@ class ChatApplication extends Component {
       });
     }
   }
+  startAudioCall(owner, user) {
+    if (owner._id === user._id) {
+      const myroom = this.state.room;
+      const check = true;
+      const id = this.props.user._id;
+      const msg = "Audio Call has started";
+      const tuple = { myroom, msg, check, id };
+      this.state.socket.emit("sendMessage", tuple, () =>
+        this.setState({
+          messageInput: "",
+        })
+      );
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+      });
+      this.setState({
+        videoURL: AURL + "?id=" + this.state.room + "&u=start",
+      });
+    }
+  }
   deletConversation(e) {
     this.props.deleteConversation(this.state.room);
     window.location.reload();
@@ -328,6 +348,14 @@ class ChatApplication extends Component {
     });
     this.setState({
       modalOpen: !this.state.modalOpen,
+    });
+  };
+  toggleAudioCall = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+    this.setState({
+      videoURL: AURL + "?id=" + this.state.room + "&u=join",
     });
   };
   toggleModal = () => {
@@ -370,14 +398,12 @@ class ChatApplication extends Component {
                   </td>
                   <td id="a">
                     {owner._id === user._id && (
-                      <Button
-                        onClick={() => this.startVideoBroadcasting(owner, user)}
-                      >
+                      <Button onClick={() => this.startAudioCall(owner, user)}>
                         <i className="simple-icon-phone" />
                       </Button>
                     )}
                     {owner && user && owner._id !== user._id && (
-                      <Button onClick={this.toggleModal}>
+                      <Button onClick={this.toggleAudioCall}>
                         <i className="simple-icon-phone" />
                       </Button>
                     )}
