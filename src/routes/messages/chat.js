@@ -14,7 +14,7 @@ import {
 } from "../../redux/actions";
 import io from "socket.io-client";
 import queryString from "query-string";
-import URL from "./../../constants/defaultValues";
+import {URL} from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
