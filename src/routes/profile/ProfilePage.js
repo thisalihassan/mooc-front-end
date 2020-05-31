@@ -5,24 +5,15 @@ import {
   Row,
   Card,
   CardBody,
-  CardTitle,
-  Nav,
-  NavItem,
   Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
   TabContent,
   TabPane,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
-import classnames from "classnames";
 import Rating from "../../components/Rating";
 import { Colxx } from "../../components/CustomBootstrap";
 import IntlMessages from "../../util/IntlMessages";
@@ -35,20 +26,20 @@ class ProfilePage extends Component {
     this.toggleTab = this.toggleTab.bind(this);
     this.state = {
       activeFirstTab: "1",
-      modal: false
+      modal: false,
     };
   }
 
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeFirstTab: tab
+        activeFirstTab: tab,
       });
     }
   }
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
   componentDidMount() {
@@ -59,7 +50,7 @@ class ProfilePage extends Component {
     let profileImage = null;
     const { user } = this.props.authUser;
     if (user) {
-      profileImage = require("../../assets/images/" + user.avatar);
+      profileImage = user.avatar;
     }
     return (
       <Fragment>
@@ -121,7 +112,7 @@ class ProfilePage extends Component {
                           <p className="d-sm-inline-block mb-1">
                             {profile &&
                               profile.skills &&
-                              profile.skills.map(skill => (
+                              profile.skills.map((skill) => (
                                 <Badge
                                   key={skill}
                                   color="outline-secondary mb-1 mr-1"
@@ -147,7 +138,7 @@ class ProfilePage extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const authUser = state.auth;
   const profile = state.profile;
   return { authUser, profile };

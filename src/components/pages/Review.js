@@ -21,7 +21,7 @@ class Review extends Component {
           to={`/app/profile/userprofile/?id=${this.props.data.student._id}`}
         >
           <img
-            src={require("../../assets/images/" + thumb)}
+            src={thumb}
             alt={this.props.data.name}
             className="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall"
           />
@@ -37,7 +37,7 @@ class Review extends Component {
           <div
             className="mt-3"
             dangerouslySetInnerHTML={{
-              __html: this.props.data.review
+              __html: this.props.data.review,
             }}
           ></div>
         </div>

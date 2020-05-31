@@ -15,7 +15,7 @@ class UserCardBasic extends Component {
           <ThumbnailImage
             rounded
             small
-            src={require("../../assets/Courseimages/" + this.props.data.pic)}
+            src={this.props.data.pic}
             alt="profile"
             className="m-4"
           />

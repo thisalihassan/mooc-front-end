@@ -8,7 +8,7 @@ var ReactDOMServer = require("react-dom/server");
 
 var dropzoneComponentConfig = {
   acceptedFiles: "image/png,image/gif,image/jpg",
-  postUrl: URL + "upload"
+  postUrl: URL + "upload",
 };
 var dropzoneConfig = {
   acceptedFiles: "image/png,image/gif,image/jpg",
@@ -53,23 +53,30 @@ var dropzoneConfig = {
       </a>
     </div>
   ),
-  headers: { "My-Awesome-Header": "header value" }
+  headers: { "My-Awesome-Header": "header value" },
 };
 
 class DropzoneExample extends Component {
   //
   eventHandlers = {
-    addedfile: file => {
+    addedfile: async (file) => {
       const format = file.name.split(".")[1].toLowerCase();
-      const match = ImagefileTypes.find(i => i === format);
+      const match = ImagefileTypes.find((i) => i === format);
       if (match) {
-        axios.post(URL + "upload", file, {}).then(res => {
-          const avatar = file.name;
-          const body = JSON.stringify({ avatar });
-          axios.post(URL + "api/auth/avatar", body, config);
-        });
+        const formData = new FormData();
+        formData.append("file", file);
+        const configg = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+        const res = await axios.post(URL + "upload", formData, configg);
+        const avatar = res.data;
+        const body = JSON.stringify({ avatar });
+        console.log(avatar);
+        axios.post(URL + "api/auth/avatar", body, config);
       }
-    }
+    },
   };
 
   render() {

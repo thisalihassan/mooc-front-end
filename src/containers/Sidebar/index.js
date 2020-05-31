@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import {
   setContainerClassnames,
   addContainerClassname,
-  changeDefaultClassnames
+  changeDefaultClassnames,
 } from "../../redux/actions";
 
 class Sidebar extends Component {
@@ -28,7 +28,7 @@ class Sidebar extends Component {
 
     this.state = {
       selectedParentMenu: "",
-      viewingParentMenu: ""
+      viewingParentMenu: "",
     };
   }
 
@@ -74,18 +74,18 @@ class Sidebar extends Component {
     }
     this.toggle(e);
     this.setState({
-      viewingParentMenu: ""
+      viewingParentMenu: "",
     });
   }
 
   getMenuClassesForResize(classes) {
     const { menuHiddenBreakpoint, subHiddenBreakpoint } = this.props;
-    let nextClasses = classes.split(" ").filter(x => x !== "");
+    let nextClasses = classes.split(" ").filter((x) => x !== "");
     const windowWidth = window.innerWidth;
     if (windowWidth < menuHiddenBreakpoint) {
       nextClasses.push("menu-mobile");
     } else if (windowWidth < subHiddenBreakpoint) {
-      nextClasses = nextClasses.filter(x => x !== "menu-mobile");
+      nextClasses = nextClasses.filter((x) => x !== "menu-mobile");
       if (
         nextClasses.includes("menu-default") &&
         !nextClasses.includes("menu-sub-hidden")
@@ -93,12 +93,12 @@ class Sidebar extends Component {
         nextClasses.push("menu-sub-hidden");
       }
     } else {
-      nextClasses = nextClasses.filter(x => x !== "menu-mobile");
+      nextClasses = nextClasses.filter((x) => x !== "menu-mobile");
       if (
         nextClasses.includes("menu-default") &&
         nextClasses.includes("menu-sub-hidden")
       ) {
-        nextClasses = nextClasses.filter(x => x !== "menu-sub-hidden");
+        nextClasses = nextClasses.filter((x) => x !== "menu-sub-hidden");
       }
     }
     return nextClasses;
@@ -111,7 +111,7 @@ class Sidebar extends Component {
   toggle() {
     const { containerClassnames, menuClickCount } = this.props;
     const currentClasses = containerClassnames
-      ? containerClassnames.split(" ").filter(x => x !== "")
+      ? containerClassnames.split(" ").filter((x) => x !== "")
       : "";
 
     if (currentClasses.includes("menu-sub-hidden") && menuClickCount === 3) {
@@ -129,12 +129,12 @@ class Sidebar extends Component {
   }
 
   addEvents() {
-    ["click", "touchstart"].forEach(event =>
+    ["click", "touchstart"].forEach((event) =>
       document.addEventListener(event, this.handleDocumentClick, true)
     );
   }
   removeEvents() {
-    ["click", "touchstart"].forEach(event =>
+    ["click", "touchstart"].forEach((event) =>
       document.removeEventListener(event, this.handleDocumentClick, true)
     );
   }
@@ -151,7 +151,7 @@ class Sidebar extends Component {
       this.setState({
         selectedParentMenu: selectedlink.parentElement.parentElement.getAttribute(
           "data-parent"
-        )
+        ),
       });
     } else {
       var selectedParentNoSubItem = document.querySelector(
@@ -159,11 +159,11 @@ class Sidebar extends Component {
       );
       if (selectedParentNoSubItem != null) {
         this.setState({
-          selectedParentMenu: selectedParentNoSubItem.getAttribute("data-flag")
+          selectedParentMenu: selectedParentNoSubItem.getAttribute("data-flag"),
         });
       } else if (this.state.selectedParentMenu === "") {
         this.setState({
-          selectedParentMenu: "app"
+          selectedParentMenu: "app",
         });
       }
     }
@@ -200,7 +200,7 @@ class Sidebar extends Component {
     e.preventDefault();
     const { containerClassnames, menuClickCount } = this.props;
     const currentClasses = containerClassnames
-      ? containerClassnames.split(" ").filter(x => x !== "")
+      ? containerClassnames.split(" ").filter((x) => x !== "")
       : "";
 
     if (!currentClasses.includes("menu-mobile")) {
@@ -228,19 +228,19 @@ class Sidebar extends Component {
       );
     }
     this.setState({
-      viewingParentMenu: selectedParent
+      viewingParentMenu: selectedParent,
     });
   }
   changeViewingParentMenu(menu) {
     this.toggle();
 
     this.setState({
-      viewingParentMenu: menu
+      viewingParentMenu: menu,
     });
   }
   RollView(roll) {
     const { user } = this.props;
-    let profileImage = require("../../assets/images/" + user.avatar);
+    let profileImage = user.avatar;
     return (
       <Nav vertical className="list-unstyled">
         {roll !== "admin" && (
@@ -249,7 +249,7 @@ class Sidebar extends Component {
               "active d-block ":
                 (this.state.selectedParentMenu === "profile" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "profile"
+                this.state.viewingParentMenu === "profile",
             })}
           >
             <NavLink to="/app/profile/profile">
@@ -269,12 +269,12 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "portal" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "portal"
+                this.state.viewingParentMenu === "portal",
             })}
           >
             <NavLink
               to="/app/myportal"
-              onClick={e => this.openSubMenu(e, "portal")}
+              onClick={(e) => this.openSubMenu(e, "portal")}
             >
               <i className="iconsmind-Digital-Drawing" />{" "}
               <IntlMessages id="menu.portal" />
@@ -287,7 +287,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "courses" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "courses"
+                this.state.viewingParentMenu === "courses",
             })}
           >
             <NavLink to="/app/myCourses/Courses">
@@ -302,7 +302,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "rooms" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "rooms"
+                this.state.viewingParentMenu === "rooms",
             })}
           >
             <NavLink to="/app/myrooms/rooms">
@@ -317,7 +317,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "visitors" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "visitors"
+                this.state.viewingParentMenu === "visitors",
             })}
           >
             <NavLink to="/app/admin/visitors">
@@ -333,7 +333,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "courserequest" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "courserequest"
+                this.state.viewingParentMenu === "courserequest",
             })}
           >
             <NavLink to="/app/admin/courserequest">
@@ -349,7 +349,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "manageaccount" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "manageaccount"
+                this.state.viewingParentMenu === "manageaccount",
             })}
           >
             <NavLink to="/app/admin/manageaccount">
@@ -364,7 +364,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "complaints" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "complaints"
+                this.state.viewingParentMenu === "complaints",
             })}
           >
             <NavLink to="/app/admin">
@@ -379,7 +379,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "messages" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "messages"
+                this.state.viewingParentMenu === "messages",
             })}
           >
             <NavLink to="/app/messages/chat">
@@ -394,7 +394,7 @@ class Sidebar extends Component {
               active:
                 (this.state.selectedParentMenu === "help" &&
                   this.state.viewingParentMenu === "") ||
-                this.state.viewingParentMenu === "help"
+                this.state.viewingParentMenu === "help",
             })}
           >
             <NavLink to="/app/help">
@@ -433,7 +433,7 @@ class Sidebar extends Component {
                     "d-block":
                       (this.state.selectedParentMenu === "portal" &&
                         this.state.viewingParentMenu === "") ||
-                      this.state.viewingParentMenu === "portal"
+                      this.state.viewingParentMenu === "portal",
                   })}
                   data-parent="portal"
                 >
@@ -509,7 +509,7 @@ const mapStateToProps = ({ menu, auth }) => {
     containerClassnames,
     subHiddenBreakpoint,
     menuHiddenBreakpoint,
-    menuClickCount
+    menuClickCount,
   } = menu;
   const { user } = auth;
   return {
@@ -517,13 +517,13 @@ const mapStateToProps = ({ menu, auth }) => {
     subHiddenBreakpoint,
     menuHiddenBreakpoint,
     menuClickCount,
-    user
+    user,
   };
 };
 export default withRouter(
   connect(mapStateToProps, {
     setContainerClassnames,
     addContainerClassname,
-    changeDefaultClassnames
+    changeDefaultClassnames,
   })(Sidebar)
 );

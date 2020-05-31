@@ -27,5 +27,5 @@ export default combineReducers({
   profile,
   quizzes,
   quizList,
-  todoApp
+  todoApp,
 });

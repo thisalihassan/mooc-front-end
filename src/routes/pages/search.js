@@ -20,7 +20,7 @@ class SearchPages extends Component {
       keyword: "",
       isLoading: true,
       perPage: 6,
-      viewProfile: false
+      viewProfile: false,
     };
     // this.dataListRender();
   }
@@ -28,7 +28,7 @@ class SearchPages extends Component {
   onChangePage(page) {
     this.setState(
       {
-        currentPage: page
+        currentPage: page,
       },
       () => {
         this.dataListRender();
@@ -72,14 +72,14 @@ class SearchPages extends Component {
 
     await axios
       .post(URL + searchURL, body, config)
-      .then(res => {
+      .then((res) => {
         return res.data;
       })
-      .then(data => {
+      .then((data) => {
         this.setState({
           items: data.search,
           totalPage: data.totalPage,
-          isLoading: false
+          isLoading: false,
         });
       });
   }
@@ -107,7 +107,7 @@ class SearchPages extends Component {
                           <ThumbnailImage
                             rounded
                             small
-                            src={require("../../assets/images/" + item.avatar)}
+                            src={item.avatar}
                             alt="profile"
                             className="m-4"
                           />
@@ -138,8 +138,7 @@ class SearchPages extends Component {
                           <ThumbnailImage
                             rounded
                             small
-                            src={require("../../assets/Courseimages/" +
-                              item.pic)}
+                            src={item.pic}
                             alt="profile"
                             className="m-4"
                           />
@@ -168,7 +167,7 @@ class SearchPages extends Component {
               this.state.currentPage === 0 ? 1 : this.state.currentPage
             }
             totalPage={this.state.totalPage === 0 ? 1 : this.state.totalPage}
-            onChangePage={i => this.onChangePage(i)}
+            onChangePage={(i) => this.onChangePage(i)}
           />
         </Row>
       </Fragment>

@@ -15,7 +15,7 @@ import {
   CardText,
   CardImg,
   CardHeader,
-  Table
+  Table,
 } from "reactstrap";
 import moment from "moment";
 import ProfileCard from "../../components/Profile/ProfileCard";
@@ -34,21 +34,20 @@ class OthersProfile extends React.Component {
 
     this.state = {
       dropdown: false,
-      upload: "api/auth/avatar",
       theCourses: [],
       activeTab: "1",
       subscribed: null,
       runTime: true,
       follower: "",
       isRported: false,
-      reviews: []
+      reviews: [],
     };
   }
 
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -74,7 +73,7 @@ class OthersProfile extends React.Component {
       this.setState({ theCourses: res.data, follower: res2.data });
       await axios
         .post(URL + "api/subscribe/getrate", body, config)
-        .then(res => {
+        .then((res) => {
           this.setState({ reviews: res.data });
         });
     }
@@ -95,18 +94,18 @@ class OthersProfile extends React.Component {
         const values = queryString.parse(this.props.location.search);
         let id = values.id;
         if (this.state.runTime && this.props.subscribed.following) {
-          const log = this.props.subscribed.following.find(x => x._id === id);
+          const log = this.props.subscribed.following.find((x) => x._id === id);
           this.setState({ subscribed: log });
           this.setState({ runTime: false });
           const body = JSON.stringify({ id });
           axios
             .post(URL + "api/profile/findmyreport", body, config)
-            .then(res => {
+            .then((res) => {
               return res.data;
             })
-            .then(data => {
+            .then((data) => {
               this.setState({
-                isRported: data
+                isRported: data,
               });
             });
         }
@@ -157,8 +156,7 @@ class OthersProfile extends React.Component {
                   <br></br>
                   <div className="text-center">
                     <img
-                      src={require("../../assets/images/" +
-                        this.props.userProfile.user.avatar)}
+                      src={this.props.userProfile.user.avatar}
                       data-src="holder.js/300x300"
                       class="img-thumbnail img-responsive"
                     ></img>
@@ -214,17 +212,17 @@ class OthersProfile extends React.Component {
                             </Button>
                           </a>{" "}
                           {!this.state.isRported && (
-                            <Button onClick={e => this.reportProfile(e)}>
+                            <Button onClick={(e) => this.reportProfile(e)}>
                               Report
                             </Button>
                           )}{" "}
                           {!this.state.subscribed && (
-                            <Button onClick={e => this.subscribeTeacher(e)}>
+                            <Button onClick={(e) => this.subscribeTeacher(e)}>
                               SUBSCRIBE
                             </Button>
                           )}
                           {this.state.subscribed && (
-                            <Button onClick={e => this.unsubscribeTeacher(e)}>
+                            <Button onClick={(e) => this.unsubscribeTeacher(e)}>
                               UNSUBSCRIBE
                             </Button>
                           )}
@@ -260,7 +258,7 @@ class OthersProfile extends React.Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "1",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("1");
@@ -277,7 +275,7 @@ class OthersProfile extends React.Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "2",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("2");
@@ -294,7 +292,7 @@ class OthersProfile extends React.Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "3",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("3");
@@ -311,7 +309,7 @@ class OthersProfile extends React.Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "4",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("4");
@@ -328,7 +326,7 @@ class OthersProfile extends React.Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "5",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("5");
@@ -347,7 +345,7 @@ class OthersProfile extends React.Component {
                     <Colxx xxs="12" lg="8" className="mb-4 col-right">
                       <Row>
                         {this.state.theCourses.length > 0 &&
-                          this.state.theCourses.map(course => {
+                          this.state.theCourses.map((course) => {
                             return (
                               <Colxx
                                 xxs="12"
@@ -407,7 +405,7 @@ class OthersProfile extends React.Component {
                           <br></br>
                           <h2>Skills</h2>
                           <p className="mb-3">
-                            {this.props.userProfile.skills.map(skill => (
+                            {this.props.userProfile.skills.map((skill) => (
                               <Badge
                                 key={skill}
                                 color="outline-secondary"
@@ -438,7 +436,7 @@ class OthersProfile extends React.Component {
                               </tr>
                             </thead>{" "}
                             <tbody>
-                              {this.props.userProfile.education.map(edu => (
+                              {this.props.userProfile.education.map((edu) => (
                                 <tr key={edu._id}>
                                   <td>{edu.fieldofstudy}</td>
                                   <td>{edu.current}</td>
@@ -470,7 +468,7 @@ class OthersProfile extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {this.props.userProfile.work.map(work => (
+                              {this.props.userProfile.work.map((work) => (
                                 <tr key={work._id}>
                                   <td>{work.company}</td>
                                   <td>{work.position}</td>
@@ -522,7 +520,7 @@ class OthersProfile extends React.Component {
 //   return { authUser, profile };
 // };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { userProfile } = state.profile;
   const { user } = state.auth;
   const { subscribed } = state.subscribtion;

@@ -2,8 +2,7 @@ import { GET_NOTIFICATION } from "../../constants/actionTypes";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 
-export const getNotifications = (course, id) => async dispatch => {
-  console.log(course);
+export const getNotifications = (course, id) => async (dispatch) => {
   let body = JSON.stringify({ course });
   try {
     const res = await axios.post(

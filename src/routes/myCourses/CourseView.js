@@ -7,11 +7,10 @@ import {
   TabPane,
   Card,
   CardHeader,
-  CardBody
 } from "reactstrap";
 
 import classnames from "classnames";
-import { Colxx, Separator } from "../../components/CustomBootstrap";
+import { Colxx } from "../../components/CustomBootstrap";
 import IntlMessages from "../../util/IntlMessages";
 import { NavLink } from "react-router-dom";
 import Pagination from "../../components/pages/Pagination";
@@ -31,7 +30,7 @@ class ThumbListPages extends Component {
       currentPage: 1,
       totalPage: 1,
       selectedItems: [],
-      isLoading: false
+      isLoading: false,
     };
   }
   componentDidMount() {
@@ -50,14 +49,14 @@ class ThumbListPages extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
-  onChangePage = page => {
+  onChangePage = (page) => {
     this.setState(
       {
-        currentPage: page
+        currentPage: page,
       },
       () => this.dataListRender()
     );
@@ -99,7 +98,7 @@ class ThumbListPages extends Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "1",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("1");
@@ -113,7 +112,7 @@ class ThumbListPages extends Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "2",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("2");
@@ -127,7 +126,7 @@ class ThumbListPages extends Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "3",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("3");
@@ -142,7 +141,7 @@ class ThumbListPages extends Component {
                   <TabPane tabId="1">
                     <Row>
                       {this.props.courses &&
-                        this.props.courses.map(product => {
+                        this.props.courses.map((product) => {
                           return (
                             <ImageListView
                               key={product.id}
@@ -157,7 +156,7 @@ class ThumbListPages extends Component {
                         <Pagination
                           currentPage={this.state.currentPage}
                           totalPage={this.props.courses.length / 12}
-                          onChangePage={i => this.onChangePage(i)}
+                          onChangePage={(i) => this.onChangePage(i)}
                         />
                       )}
                     </Row>
@@ -177,7 +176,7 @@ const mapStateToProps = ({ auth, subscribtion }) => {
   const { courses } = subscribtion.subscribed;
   return {
     courses,
-    user
+    user,
   };
 };
 export default connect(mapStateToProps, { GetSubscription })(ThumbListPages);

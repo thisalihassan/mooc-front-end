@@ -1,33 +1,19 @@
 import React, { Component, Fragment } from "react";
-import IntlMessages from "../../util/IntlMessages";
 import { injectIntl } from "react-intl";
-import {
-  Row,
-  Card,
-  CardBody,
-  Nav,
-  Input,
-  Button,
-  Modal,
-  TabContent,
-  TabPane,
-  CardHeader,
-  NavItem,
-} from "reactstrap";
+import { Row, Card, CardBody, Input, Button, CardHeader } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { Colxx } from "../../components/CustomBootstrap";
 import ApplicationMenu from "../../components/ApplicationMenu";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { connect } from "react-redux";
+import AttachmentModel from "./AttachmentModel";
 import {
   getProfiles,
   loadConversations,
   deleteConversation,
 } from "../../redux/actions";
-import classnames from "classnames";
 import io from "socket.io-client";
 import queryString from "query-string";
-import Axios from "axios";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +31,7 @@ class ChatApplication extends Component {
       firstMessage: false,
       reciever: "",
       changeUser: true,
+      modalOpen: false,
     };
   }
   sortSetRoom(userId) {
@@ -172,7 +159,7 @@ class ChatApplication extends Component {
       });
     }
     if (this.state.socket == null) {
-      this.state.socket = io(URL);
+      this.state.socket = io(":5000");
     }
     const name = this.state.name;
     const myroom = this.state.room;
@@ -210,7 +197,14 @@ class ChatApplication extends Component {
       messageInput: e.target.value,
     });
   }
-
+  reloadModel = (e) => {
+    this.props.reloadModel();
+  };
+  toggleModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  };
   handleContactClick(userId) {
     this.props.loadConversations(this.state.room);
     this.setState({
@@ -240,10 +234,7 @@ class ChatApplication extends Component {
                 <div className="d-flex">
                   <img
                     alt={reciever && reciever.user.name}
-                    src={
-                      reciever &&
-                      require("../../assets/images/" + reciever.user.avatar)
-                    }
+                    src={reciever && reciever.user.avatar}
                     className="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
                   />
                 </div>
@@ -336,12 +327,17 @@ class ChatApplication extends Component {
           <div>
             <Button
               outline
+              onClick={this.toggleModal}
               color={"primary"}
               className="icon-button large ml-1"
             >
               <i className="simple-icon-paper-clip" />
             </Button>
-
+            <AttachmentModel
+              reloadModel={(e) => this.reloadModel(e)}
+              toggleModal={this.toggleModal}
+              modalOpen={this.state.modalOpen}
+            />
             <Button
               color={"primary"}
               className="icon-button large ml-1"
@@ -386,8 +382,7 @@ class ChatApplication extends Component {
                           >
                             <img
                               alt={item.user.name}
-                              src={require("../../assets/images/" +
-                                item.user.avatar)}
+                              src={item.user.avatar}
                               className="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
                             />
                             <div className="d-flex flex-grow-1 min-width-zero">

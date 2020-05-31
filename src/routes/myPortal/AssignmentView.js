@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { Row, Button, Collapse } from "reactstrap";
+import { Row, Collapse } from "reactstrap";
 
 import { Colxx, Separator } from "../../components/CustomBootstrap";
 
@@ -15,7 +15,7 @@ class Assignment extends Component {
     this.state = {
       displayOptionsIsOpen: false,
       submitassignment: [],
-      course: ""
+      course: "",
     };
   }
   async componentDidMount() {
@@ -23,19 +23,13 @@ class Assignment extends Component {
     if (id) {
       await axios
         .post(URL + "api/assignment/getsubassignment/" + id, {}, config)
-        .then(res => {
+        .then((res) => {
           this.setState({
             submitassignment: res.data.assign.submitassignment,
-            course: res.data.course.name.toUpperCase()
+            course: res.data.course.name.toUpperCase(),
           });
         });
     }
-  }
-
-  async downloadFile(name) {
-    console.log(name);
-    const res = await axios.get(URL + "downloadfile/" + name, {}, config);
-    console.log(res.data);
   }
   render() {
     const { submitassignment, course } = this.state;
@@ -60,15 +54,9 @@ class Assignment extends Component {
             </div>
             <Separator className="mb-5" />
             <Row>
-              {submitassignment.map(assignment => {
+              {submitassignment.map((assignment) => {
                 return (
-                  <ListItem
-                    key={`item_${assignment._id}`}
-                    download={id => {
-                      this.downloadFile(id);
-                    }}
-                    item={assignment}
-                  />
+                  <ListItem key={`item_${assignment._id}`} item={assignment} />
                 );
               })}
             </Row>

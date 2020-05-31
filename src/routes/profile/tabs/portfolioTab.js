@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Table
+  Table,
 } from "reactstrap";
 import moment from "moment";
 import { Dropdown } from "react-bootstrap";
@@ -33,7 +33,7 @@ class TheProfile extends React.Component {
     description: PropTypes.string,
     user: PropTypes.object,
     major: PropTypes.string,
-    education: PropTypes.array
+    education: PropTypes.array,
   };
 
   constructor(props) {
@@ -42,17 +42,17 @@ class TheProfile extends React.Component {
     this.state = {
       modal: false,
       upload: "api/auth/avatar",
-      myCourses: []
+      myCourses: [],
     };
   }
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
   async RemoveAvatar(e) {
     e.preventDefault();
-    await axios.post(URL + "api/auth/avatar", {}, config).then(res => {
+    await axios.post(URL + "api/auth/avatar", {}, config).then((res) => {
       this.props.history.push("/");
     });
   }
@@ -77,9 +77,9 @@ class TheProfile extends React.Component {
     let profileImage;
     let imageName;
     if (this.props.user) {
-      profileImage = require("../../../assets/images/" +
-        this.props.user.avatar);
-      imageName = this.props.user.avatar;
+      profileImage = this.props.user.avatar;
+      imageName =
+        "https://res.cloudinary.com/mooc/image/upload/v1590922028/profile/2020-05-31T10:47:02.070Z.jpg";
     }
 
     return (
@@ -95,9 +95,9 @@ class TheProfile extends React.Component {
 
               <Dropdown.Menu>
                 <Dropdown.Item onClick={this.toggle}>
-                  {imageName === "default.png" ? "Add" : "Update"}
+                  {imageName === profileImage ? "Add" : "Update"}
                 </Dropdown.Item>
-                <Dropdown.Item onClick={e => this.RemoveAvatar(e)}>
+                <Dropdown.Item onClick={(e) => this.RemoveAvatar(e)}>
                   Remove
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -220,7 +220,7 @@ class TheProfile extends React.Component {
         <Colxx xxs="12" lg="8" className="mb-4 col-right">
           <Row>
             {this.state.myCourses ? (
-              this.state.myCourses.map(course => {
+              this.state.myCourses.map((course) => {
                 return (
                   <Colxx
                     xxs="12"
@@ -242,7 +242,9 @@ class TheProfile extends React.Component {
                                 Edit
                               </Dropdown.Item>
                               <Dropdown.Item
-                                onClick={e => this.deleteCourse(e, course._id)}
+                                onClick={(e) =>
+                                  this.deleteCourse(e, course._id)
+                                }
                               >
                                 Delete
                               </Dropdown.Item>
@@ -256,8 +258,7 @@ class TheProfile extends React.Component {
                           <CardImg
                             className=".card-img-details"
                             alt={course.name}
-                            src={require("../../../assets/Courseimages/" +
-                              course.pic)}
+                            src={course.pic}
                           />
                         </NavLink>
 

@@ -7,11 +7,11 @@ import {
   ModalHeader,
   ModalBody,
   FormGroup,
-  Label
+  Label,
 } from "reactstrap";
 import {
   FormikReactSelect,
-  FormikDatePicker
+  FormikDatePicker,
 } from "../../components/FormikFields";
 import { Formik, Form, Field } from "formik";
 import IntlMessages from "../../util/IntlMessages";
@@ -20,7 +20,7 @@ import {
   URL,
   config,
   fileMaxSize,
-  fileTypes
+  fileTypes,
 } from "../../constants/defaultValues";
 import { socket } from "../TopNav";
 import { setAlert } from "../../redux/actions";
@@ -37,17 +37,27 @@ class AddNewSurveyModal extends Component {
       file: "",
       category: {},
       duedate: new Date(),
-      id: this.props.id
+      id: this.props.id,
+      upload: false,
     };
   }
-  uploadLecture() {
-    const data = new FormData();
-    data.append("files", this.state.file);
-    axios.post(URL + "lecturefiles", data, {});
+  async uploadLecture() {
+    const file = new FormData();
+    file.append("file", this.state.file);
+    file.encoding = "multipart/form-data";
+    const configg = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(URL + "lecturefiles", file, configg);
+    console.log(res.data);
+    this.setState({ upload: false, file: res.data[0] });
   }
   async handleSubmit(values) {
     const course = values.course["value"];
-    const file = this.state.file.name;
+    let file = this.state.file;
+
     const title = values.title;
     const duedate = values.duedate.toISOString();
     let body = JSON.stringify({ file, title, course, duedate });
@@ -59,10 +69,13 @@ class AddNewSurveyModal extends Component {
         config
       );
     } else {
+      this.setState({ upload: true });
+      await this.uploadLecture();
+      file = this.state.file;
+      let body = JSON.stringify({ file, title, course, duedate });
       res = await axios.post(URL + "api/assignment/", body, config);
     }
     if (res.data) {
-      this.uploadLecture();
       const assignment = res.data._id;
       const user = this.props.user._id;
       const message =
@@ -73,7 +86,7 @@ class AddNewSurveyModal extends Component {
         message: message,
         user: user,
         course: course,
-        assignment: assignment
+        assignment: assignment,
       });
       this.props.reloadModel();
       this.props.toggleModal();
@@ -106,9 +119,6 @@ class AddNewSurveyModal extends Component {
         now.getDate()
       ).getTime();
       let idate = values.duedate.getTime();
-      console.log(startOfToday);
-      console.log(idate);
-      console.log(idate - startOfToday);
       if (startOfToday - idate > 0) {
         errors.duedate = "Please Select a proper date";
       }
@@ -118,7 +128,7 @@ class AddNewSurveyModal extends Component {
     }
     if (this.state.file) {
       const format = this.state.file.name.split(".");
-      const match = fileTypes.find(i => i === format[1]);
+      const match = fileTypes.find((i) => i === format[1]);
       if (!match) {
         errors.file = "Please select a valid file format for assignment";
       } else if (this.state.file.size > fileMaxSize) {
@@ -134,7 +144,7 @@ class AddNewSurveyModal extends Component {
     }
   }
 
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     this.setState({ file: event.target.files[0] });
   };
 
@@ -151,102 +161,111 @@ class AddNewSurveyModal extends Component {
           <IntlMessages id="add.assignment" />
         </ModalHeader>
         <ModalBody>
-          <Formik
-            validate={this.validate}
-            initialValues={{
-              title: this.props.title,
-              course: this.props.course,
-              duedate: this.props.duedate ? new Date(this.props.duedate) : null,
-              file: null
-            }}
-            onSubmit={this.handleSubmit}
-          >
-            {({
-              errors,
-              touched,
-              isValidating,
-              setFieldValue,
-              setFieldTouched,
-              values
-            }) => (
-              <Form className="av-tooltip tooltip-label-right">
-                <FormGroup className="form-group has-float-label">
-                  <Label className="d-block">
-                    <IntlMessages id="assignment.title" />
-                  </Label>
-                  <Field className="form-control" name="title" />
-                  {errors.title && touched.title && (
-                    <div className="invalid-feedback d-block">
-                      {errors.title}
-                    </div>
-                  )}
-                </FormGroup>
+          {this.state.upload ? (
+            <div>
+              <div className="loading"></div>
+              <h2>Please Wait...</h2>
+            </div>
+          ) : (
+            <Formik
+              validate={this.validate}
+              initialValues={{
+                title: this.props.title,
+                course: this.props.course,
+                duedate: this.props.duedate
+                  ? new Date(this.props.duedate)
+                  : null,
+                file: null,
+              }}
+              onSubmit={this.handleSubmit}
+            >
+              {({
+                errors,
+                touched,
+                isValidating,
+                setFieldValue,
+                setFieldTouched,
+                values,
+              }) => (
+                <Form className="av-tooltip tooltip-label-right">
+                  <FormGroup className="form-group has-float-label">
+                    <Label className="d-block">
+                      <IntlMessages id="assignment.title" />
+                    </Label>
+                    <Field className="form-control" name="title" />
+                    {errors.title && touched.title && (
+                      <div className="invalid-feedback d-block">
+                        {errors.title}
+                      </div>
+                    )}
+                  </FormGroup>
 
-                <FormGroup className="form-group has-float-label">
-                  <Label className="d-block">
-                    <IntlMessages id="form-components.date" />
-                  </Label>
-                  <FormikReactSelect
-                    name="course"
-                    id="course"
-                    value={values.course}
-                    options={
-                      this.props.courses &&
-                      this.props.courses.map((x, i) => {
-                        return { label: x.name, value: x._id, key: i };
-                      })
-                    }
-                    onChange={setFieldValue}
-                    onBlur={setFieldTouched}
-                  />
-                  {errors.course && touched.course ? (
-                    <div className="invalid-feedback d-block">
-                      {errors.course}
-                    </div>
-                  ) : null}
-                </FormGroup>
+                  <FormGroup className="form-group has-float-label">
+                    <Label className="d-block">
+                      <IntlMessages id="form-components.date" />
+                    </Label>
+                    <FormikReactSelect
+                      name="course"
+                      id="course"
+                      value={values.course}
+                      options={
+                        this.props.courses &&
+                        this.props.courses.map((x, i) => {
+                          return { label: x.name, value: x._id, key: i };
+                        })
+                      }
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                    />
+                    {errors.course && touched.course ? (
+                      <div className="invalid-feedback d-block">
+                        {errors.course}
+                      </div>
+                    ) : null}
+                  </FormGroup>
 
-                <FormGroup className="form-group has-float-label">
-                  <Label className="d-block">
-                    <IntlMessages id="duedate.assignment" />
-                  </Label>
-                  <FormikDatePicker
-                    name="duedate"
-                    value={values.duedate}
-                    onChange={setFieldValue}
-                    onBlur={setFieldTouched}
-                  />
-                  {errors.duedate && touched.duedate ? (
-                    <div className="invalid-feedback d-block">
-                      {errors.duedate}
-                    </div>
-                  ) : null}
-                </FormGroup>
-                <FormGroup>
-                  {/* <Label className="d-block">
+                  <FormGroup className="form-group has-float-label">
+                    <Label className="d-block">
+                      <IntlMessages id="duedate.assignment" />
+                    </Label>
+                    <FormikDatePicker
+                      name="duedate"
+                      value={values.duedate}
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                    />
+                    {errors.duedate && touched.duedate ? (
+                      <div className="invalid-feedback d-block">
+                        {errors.duedate}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                  <FormGroup>
+                    {/* <Label className="d-block">
                     <IntlMessages id="form-components.file" />
                   </Label> */}
-                  <CustomInput
-                    type="file"
-                    id="exampleCustomFileBrowser4"
-                    name="file"
-                    onChange={this.onChangeHandler}
-                  />
-                  {errors.file && touched.file ? (
-                    <div className="invalid-feedback d-block">
-                      {errors.file}
-                    </div>
-                  ) : null}
-                </FormGroup>
-                <Button color="primary" type="submit">
-                  Submit
-                </Button>
-                <Button color="secondary" outline onClick={toggleModal}>
-                  <IntlMessages id="survey.cancel" />
-                </Button>
-              </Form>
-            )}
-          </Formik>
+                    <CustomInput
+                      type="file"
+                      id="exampleCustomFileBrowser4"
+                      name="file"
+                      onChange={this.onChangeHandler}
+                    />
+                    {errors.file && touched.file ? (
+                      <div className="invalid-feedback d-block">
+                        {errors.file}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                  <Button color="primary" type="submit">
+                    Submit
+                  </Button>
+                  <Button color="secondary" outline onClick={toggleModal}>
+                    <IntlMessages id="survey.cancel" />
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          )}
         </ModalBody>
         {/* <ModalFooter>
           <Button color="primary" onClick={() => this.addNetItem()}>
@@ -262,7 +281,7 @@ const mapStateToProps = ({ quizList, auth }) => {
   const { user } = auth;
   return {
     quizList,
-    user
+    user,
   };
 };
 export default connect(mapStateToProps, { setAlert })(AddNewSurveyModal);

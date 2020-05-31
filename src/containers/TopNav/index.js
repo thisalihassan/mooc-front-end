@@ -297,7 +297,7 @@ class TopNav extends Component {
     const { containerClassnames, menuClickCount, user } = this.props;
     const { messages } = this.props.intl;
     if (user) {
-      let profileImage = require("../../assets/images/" + user.avatar);
+      let profileImage = user.avatar;
 
       return (
         <nav className="navbar fixed-top">

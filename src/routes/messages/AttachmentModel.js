@@ -7,7 +7,6 @@ import {
   ModalHeader,
   ModalBody,
   FormGroup,
-  Label,
 } from "reactstrap";
 import { Formik, Form } from "formik";
 import IntlMessages from "../../util/IntlMessages";
@@ -19,23 +18,15 @@ import {
   fileTypes,
 } from "../../constants/defaultValues";
 import { setAlert } from "../../redux/actions";
-import { socket } from "../TopNav";
-class AddNewSurveyModal extends Component {
+class AttachmentModel extends Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       file: "",
-      id: this.props.id,
       upload: false,
     };
-  }
-
-  componentDidMount() {
-    if (!this.state.socket) {
-      this.state.socket = socket;
-    }
   }
   async uploadLecture() {
     const file = new FormData();
@@ -52,17 +43,7 @@ class AddNewSurveyModal extends Component {
   }
   async handleSubmit(values) {
     this.setState({ upload: true });
-    await this.uploadLecture();
-    const file = this.state.file;
-    let body = JSON.stringify({ file });
-    let res = await axios.post(
-      URL + "api/assignment/submitassignment/" + this.props.id,
-      body,
-      config
-    );
-
     this.props.reloadModel();
-    this.props.setAlert("Your assignment has been submitted", "success");
     this.props.toggleModal();
   }
 
@@ -93,7 +74,7 @@ class AddNewSurveyModal extends Component {
     return (
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>
-          <IntlMessages id="survey.add-new-title" />
+          <IntlMessages id="attachment.add" />
         </ModalHeader>
         <ModalBody>
           {this.state.upload ? (
@@ -155,4 +136,4 @@ const mapStateToProps = ({ quizList, auth }) => {
     user,
   };
 };
-export default connect(mapStateToProps, { setAlert })(AddNewSurveyModal);
+export default connect(mapStateToProps, { setAlert })(AttachmentModel);

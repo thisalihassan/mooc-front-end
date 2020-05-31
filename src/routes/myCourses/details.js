@@ -74,7 +74,7 @@ export class DetailsPages extends Component {
       runTime: "true",
       subscriberUsers: [],
       files: "",
-      theCourses: [],
+      theCourses: 0,
       follower: "",
       lectureFiles: [],
       reviews: [],
@@ -268,12 +268,6 @@ export class DetailsPages extends Component {
     return errors;
   }
 
-  async downloadFile(e, item) {
-    e.preventDefault();
-    const body = JSON.stringify({ item });
-    axios.get(URL + "download", body, {});
-  }
-
   async uploadFiles(values) {
     let files = new FormData();
     let files2 = [];
@@ -281,12 +275,18 @@ export class DetailsPages extends Component {
       files.append("file", this.state.files[key]);
       files2[key] = this.state.files[key].name;
     }
-    axios.post(URL + "lecturefiles", files, {});
-    files = files2;
+    const configg = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(URL + "lecturefiles", files, configg);
+    const fileNames = files2;
+    console.log(fileNames);
+    files = res.data;
     const id = this.state.course._id;
     const lecture = values.lecture;
-    const body = { files, id, lecture };
-    axios.post(URL + "lecturefiles", files, {});
+    const body = { files, fileNames, id, lecture };
 
     await axios
       .post(URL + "api/Courses/uploadFiles", body, config)
@@ -339,16 +339,17 @@ export class DetailsPages extends Component {
     window.location.reload();
   }
   async watchVideo(e, item) {
-    const ext = item.split(".")[1].toLowerCase();
+    const type = item.split(".")[1];
+    const ext = type[type.length - 1].toLowerCase();
     if (ext === "mp4") {
       this.setState({
-        video: "http://localhost:5000/mp4video/" + item,
+        video: item,
         vidType: "video/mp4",
       });
     } else {
       console.log(item);
       this.setState({
-        video: "http://localhost:5000/avivideo/" + item,
+        video: item,
         vidType: "video/ogg",
       });
     }
@@ -358,7 +359,7 @@ export class DetailsPages extends Component {
     const { messages } = this.props.intl;
     let courseimg;
     if (this.state.course) {
-      courseimg = require("../../assets/Courseimages/" + this.state.course.pic);
+      courseimg = this.state.course.pic;
     }
     let RoomId = null;
     if (this.props.rooms.length > 0) {
@@ -683,9 +684,12 @@ export class DetailsPages extends Component {
                                               </thead>
                                               {lecture.files.map(
                                                 (item, index) => {
-                                                  const type = item
-                                                    .split(".")[1]
-                                                    .toLowerCase();
+                                                  const getExt = lecture.fileNames[
+                                                    index
+                                                  ].split(".");
+                                                  const type = getExt[
+                                                    getExt.length - 1
+                                                  ].toLowerCase();
                                                   const name = VidFile.find(
                                                     (x) => x === type
                                                   );
@@ -699,11 +703,16 @@ export class DetailsPages extends Component {
                                                             this.state.course
                                                               .user && (
                                                             <a
-                                                              href={`${URL}downloadfile/${item}`}
+                                                              href={item}
                                                               target="_blank"
                                                               download
                                                             >
-                                                              {item}
+                                                              {
+                                                                lecture
+                                                                  .fileNames[
+                                                                  index
+                                                                ]
+                                                              }
                                                             </a>
                                                           )}
                                                           {!name &&
@@ -712,11 +721,16 @@ export class DetailsPages extends Component {
                                                               this.state.course
                                                                 .user && (
                                                               <a
-                                                                href={`${URL}downloadfile/${item}`}
+                                                                href={item}
                                                                 target="_blank"
                                                                 download
                                                               >
-                                                                {item}
+                                                                {
+                                                                  lecture
+                                                                    .fileNames[
+                                                                    index
+                                                                  ]
+                                                                }
                                                               </a>
                                                             )}
                                                           {name &&
@@ -724,7 +738,9 @@ export class DetailsPages extends Component {
                                                               ._id !==
                                                               this.state.course
                                                                 .user &&
-                                                            item}
+                                                            lecture.fileNames[
+                                                              index
+                                                            ]}
                                                         </td>
 
                                                         {this.props.user._id ===
@@ -848,8 +864,7 @@ export class DetailsPages extends Component {
                             <br></br>
                             <div className="text-center">
                               <img
-                                src={require("../../assets/images/" +
-                                  this.props.userProfile.user.avatar)}
+                                src={this.props.userProfile.user.avatar}
                                 data-src="holder.js/300x300"
                                 className="img-thumbnail img-responsive"
                               ></img>

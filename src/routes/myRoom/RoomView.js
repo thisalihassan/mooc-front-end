@@ -621,8 +621,7 @@ class ChatApplication extends Component {
                                       <NavLink className="d-flex" to="#">
                                         <img
                                           alt={item.name}
-                                          src={require("../../assets/images/" +
-                                            item.avatar)}
+                                          src={item.avatar}
                                           className="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
                                         />
                                         <div className="d-flex flex-grow-1 min-width-zero">

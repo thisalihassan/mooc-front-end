@@ -182,6 +182,7 @@ export default {
   "edit.lecture": "Edit Lecture",
   "room.guidelines": "Add Room Gudelines",
   "survey.add-new-title": "Create Quiz",
+  "attachment.add": "Add Attachment",
   "quiz.name": "Title",
   "quiz.time": "Time Duration",
   "form-components.switch": "Auto Check",

@@ -11,22 +11,19 @@ class ListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false
+      modalOpen: false,
     };
   }
-  deleteItem = e => {
+  deleteItem = (e) => {
     this.props.deleteClick(this.props.item._id);
   };
-  downloadItem = e => {
-    this.props.download(this.props.item.file);
-  };
 
-  reloadModel = e => {
+  reloadModel = (e) => {
     this.props.reloadModel();
   };
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
   render() {
@@ -62,7 +59,7 @@ class ListItem extends React.Component {
                 {moment(this.props.item.duedate).format("LL")}
               </p>
               <a
-                href={`${URL}downloadfile/${this.props.item.file}`}
+                href={this.props.item.file}
                 target="_blank"
                 download
                 className="mb-1 text-small w-15 w-xs-100"
@@ -100,7 +97,7 @@ class ListItem extends React.Component {
                 </Button>
                 <SubmitAssignment
                   id={this.props.item._id}
-                  reloadModel={e => this.reloadModel(e)}
+                  reloadModel={(e) => this.reloadModel(e)}
                   toggleModal={this.toggleModal}
                   modalOpen={modalOpen}
                 />

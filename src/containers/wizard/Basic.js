@@ -11,7 +11,7 @@ import {
   Input,
   Label,
   InputGroup,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import IntlMessages from "../../util/IntlMessages";
 import { Wizard, Steps, Step } from "react-albus";
@@ -32,13 +32,13 @@ const options = [
   { value: "Photography", label: "Photography" },
   {
     value: "Programming and Development",
-    label: "Programming and Development"
+    label: "Programming and Development",
   },
   { value: "Data Science", label: "Data Science" },
   { value: "Artificial Intelligence", label: "Artificial Intelligence" },
   { value: "Marketing", label: "Marketing" },
   { value: "Accounting", label: "Accounting" },
-  { value: "IT and Software", label: "IT and Software" }
+  { value: "IT and Software", label: "IT and Software" },
 ];
 
 export class AddCourse extends Component {
@@ -58,20 +58,29 @@ export class AddCourse extends Component {
       content: "",
       id: "",
       bottomNavHidden: false,
-      topNavDisabled: false
+      topNavDisabled: false,
+      upload: false,
     };
   }
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     this.setState({ pic: event.target.files[0] });
   };
-  uploadPic() {
-    const data = new FormData();
-    data.append("file", this.state.pic);
-    axios.post(URL + "coursepic", data, {});
+  async uploadPic() {
+    const file = new FormData();
+    file.append("file", this.state.pic);
+    const configg = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(URL + "coursepic", file, configg);
+
+    console.log(res.data);
+    this.setState({ upload: false, file: res.data });
   }
   async RegisterCourse() {
     const name = this.state.name;
-    const pic = this.state.pic.name;
+    const pic = this.state.pic;
     const tags = this.state.tags;
     const importance = this.state.importance;
     const preReq = this.state.preReq;
@@ -90,7 +99,7 @@ export class AddCourse extends Component {
       preReq,
       outcome,
       courseContent,
-      category
+      category,
     });
     await axios.post(URL + "api/Courses/", body, config);
   }
@@ -108,10 +117,10 @@ export class AddCourse extends Component {
       let body = JSON.stringify({ id });
       await axios
         .post(URL + "api/Courses/mycourse", body, config)
-        .then(res => {
+        .then((res) => {
           return res.data;
         })
-        .then(data => {
+        .then((data) => {
           this.setState({
             id: id,
             name: data.name,
@@ -120,17 +129,21 @@ export class AddCourse extends Component {
             importance: data.importance,
             preReq: data.preReq,
             outcome: data.outcome,
-            courseContent: data.courseContent
+            courseContent: data.courseContent,
           });
         });
     }
   }
-  onClickNext(goToNext, steps, step) {
+  async onClickNext(goToNext, steps, step) {
     step.isDone = true;
+    if (steps.indexOf(step) == 2) {
+      this.setState({ upload: true });
+    }
     if (steps.length - 2 <= steps.indexOf(step)) {
       this.setState({ bottomNavHidden: true, topNavDisabled: true });
+
+      await this.uploadPic();
       this.RegisterCourse();
-      this.uploadPic();
     }
     if (steps.length - 1 <= steps.indexOf(step)) {
       return;
@@ -144,16 +157,16 @@ export class AddCourse extends Component {
     }
     goToPrev();
   }
-  handleTagChange = tags => {
+  handleTagChange = (tags) => {
     this.setState({ tags });
   };
-  handleOutcome = outcome => {
+  handleOutcome = (outcome) => {
     this.setState({ outcome });
   };
-  handlePrerequisite = preReq => {
+  handlePrerequisite = (preReq) => {
     this.setState({ preReq });
   };
-  handleImportance = importance => {
+  handleImportance = (importance) => {
     this.setState({ importance });
   };
 
@@ -178,7 +191,7 @@ export class AddCourse extends Component {
                         name="name"
                         placeholder="Course Name"
                         value={this.state.name}
-                        onChange={e => {
+                        onChange={(e) => {
                           this.setState({ name: e.target.value });
                         }}
                       />
@@ -207,7 +220,7 @@ export class AddCourse extends Component {
                         value={this.state.category}
                         dont={true}
                         options={options}
-                        onChange={e => this.setState({ category: e.value })}
+                        onChange={(e) => this.setState({ category: e.value })}
                       />
                       <br></br>
                       <br></br>
@@ -216,7 +229,7 @@ export class AddCourse extends Component {
                         value={this.state.tags}
                         onChange={this.handleTagChange}
                         inputProps={{
-                          placeholder: "form-component"
+                          placeholder: "form-component",
                         }}
                       />
                       <br></br>
@@ -262,47 +275,36 @@ export class AddCourse extends Component {
                 </div>
               </Step>
               <Step id="step3" name="Step 3" desc="Outcomes">
-                <div className="wizard-basic-step">
-                  <Form>
-                    <FormGroup>
-                      <row>
-                        <Label>
-                          <IntlMessages id="forms.password" />
-                        </Label>
-                      </row>
-                      <row>
-                        <ReactQuill
-                          theme="snow"
-                          value={this.state.outcome + ""}
-                          onChange={this.handleOutcome}
-                          modules={quillModules}
-                          formats={quillFormats}
-                        />
-                      </row>
-                    </FormGroup>
-                  </Form>
-                </div>
+                {" "}
+                {this.state.upload ? (
+                  <div>
+                    <div className="loading"></div>
+                    <h2>Please Wait...</h2>
+                  </div>
+                ) : (
+                  <div className="wizard-basic-step">
+                    <Form>
+                      <FormGroup>
+                        <row>
+                          <Label>
+                            <IntlMessages id="forms.password" />
+                          </Label>
+                        </row>
+                        <row>
+                          <ReactQuill
+                            theme="snow"
+                            value={this.state.outcome + ""}
+                            onChange={this.handleOutcome}
+                            modules={quillModules}
+                            formats={quillFormats}
+                          />
+                        </row>
+                      </FormGroup>
+                    </Form>
+                  </div>
+                )}
               </Step>
-              {/* <Step
-                id="step4"
-                name={messages["wizard.step-name-4"]}
-                desc={messages["wizard.step-desc-4"]}
-              >
-                <div className="wizard-basic-step">
-                  <Form>
-                    <FormGroup>
-                      <row>
-                        <Label>
-                          <IntlMessages id="forms.content" />
-                        </Label>
-                      </row>
-                      <row>
-                        <DropzoneExample />
-                      </row>
-                    </FormGroup>
-                  </Form>
-                </div>
-              </Step> */}
+
               <Step id="step4" hideTopNav={true}>
                 <div className="wizard-basic-step text-center">
                   <h2 className="mb-2">

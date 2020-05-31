@@ -6,11 +6,8 @@ import {
   CardSubtitle,
   CardImg,
   CardText,
-  CustomInput,
-  Badge
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
-import classnames from "classnames";
 import { ContextMenuTrigger } from "react-contextmenu";
 import { Colxx } from "../CustomBootstrap";
 
@@ -24,11 +21,7 @@ const ImageListView = ({ product, collect }) => {
               to={`/app/mycourses/courseView/?id=${product._id}`}
               className="w-40 w-sm-100"
             >
-              <CardImg
-                top
-                alt={product.title}
-                src={require("../../assets/Courseimages/" + product.pic)}
-              />
+              <CardImg top alt={product.title} src={product.pic} />
             </NavLink>
           </div>
           <CardBody>

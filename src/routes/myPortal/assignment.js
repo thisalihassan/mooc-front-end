@@ -8,7 +8,7 @@ import {
   DropdownToggle,
   DropdownItem,
   DropdownMenu,
-  Collapse
+  Collapse,
 } from "reactstrap";
 
 import IntlMessages from "../../util/IntlMessages";
@@ -19,7 +19,7 @@ import {
   getSurveyListSearch,
   getmyCourse,
   GetSubscription,
-  getAssignments
+  getAssignments,
 } from "../../redux/actions";
 
 import ListItem from "../../containers/Assignment/ListItem";
@@ -42,7 +42,7 @@ class Assignment extends Component {
       file: null,
       title: null,
       duedate: null,
-      course: null
+      course: null,
     };
   }
   async componentDidMount() {
@@ -52,13 +52,13 @@ class Assignment extends Component {
     if (values.id) {
       await axios
         .post(URL + "api/assignment/getassignment/" + values.id, {}, config)
-        .then(res => {
+        .then((res) => {
           this.setState({
             id: values.id,
             file: res.data.assignment[0].file,
             title: res.data.assignment[0].title,
             duedate: res.data.assignment[0].duedate,
-            course: { label: res.data.course.name, value: res.data.course._id }
+            course: { label: res.data.course.name, value: res.data.course._id },
           });
           this.toggleModal();
         });
@@ -91,15 +91,15 @@ class Assignment extends Component {
 
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
 
-  changeOrderBy = column => {
+  changeOrderBy = (column) => {
     this.props.getSurveyListWithOrder(column);
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = (e) => {
     if (e.key === "Enter") {
       this.props.getSurveyListSearch(e.target.value);
     }
@@ -108,11 +108,7 @@ class Assignment extends Component {
     this.props.history.push("/app/myportal/assignment");
     window.location.reload();
   }
-  async downloadFile(name) {
-    console.log(name);
-    const res = await axios.get(URL + "downloadfile/" + name, {}, config);
-    console.log(res.data);
-  }
+
   async deleteAssignment(id) {
     await axios
       .post(URL + "api/assignment/remove/" + id, {}, config)
@@ -187,7 +183,7 @@ class Assignment extends Component {
                       name="keyword"
                       id="search"
                       placeholder={messages["menu.search"]}
-                      onKeyPress={e => this.handleKeyPress(e)}
+                      onKeyPress={(e) => this.handleKeyPress(e)}
                     />
                   </div>
                 </div>
@@ -206,13 +202,10 @@ class Assignment extends Component {
                           item={n}
                           name={name}
                           roll={this.props.user.roll}
-                          deleteClick={id => {
+                          deleteClick={(id) => {
                             this.deleteAssignment(id);
                           }}
-                          download={id => {
-                            this.downloadFile(id);
-                          }}
-                          reloadModel={e => this.reloadModel(e)}
+                          reloadModel={(e) => this.reloadModel(e)}
                         />
                       );
                     });
@@ -230,7 +223,7 @@ class Assignment extends Component {
               title={this.state.title}
               duedate={this.state.duedate}
               course={this.state.course}
-              reloadModel={e => this.reloadModel(e)}
+              reloadModel={(e) => this.reloadModel(e)}
               toggleModal={this.toggleModal}
               modalOpen={modalOpen}
               courses={this.props.myCourses && this.props.myCourses}
@@ -248,7 +241,7 @@ const mapStateToProps = ({
   assignment,
   auth,
   course,
-  subscribtion
+  subscribtion,
 }) => {
   const { user } = auth;
   const { courses } = subscribtion.subscribed;
@@ -258,7 +251,7 @@ const mapStateToProps = ({
     myCourses,
     user,
     assignment,
-    quizList
+    quizList,
   };
 };
 export default injectIntl(
@@ -267,6 +260,6 @@ export default injectIntl(
     getSurveyListSearch,
     getmyCourse,
     GetSubscription,
-    getAssignments
+    getAssignments,
   })(Assignment)
 );

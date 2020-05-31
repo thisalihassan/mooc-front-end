@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Button } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Colxx } from "../../components/CustomBootstrap";
 // import IntlMessages from "../../util/IntlMessages";
@@ -9,9 +9,6 @@ class ListItem extends React.Component {
     super(props);
     this.state = {};
   }
-  downloadItem = e => {
-    this.props.download(this.props.item.file);
-  };
 
   render() {
     return (
@@ -26,8 +23,7 @@ class ListItem extends React.Component {
                 <ThumbnailImage
                   rounded
                   small
-                  src={require("../../assets/images/" +
-                    this.props.item.user.avatar)}
+                  src={this.props.item.user.avatar}
                   alt="profile"
                   className="m-4"
                 />
@@ -37,7 +33,7 @@ class ListItem extends React.Component {
                 </span>
               </Link>
               <a
-                href={`${URL}downloadfile/${this.props.item.file}`}
+                href={this.props.item.file}
                 target="_blank"
                 download
                 className="mb-1 text-small w-15 w-xs-100"
