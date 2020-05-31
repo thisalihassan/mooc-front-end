@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions";
 import io from "socket.io-client";
 import queryString from "query-string";
+import URL from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -159,7 +160,7 @@ class ChatApplication extends Component {
       });
     }
     if (this.state.socket == null) {
-      this.state.socket = io(":5000");
+      this.state.socket = io(URL);
     }
     const name = this.state.name;
     const myroom = this.state.room;
