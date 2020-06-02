@@ -35,16 +35,6 @@ class ThumbListPages extends Component {
   }
   componentDidMount() {
     this.props.GetSubscription();
-    // this.dataListRender();
-    // this.mouseTrap.bind(["ctrl+a", "command+a"], () =>
-    //   this.handleChangeSelectAll(false)
-    // );
-    // this.mouseTrap.bind(["ctrl+d", "command+d"], () => {
-    //   this.setState({
-    //     selectedItems: []
-    //   });
-    //   return false;
-    // });
   }
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
@@ -61,25 +51,6 @@ class ThumbListPages extends Component {
       () => this.dataListRender()
     );
   };
-
-  // onContextMenuClick = (e, data, target) => {
-  //   console.log(
-  //     "onContextMenuClick - selected items",
-  //     this.state.selectedItems
-  //   );
-  //   console.log("onContextMenuClick - action : ", data.action);
-  // };
-
-  // onContextMenu = (e, data) => {
-  //   const clickedProductId = data.data;
-  //   if (!this.state.selectedItems.includes(clickedProductId)) {
-  //     this.setState({
-  //       selectedItems: [clickedProductId]
-  //     });
-  //   }
-
-  //   return true;
-  // };
 
   render() {
     return (
