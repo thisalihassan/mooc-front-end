@@ -41,7 +41,10 @@ class ChatApplication extends Component {
       messageInput: "",
       searchKey: "",
       socket: null,
+<<<<<<< HEAD
       courseID: null,
+=======
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
       room: "",
       name: "",
       roomName: "",
@@ -79,7 +82,10 @@ class ChatApplication extends Component {
       this.setState({
         room: values.id,
         roomName: res.data.course.name,
+<<<<<<< HEAD
         courseID: res.data.course._id,
+=======
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
         roomCreator: res.data.user,
         guidelines: res.data.guidelines,
       });
@@ -267,10 +273,16 @@ class ChatApplication extends Component {
   startVideoBroadcasting(owner, user) {
     if (owner._id === user._id) {
       const room = this.state.room;
+<<<<<<< HEAD
       const courseID = this.state.courseID;
       const name = this.state.roomName;
       const userid = this.props.user._id;
       const tuple = { room, name, userid, courseID };
+=======
+      const name = this.state.roomName;
+      const userid = this.props.user._id;
+      const tuple = { room, name, userid };
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
       this.state.socket.emit("VideoCall", tuple, () =>
         this.setState({
           modalOpen: !this.state.modalOpen,

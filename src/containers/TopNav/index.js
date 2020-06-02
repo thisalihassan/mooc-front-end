@@ -100,7 +100,11 @@ class TopNav extends Component {
     this.props.GetSubscription();
     this.props.getmyCourse();
   }
+<<<<<<< HEAD
   async componentDidUpdate(prevState, prevProps) {
+=======
+  componentDidUpdate(prevState, prevProps) {
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
     if (this.props.notify.length > 0 && this.state.loadNotification) {
       this.setState({
         notifications: this.props.notify,
@@ -109,7 +113,11 @@ class TopNav extends Component {
     }
     if (this.props.user && this.state.listCourse.length == 0) {
       if (this.state.firstTime) {
+<<<<<<< HEAD
         await this.makecoursesList();
+=======
+        this.makecoursesList();
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
         this.setState({ firstTime: false });
       }
     }
@@ -124,10 +132,15 @@ class TopNav extends Component {
       }
       console.log(mess);
     });
+<<<<<<< HEAD
     this.state.socket.on("VideoCallRinging", async (mess) => {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
       console.log(this.state.listCourse);
       if (match && this.props.user._id == mess.userid) {
+=======
+    this.state.socket.on("VideoCallRinging", (mess) => {
+      if (mess.userid == this.props.user._id) {
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
         this.setState({
           callModel: true,
           callerID:
@@ -140,6 +153,10 @@ class TopNav extends Component {
           callerName: mess.name,
         });
       }
+<<<<<<< HEAD
+=======
+      console.log(mess);
+>>>>>>> 6d2f6e7768c5a2bd2d929501f660bc9c5c2a333e
     });
 
     if (this.state.notifications !== prevState.notifications) {
