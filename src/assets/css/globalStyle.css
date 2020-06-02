@@ -1,0 +1,8 @@
+.makeStyles-wrapper-4 {
+    flex: 1 1 auto;
+    height: 100%;
+    z-index: 2;
+    max-width: 100%;
+    min-width: 0;
+    flex-direction: row;
+}

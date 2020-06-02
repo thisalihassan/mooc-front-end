@@ -1,0 +1,30 @@
+{
+    "data": [{
+            "title": "AI Quiz",
+            "category": "AI",
+            "createDate": "22.08.2018",
+            "status": "ACTIVE",
+            "label": "NEW FRAMEWORK",
+            "labelColor": "primary",
+            "id": 1
+        },
+        {
+            "title": "Web Development Quiz",
+            "category": "Development",
+            "createDate": "22.09.2018",
+            "status": "ACTIVE",
+            "label": "EDUCATION",
+            "labelColor": "secondary",
+            "id": 2
+        },
+        {
+            "title": "Cooking Quiz",
+            "category": "Cooking",
+            "createDate": "15.09.2018",
+            "status": "COMPLETED",
+            "label": "EDUCATION",
+            "labelColor": "info",
+            "id": 3
+        }
+    ]
+}

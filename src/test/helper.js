@@ -1,0 +1,14 @@
+import chai from "chai";
+import { mount, render, shallow, configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import { spy } from "sinon";
+chai.use(require("sinon-chai"));
+configure({ adapter: new Adapter() });
+let chaiHttp = require("chai-http");
+chai.use(chaiHttp);
+global.expect = chai.expect;
+global.mount = mount;
+global.render = render;
+global.shallow = shallow;
+global.spy = spy;
+global.chai = chai;
