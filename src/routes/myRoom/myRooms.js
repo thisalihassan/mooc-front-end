@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Label,
   Input,
-  Button
+  Button,
 } from "reactstrap";
 import Pagination from "../../components/pages/Pagination";
 import DataListView from "../../components/pages/DataListView";
@@ -29,7 +29,7 @@ class ThumbListPages extends Component {
       listCourse: [],
       guidelines: "",
       modalOpen: false,
-      id: ""
+      id: "",
     };
   }
   async componentDidMount() {
@@ -66,10 +66,10 @@ class ThumbListPages extends Component {
       this.state.listCourse[key] = this.props.courses[key]._id;
     }
   }
-  onChangePage = page => {
+  onChangePage = (page) => {
     this.setState(
       {
-        currentPage: page
+        currentPage: page,
       },
       () => this.dataListRender()
     );
@@ -90,10 +90,10 @@ class ThumbListPages extends Component {
     const body = JSON.stringify({ id, myroom });
     await axios
       .post(URL + "api/room/findkick", body, config)
-      .then(res => {
+      .then((res) => {
         return res.data;
       })
-      .then(data => {
+      .then((data) => {
         if (!data) {
           this.props.history.push("/app/myrooms/roomview/?id=" + myroom);
         } else {
@@ -103,7 +103,7 @@ class ThumbListPages extends Component {
   }
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
   async editedRoom(e) {
@@ -130,7 +130,7 @@ class ThumbListPages extends Component {
               type="text"
               name="guidelines"
               value={this.state.guidelines}
-              onChange={e => {
+              onChange={(e) => {
                 this.setState({ guidelines: e.target.value });
               }}
             />
@@ -139,7 +139,7 @@ class ThumbListPages extends Component {
             <Button
               color="primary"
               className="button-outline"
-              onClick={e => this.editedRoom(e)}
+              onClick={(e) => this.editedRoom(e)}
             >
               Accept
             </Button>{" "}
@@ -159,19 +159,19 @@ class ThumbListPages extends Component {
         {!this.props.loading ? (
           <div className="disable-text-selection">
             <Row>
-              {this.props.rooms.map(product => {
+              {this.props.rooms.map((product) => {
                 return (
                   <DataListView
                     key={product._id}
                     user={this.props.user._id}
                     product={product}
-                    deleteClick={id => {
+                    deleteClick={(id) => {
                       this.deleteRoom(id);
                     }}
-                    editClick={id => {
+                    editClick={(id) => {
                       this.editRoom(id);
                     }}
-                    joinRoom={id => {
+                    joinRoom={(id) => {
                       this.joinRoom(id);
                     }}
                   />
@@ -182,7 +182,7 @@ class ThumbListPages extends Component {
                 <Pagination
                   currentPage={this.state.currentPage}
                   totalPage={this.props.courses.length / 12}
-                  onChangePage={i => this.onChangePage(i)}
+                  onChangePage={(i) => this.onChangePage(i)}
                 />
               )}
               {/* <ContextMenuContainer
@@ -207,11 +207,11 @@ const mapStateToProps = ({ auth, subscribtion, room }) => {
     courses,
     user,
     rooms,
-    loading
+    loading,
   };
 };
 export default connect(mapStateToProps, {
   GetSubscription,
   setAlert,
-  getRooms
+  getRooms,
 })(ThumbListPages);
