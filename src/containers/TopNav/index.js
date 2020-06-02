@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
-import IntlMessages from "../../util/IntlMessages";
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -12,11 +11,11 @@ import {
   ModalFooter,
   ModalHeader,
   Card,
+  Button,
   CardBody,
   Row,
 } from "reactstrap";
 import io from "socket.io-client";
-import { Colxx } from "../../components/CustomBootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { NavLink, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -39,8 +38,9 @@ import {
   localeOptions,
   searchBy,
 } from "../../constants/defaultValues";
+import NewWindow from "react-new-window";
+import { AURL, BURL, SURL } from "./../../constants/defaultValues";
 export const socket = io(URL);
-
 class TopNav extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +65,11 @@ class TopNav extends Component {
       loadNotification: true,
       getUnSeen: [],
       modalOpen: false,
+      callModel: false,
+      callStarted: false,
       today: null,
+      callerName: "",
+      callerID: "",
     };
   }
   async makecoursesList() {
@@ -104,20 +108,39 @@ class TopNav extends Component {
       });
     }
     if (this.props.user && this.state.listCourse.length == 0) {
-      this.makecoursesList();
+      if (this.state.firstTime) {
+        this.makecoursesList();
+        this.setState({ firstTime: false });
+      }
     }
-    // if (this.state.firstTime) {
-    //   this.setState({
-    //     firstTime: false
-    //   });
-    //   let mess;
-    //   this.state.socket.on("show_notification", mess => {
-    //     this.setState(prevState => ({
-    //       notifications: [mess, ...prevState.notifications]
-    //     }));
-    //   });
 
-    // }
+    this.state.socket.on("CallRinging", (mess) => {
+      if (mess.userid == this.props.user._id) {
+        this.setState({
+          callModel: true,
+          callerID: mess.URL,
+          callerName: mess.name,
+        });
+      }
+      console.log(mess);
+    });
+    this.state.socket.on("VideoCallRinging", (mess) => {
+      if (mess.userid == this.props.user._id) {
+        this.setState({
+          callModel: true,
+          callerID:
+            BURL +
+            "?id=" +
+            mess.room +
+            "&u=" +
+            this.props.user._id +
+            "&s=video&q=join",
+          callerName: mess.name,
+        });
+      }
+      console.log(mess);
+    });
+
     if (this.state.notifications !== prevState.notifications) {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
@@ -257,9 +280,9 @@ class TopNav extends Component {
   handleLogout = () => {
     this.props.logout();
   };
-  switchAccount = (e) => {
+  switchAccount = async (e) => {
     e.preventDefault();
-    axios.get(URL + "api/auth/welcome", {}, config);
+    await axios.get(URL + "api/auth/welcome", {}, config);
     window.location.reload();
   };
 
@@ -292,6 +315,9 @@ class TopNav extends Component {
     this.setState({
       modalOpen: !this.state.modalOpen,
     });
+  };
+  callModel = () => {
+    this.setState({ callModel: !this.state.callModel });
   };
   render() {
     const { containerClassnames, menuClickCount, user } = this.props;
@@ -598,6 +624,38 @@ class TopNav extends Component {
             </ModalBody>
             <ModalFooter></ModalFooter>
           </Modal>
+          <Modal isOpen={this.state.callModel} toggle={this.callModel}>
+            <ModalHeader toggle={this.callModel}>
+              <h2>{this.state.callerName + " is calling you..."}</h2>
+            </ModalHeader>
+            <ModalBody>
+              <div>
+                <img src="https://res.cloudinary.com/mooc/image/upload/v1591019665/assests/CompetentWindingFrigatebird-small_qdoqsi.gif" />
+                <audio
+                  loop={true}
+                  autoPlay={true}
+                  src="https://res.cloudinary.com/mooc/video/upload/v1591019505/assests/skype-incoming-call_f59uo2.mp3"
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                onClick={() => this.setState({ callStarted: true })}
+                className="btn btn-outline-primary"
+              >
+                Accept
+              </Button>
+              <Button
+                onClick={this.callModel}
+                className="btn btn-outline-danger"
+              >
+                Reject
+              </Button>
+            </ModalFooter>
+          </Modal>
+          {this.state.callStarted && (
+            <NewWindow url={this.state.callerID}></NewWindow>
+          )}
         </nav>
       );
     } else {

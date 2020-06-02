@@ -872,7 +872,7 @@ export class DetailsPages extends Component {
 
                               <NavLink
                                 to={
-                                  "/app/profile/userprofile/?id=" +
+                                  "/app/profile/userprofile/?profile=" +
                                   this.props.userProfile.user._id
                                 }
                               >

@@ -28,6 +28,10 @@ class AttachmentModel extends Component {
       upload: false,
     };
   }
+  reterieveURL = (e) => {
+    this.props.reterieveURL(e);
+  };
+
   async uploadLecture() {
     const file = new FormData();
     file.append("file", this.state.file);
@@ -39,11 +43,15 @@ class AttachmentModel extends Component {
 
     const res = await axios.post(URL + "lecturefiles", file, configg);
     console.log(res.data);
-    this.setState({ upload: false, file: res.data[0] });
+    this.setState({ upload: false });
+    const filename = this.state.file.name;
+    const url = res.data[0];
+    const body = { filename, url };
+    this.reterieveURL(body);
   }
   async handleSubmit(values) {
     this.setState({ upload: true });
-    this.props.reloadModel();
+    this.uploadLecture();
     this.props.toggleModal();
   }
 
@@ -54,7 +62,8 @@ class AttachmentModel extends Component {
     }
     if (this.state.file) {
       const format = this.state.file.name.split(".");
-      const match = fileTypes.find((i) => i === format[1]);
+
+      const match = fileTypes.find((i) => i === format[format.length - 1]);
       if (!match) {
         errors.file = "Please select a valid file format for assignment";
       } else if (this.state.file.size > fileMaxSize) {

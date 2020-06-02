@@ -9,7 +9,7 @@ class UserCardBasic extends Component {
     return (
       <Card className="d-flex flex-row mb-4">
         <NavLink
-          to={"/app/profile/userprofile/?id=" + this.props.data._id}
+          to={"/app/profile/userprofile/?profile=" + this.props.data._id}
           className="d-flex"
         >
           <ThumbnailImage
@@ -24,7 +24,7 @@ class UserCardBasic extends Component {
           <CardBody className=" pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
             <div className="min-width-zero">
               <NavLink
-                to={"/app/profile/userprofile/?id=" + this.props.data._id}
+                to={"/app/profile/userprofile/?profile=" + this.props.data._id}
               >
                 <CardSubtitle className="truncate mb-1">
                   {this.props.data.name}

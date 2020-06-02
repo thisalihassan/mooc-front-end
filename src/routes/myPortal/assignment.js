@@ -202,9 +202,6 @@ class Assignment extends Component {
                           item={n}
                           name={name}
                           roll={this.props.user.roll}
-                          deleteClick={(id) => {
-                            this.deleteAssignment(id);
-                          }}
                           reloadModel={(e) => this.reloadModel(e)}
                         />
                       );

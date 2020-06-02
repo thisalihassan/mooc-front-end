@@ -7,11 +7,7 @@ import data from "../../data/topRatedItems";
 
 const TopRatedItem = ({ image, order, title, rate, rateCount }) => (
   <div className="pr-2 pl-2">
-    <img
-      src={require("../../assets/img/" + image)}
-      alt={title}
-      className="mb-4 d-block w-100"
-    />
+    <img src={image} alt={title} className="mb-4 d-block w-100" />
     <h6 className="mb-1">
       <span className="mr-2">{order}.</span>
       {title}
@@ -25,7 +21,7 @@ const TopRatedItems = () => {
   const sliderPerPage = {
     0: 2,
     480: 3,
-    992: 2
+    992: 2,
   };
 
   return (

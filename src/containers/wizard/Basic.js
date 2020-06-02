@@ -66,17 +66,18 @@ export class AddCourse extends Component {
     this.setState({ pic: event.target.files[0] });
   };
   async uploadPic() {
-    const file = new FormData();
-    file.append("file", this.state.pic);
-    const configg = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-    const res = await axios.post(URL + "coursepic", file, configg);
-
-    console.log(res.data);
-    this.setState({ upload: false, file: res.data });
+    try {
+      const file = new FormData();
+      file.append("file", this.state.pic);
+      const configg = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const res = await axios.post(URL + "coursepic", file, configg);
+      console.log(res.data);
+      this.setState({ upload: false, pic: res.data });
+    } catch (error) {}
   }
   async RegisterCourse() {
     const name = this.state.name;

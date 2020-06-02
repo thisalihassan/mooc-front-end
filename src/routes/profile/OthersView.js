@@ -27,7 +27,9 @@ import classnames from "classnames";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 import { getProfileById, GetSubscription } from "../../redux/actions";
-
+import { AURL } from "./../../constants/defaultValues";
+import { socket } from "../../containers/TopNav";
+import NewWindow from "react-new-window";
 class OthersProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -56,8 +58,8 @@ class OthersProfile extends React.Component {
     let id;
     this.props.GetSubscription();
     const values = queryString.parse(this.props.location.search);
-    if (values.id) {
-      id = values.id;
+    if (values.profile) {
+      id = values.profile;
       this.props.getProfileById(id);
       const body = JSON.stringify({ id });
       const res = await axios.post(
@@ -138,10 +140,28 @@ class OthersProfile extends React.Component {
     this.props.GetSubscription();
     window.location.reload();
   }
+
+  startAudioCall(owner, user) {
+    const myData = [owner, user];
+    const myroom = myData.sort();
+    const name = this.props.user.name;
+    const userid = owner;
+    const URL = AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=join";
+    const tuple = { userid, name, URL };
+    socket.emit("CallRing", tuple, () =>
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL: AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=start",
+      })
+    );
+  }
   render() {
     const { messages } = this.props.intl;
     return (
       <Row>
+        {this.state.modalOpen && (
+          <NewWindow url={this.state.videoURL}></NewWindow>
+        )}
         <Colxx xxs="1"></Colxx>
         {this.props.user && this.props.userProfile ? (
           <Colxx xxs="10" className="mb-5">
@@ -191,16 +211,16 @@ class OthersProfile extends React.Component {
                     {this.props.user._id !== this.props.userProfile.user._id &&
                       this.props.user.roll.toLowerCase() !== "admin" && (
                         <div>
-                          <a
-                            href={
-                              "/app/messages/chat/?t=" +
-                              this.props.userProfile.user._id
+                          <Button
+                            onClick={() =>
+                              this.startAudioCall(
+                                this.props.userProfile.user._id,
+                                this.props.user._id
+                              )
                             }
                           >
-                            <Button>
-                              <i className="simple-icon-phone" />
-                            </Button>
-                          </a>{" "}
+                            <i className="simple-icon-phone" />
+                          </Button>
                           <a
                             href={
                               "/app/messages/chat/?t=" +
@@ -264,7 +284,7 @@ class OthersProfile extends React.Component {
                         this.toggleTab("1");
                       }}
                       to={
-                        "/app/profile/userprofile/?id=" +
+                        "/app/profile/userprofile/?profile=" +
                         this.props.userProfile.user._id
                       }
                     >
@@ -281,7 +301,7 @@ class OthersProfile extends React.Component {
                         this.toggleTab("2");
                       }}
                       to={
-                        "/app/profile/userprofile/?id=" +
+                        "/app/profile/userprofile/?profile=" +
                         this.props.userProfile.user._id
                       }
                     >
@@ -298,7 +318,7 @@ class OthersProfile extends React.Component {
                         this.toggleTab("3");
                       }}
                       to={
-                        "/app/profile/userprofile/?id=" +
+                        "/app/profile/userprofile/?profile=" +
                         this.props.userProfile.user._id
                       }
                     >
@@ -315,7 +335,7 @@ class OthersProfile extends React.Component {
                         this.toggleTab("4");
                       }}
                       to={
-                        "/app/profile/userprofile/?id=" +
+                        "/app/profile/userprofile/?profile=" +
                         this.props.userProfile.user._id
                       }
                     >
@@ -332,7 +352,7 @@ class OthersProfile extends React.Component {
                         this.toggleTab("5");
                       }}
                       to={
-                        "/app/profile/userprofile/?id=" +
+                        "/app/profile/userprofile/?profile=" +
                         this.props.userProfile.user._id
                       }
                     >
@@ -367,8 +387,7 @@ class OthersProfile extends React.Component {
                                       <CardImg
                                         id="okayimgh"
                                         alt={course.name}
-                                        src={require("../../assets/Courseimages/" +
-                                          course.pic)}
+                                        src={course.pic}
                                       />
                                     </NavLink>
                                   </div>

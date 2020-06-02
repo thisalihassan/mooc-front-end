@@ -6,6 +6,7 @@ import { Colxx } from "../../components/CustomBootstrap";
 import ApplicationMenu from "../../components/ApplicationMenu";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { connect } from "react-redux";
+import moment from "moment";
 import AttachmentModel from "./AttachmentModel";
 import {
   getProfiles,
@@ -14,7 +15,7 @@ import {
 } from "../../redux/actions";
 import io from "socket.io-client";
 import queryString from "query-string";
-import {URL} from "./../../constants/defaultValues";
+import { URL } from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,7 @@ class ChatApplication extends Component {
       name: "",
       messages: [],
       users: "",
+      loading: false,
       firstTime: true,
       firstMessage: false,
       reciever: "",
@@ -35,16 +37,7 @@ class ChatApplication extends Component {
       modalOpen: false,
     };
   }
-  sortSetRoom(userId) {
-    this.setState({
-      room: "",
-    });
-    const myData = [
-      this.props.user._id,
-      this.props.profile.profiles[userId].user._id,
-    ];
-    this.setState({ room: myData.sort() });
-  }
+
   toggleAppMenu(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -66,8 +59,9 @@ class ChatApplication extends Component {
           (x) => x.user._id === values.t
         );
         const myData = [this.props.user._id, profile.user._id];
-        // const myroom = myData.sort();
+        this.setState({ loading: true });
         this.props.loadConversations(myData.sort());
+        this.setState({ loading: false });
 
         this.setState({
           reciever: profile,
@@ -93,9 +87,11 @@ class ChatApplication extends Component {
 
     if (this.state.name !== "" && this.state.room != "") {
       if (this.state.socket == null) {
+        this.setState({ loading: true });
         this.props.loadConversations(this.state.room);
+        this.setState({ loading: false });
 
-        this.joinRoom();
+        this.joinRoom(this.state.room);
       }
       if (this.state.firstTime) {
         this.setState({
@@ -151,7 +147,7 @@ class ChatApplication extends Component {
     }
   }
 
-  joinRoom() {
+  joinRoom(room) {
     if (this.state.socket !== null) {
       this.state.socket.emit("disconnect", this.state.room, (error) => {
         if (error) {
@@ -163,7 +159,7 @@ class ChatApplication extends Component {
       this.state.socket = io(URL);
     }
     const name = this.state.name;
-    const myroom = this.state.room;
+    const myroom = room;
     const check = false;
     const id = this.props.user._id;
     this.state.socket.emit("join", { name, myroom, check, id }, (error) => {
@@ -179,7 +175,8 @@ class ChatApplication extends Component {
       const msg = this.state.messageInput;
       const check = false;
       const id = this.props.user._id;
-      const tuple = { myroom, msg, check, id };
+      const timeStamp = moment().format("D MMM YY HH:MM");
+      const tuple = { myroom, msg, check, id, timeStamp };
       this.state.socket.emit("sendMessage", tuple, () =>
         this.setState({
           messageInput: "",
@@ -198,8 +195,19 @@ class ChatApplication extends Component {
       messageInput: e.target.value,
     });
   }
-  reloadModel = (e) => {
-    this.props.reloadModel();
+  reterieveURL = (e) => {
+    const myroom = this.state.room;
+    var msg = e.url + "*" + e.filename;
+    console.log(msg);
+    const check = false;
+    const id = this.props.user._id;
+    const timeStamp = moment().format("D MMM YY HH:MM");
+    const tuple = { myroom, msg, check, id, timeStamp };
+    this.state.socket.emit("sendMessage", tuple, () =>
+      this.setState({
+        messageInput: "",
+      })
+    );
   };
   toggleModal = () => {
     this.setState({
@@ -207,15 +215,22 @@ class ChatApplication extends Component {
     });
   };
   handleContactClick(userId) {
+    this.setState({ loading: true });
     this.props.loadConversations(this.state.room);
+    this.setState({ loading: false });
     this.setState({
       firstMessage: true,
       reciever: this.props.profile.profiles[userId],
       changeUser: true,
     });
 
-    this.sortSetRoom(userId);
-    this.joinRoom();
+    const myData = [
+      this.props.user._id,
+      this.props.profile.profiles[userId].user._id,
+    ];
+    console.log(myData.sort());
+    // this.setState({ room: myData.sort() });
+    this.joinRoom(myData.sort());
   }
 
   deletConversation() {
@@ -266,54 +281,69 @@ class ChatApplication extends Component {
               </div>
             )}
             <div className="separator mb-5" />
-
-            <PerfectScrollbar
-              ref={(ref) => {
-                this._scrollBarRef = ref;
-              }}
-              containerRef={(ref) => {}}
-              option={{ suppressScrollX: true, wheelPropagation: false }}
-            >
-              {this.state.messages.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <Card
-                      className={`d-inline-block mb-3 float-${
-                        item.user !== user.name ? "left" : "right"
-                      }`}
-                    >
-                      <div className="position-absolute  pt-1 pr-2 r-0">
-                        <span className="text-extra-small text-muted">
-                          {item.timeStamp}
-                        </span>
-                      </div>
-                      <CardBody>
-                        <div className="d-flex flex-row pb-1">
-                          <div className=" d-flex flex-grow-1 min-width-zero">
-                            <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                              <div className="min-width-zero">
-                                <p className="mb-0 truncate list-item-heading">
-                                  {item.user}
-                                </p>
+            {this.state.loading ? (
+              <div className="loading"></div>
+            ) : (
+              <PerfectScrollbar
+                ref={(ref) => {
+                  this._scrollBarRef = ref;
+                }}
+                containerRef={(ref) => {}}
+                option={{ suppressScrollX: true, wheelPropagation: false }}
+              >
+                {this.state.messages.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <Card
+                        className={`d-inline-block mb-3 float-${
+                          item.user !== user.name ? "left" : "right"
+                        }`}
+                      >
+                        <div className="position-absolute  pt-1 pr-2 r-0">
+                          <span className="text-extra-small text-muted">
+                            {item.timeStamp}
+                          </span>
+                        </div>
+                        <CardBody>
+                          <div className="d-flex flex-row pb-1">
+                            <div className=" d-flex flex-grow-1 min-width-zero">
+                              <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                <div className="min-width-zero">
+                                  <p className="mb-0 truncate list-item-heading">
+                                    {item.user}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div
-                          className={`chat-text-${
-                            item.user === user.name ? "left" : "right"
-                          }`}
-                        >
-                          <p className="mb-0 text-semi-muted">{item.text}</p>
-                        </div>
-                      </CardBody>
-                    </Card>
-                    <div className="clearfix" />
-                  </div>
-                );
-              })}
-            </PerfectScrollbar>
+                          <div
+                            className={`chat-text-${
+                              item.user === user.name ? "left" : "right"
+                            }`}
+                          >
+                            {item.text.startsWith("http") ? (
+                              <a
+                                href={item.text.split("*")[0]}
+                                target="_blank"
+                                download
+                              >
+                                {item.text.split("*")[1]}
+                              </a>
+                            ) : (
+                              <p className="mb-0 text-semi-muted">
+                                {item.text}
+                              </p>
+                            )}
+                          </div>
+                        </CardBody>
+                      </Card>
+                      <div className="clearfix" />
+                    </div>
+                  );
+                })}
+              </PerfectScrollbar>
+            )}
           </Colxx>
         </Row>
 
@@ -337,6 +367,9 @@ class ChatApplication extends Component {
             <AttachmentModel
               reloadModel={(e) => this.reloadModel(e)}
               toggleModal={this.toggleModal}
+              reterieveURL={(e) => {
+                this.reterieveURL(e);
+              }}
               modalOpen={this.state.modalOpen}
             />
             <Button

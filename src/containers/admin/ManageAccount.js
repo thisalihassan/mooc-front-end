@@ -11,7 +11,7 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  Button
+  Button,
 } from "reactstrap";
 import classnames from "classnames";
 import { Colxx } from "../../components/CustomBootstrap";
@@ -31,32 +31,35 @@ class ProfilePortfolio extends Component {
         {
           Header: "Name",
           accessor: "name",
-          Cell: props => (
+          Cell: (props) => (
             <NavLink
-              to={"/app/profile/userprofile/?id=" + props.original.reported._id}
+              to={
+                "/app/profile/userprofile/?profile=" +
+                props.original.reported._id
+              }
               className="w-40 w-sm-100"
             >
               {props.original.reported.name}
             </NavLink>
-          )
+          ),
         },
 
         {
           Header: "Total reports",
           accessor: "category",
-          Cell: props => (
+          Cell: (props) => (
             <p className="text-muted">{props.original.reporter.length}</p>
-          )
+          ),
         },
         {
           Header: "Action",
           accessor: "accept",
-          Cell: props => (
+          Cell: (props) => (
             <div>
               <Button outline color="danger" className="icon-button">
                 <i
                   className="simple-icon-check"
-                  onClick={e =>
+                  onClick={(e) =>
                     this.DeleteAccount(e, props.original.reported._id)
                   }
                 />
@@ -64,15 +67,15 @@ class ProfilePortfolio extends Component {
               <Button outline className="icon-button">
                 <i
                   className="simple-icon-close"
-                  onClick={e =>
+                  onClick={(e) =>
                     this.ApproveAccount(e, props.original.reported._id)
                   }
                 />
               </Button>
             </div>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     };
   }
   ApproveAccount(e, id) {
@@ -90,7 +93,7 @@ class ProfilePortfolio extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -113,7 +116,7 @@ class ProfilePortfolio extends Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "1",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("1");
@@ -158,7 +161,7 @@ class ProfilePortfolio extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { reportedAccounts } = state.profile;
   return { reportedAccounts };
 };

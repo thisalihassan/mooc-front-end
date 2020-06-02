@@ -11,7 +11,6 @@ import {
   Button,
   TabContent,
   TabPane,
-  Modal,
   CardHeader,
   Table,
   NavItem,
@@ -265,28 +264,22 @@ class ChatApplication extends Component {
   }
   startVideoBroadcasting(owner, user) {
     if (owner._id === user._id) {
-      const myroom = this.state.room;
-      const check = true;
-      const id = this.props.user._id;
-      const msg = "Video broadcasting has started";
-      const tuple = { myroom, msg, check, id };
-      this.state.socket.emit("sendMessage", tuple, () =>
+      const room = this.state.room;
+      const name = this.state.roomName;
+      const userid = this.props.user._id;
+      const tuple = { room, name, userid };
+      this.state.socket.emit("VideoCall", tuple, () =>
         this.setState({
-          messageInput: "",
+          modalOpen: !this.state.modalOpen,
+          videoURL:
+            BURL +
+            "?id=" +
+            this.state.room +
+            "&u=" +
+            user._id +
+            "&s=video&q=start",
         })
       );
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-      });
-      this.setState({
-        videoURL:
-          BURL +
-          "?id=" +
-          this.state.room +
-          "&u=" +
-          user._id +
-          "&s=video&q=start",
-      });
     }
   }
 

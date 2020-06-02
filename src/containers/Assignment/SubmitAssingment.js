@@ -19,7 +19,6 @@ import {
   fileTypes,
 } from "../../constants/defaultValues";
 import { setAlert } from "../../redux/actions";
-import { socket } from "../TopNav";
 class AddNewSurveyModal extends Component {
   constructor(props) {
     super(props);
@@ -32,11 +31,6 @@ class AddNewSurveyModal extends Component {
     };
   }
 
-  componentDidMount() {
-    if (!this.state.socket) {
-      this.state.socket = socket;
-    }
-  }
   async uploadLecture() {
     const file = new FormData();
     file.append("file", this.state.file);

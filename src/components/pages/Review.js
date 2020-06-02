@@ -18,7 +18,7 @@ class Review extends Component {
         }
       >
         <NavLink
-          to={`/app/profile/userprofile/?id=${this.props.data.student._id}`}
+          to={`/app/profile/userprofile/?profile=${this.props.data.student._id}`}
         >
           <img
             src={thumb}
@@ -28,7 +28,7 @@ class Review extends Component {
         </NavLink>
         <div className="pl-3 flex-grow-1">
           <NavLink
-            to={`/app/profile/userprofile/?id=${this.props.data.student._id}`}
+            to={`/app/profile/userprofile/?profile=${this.props.data.student._id}`}
           >
             <p className="font-weight-medium mb-0">
               {this.props.data.student.name}
