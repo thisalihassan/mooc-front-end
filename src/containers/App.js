@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect, Route, Switch } from "react-router-dom";
 import { IntlProvider } from "react-intl";
-import { NotificationContainer } from "../components/ReactNotifications";
 import { defaultStartPath } from "../constants/defaultValues";
 import PropTypes from "prop-types";
 import AppLocale from "../lang";
@@ -16,8 +15,6 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "../assets/css/sass/themes/gogo.light.blue.scss";
 import "react-table/react-table.css";
 import Alert from "../routes/alert/alert";
-//import "../assets/css/globalStyle.css";
-import model from "../routes/modal";
 import AuthRoute from "../privateRoute";
 const App = ({ location, match, auth, locale }) => {
   const currentAppLocale = AppLocale[locale];
@@ -54,7 +51,7 @@ App.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  locale: PropTypes.object.isRequired
+  locale: PropTypes.object.isRequired,
 };
 const mapStateToProps = ({ auth, settings }) => {
   const { locale } = settings;

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
+import Logo from "./logo.png";
+import { Image } from "react-bootstrap";
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -33,11 +35,7 @@ import {
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 import moment from "moment";
-import {
-  menuHiddenBreakpoint,
-  localeOptions,
-  searchBy,
-} from "../../constants/defaultValues";
+import { menuHiddenBreakpoint, searchBy } from "../../constants/defaultValues";
 import NewWindow from "react-new-window";
 import { AURL, BURL, SURL } from "./../../constants/defaultValues";
 export const socket = io(URL);
@@ -409,7 +407,7 @@ class TopNav extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
-          <div className="d-inline-block">
+          {/* <div className="d-inline-block">
             <UncontrolledDropdown className="ml-2">
               <DropdownToggle
                 caret
@@ -432,11 +430,12 @@ class TopNav extends Component {
                 })}
               </DropdownMenu>
             </UncontrolledDropdown>
-          </div>
+          </div> */}
 
           <a className="navbar-logo" href="/">
-            <span className="logo d-none d-xs-block" />
-            <span className="logo-mobile d-block d-xs-none" />
+            <Image className="Logo" src={Logo}></Image>
+            {/* <span className="logo d-none d-xs-block" />
+            <span className="logo-mobile d-block d-xs-none" /> */}
           </a>
 
           <div className="ml-auto">
