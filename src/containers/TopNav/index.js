@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
+import Logo from "./logo.png";
+import { Image } from "react-bootstrap";
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -12,6 +14,7 @@ import {
   ModalHeader,
   Card,
   Button,
+
   CardBody,
   Row,
 } from "reactstrap";
@@ -326,6 +329,7 @@ class TopNav extends Component {
       let profileImage = user.avatar;
 
       return (
+        
         <nav className="navbar fixed-top">
           <NavLink
             to="#"
@@ -408,7 +412,7 @@ class TopNav extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
-          <div className="d-inline-block">
+          {/* <div className="d-inline-block">
             <UncontrolledDropdown className="ml-2">
               <DropdownToggle
                 caret
@@ -431,11 +435,13 @@ class TopNav extends Component {
                 })}
               </DropdownMenu>
             </UncontrolledDropdown>
-          </div>
+          </div> */}
 
           <a className="navbar-logo" href="/">
-            <span className="logo d-none d-xs-block" />
-            <span className="logo-mobile d-block d-xs-none" />
+          <Image className="Logo" src={Logo}></Image>
+            {/* <span className="logo d-none d-xs-block" />
+            <span className="logo-mobile d-block d-xs-none" /> */}
+     
           </a>
 
           <div className="ml-auto">
