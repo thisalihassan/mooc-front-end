@@ -4,13 +4,10 @@ export const subHiddenBreakpoint = 1440;
 export const menuHiddenBreakpoint = 768;
 export const defaultLocale = "en";
 export const defaultSearch = "Course";
-export const localeOptions = [
-  { id: "en", name: "English" },
-  { id: "ur", name: "Urdu" },
-];
 export const fileMaxSize = 4 * 1000 * 1000;
 export const LectureMaxSize = 100 * 1000 * 1000;
-export const fileTypes = ["docx", "ppt", "pptx", "pdf"];
+// export const fileTypes = ["docx", "ppt", "pptx", "pdf"]; for local
+export const fileTypes = ["docx", "ppt", "pptx"]; //for cloudinary
 export const ImagefileTypes = ["png", "jpg", "jpeg", "gif"];
 export const searchBy = [{ id: "User" }, { id: "Course" }];
 // export const defaultDirection = "rtl";

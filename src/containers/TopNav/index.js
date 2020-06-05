@@ -25,7 +25,6 @@ import {
   setContainerClassnames,
   clickOnMobileMenu,
   logout,
-  changeLocale,
   searchSelection,
   searchKeyword,
   GetSubscription,
@@ -45,7 +44,6 @@ class TopNav extends Component {
     this.menuButtonClick = this.menuButtonClick.bind(this);
     this.mobileMenuButtonClick = this.mobileMenuButtonClick.bind(this);
     this.search = this.search.bind(this);
-    this.handleChangeLocale = this.handleChangeLocale.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.searchBy = this.handleDocumentClickSearch = this.handleDocumentClickSearch.bind(
       this
@@ -153,9 +151,7 @@ class TopNav extends Component {
   handleSearchChange = (selection) => {
     this.props.searchSelection(selection);
   };
-  handleChangeLocale = (locale) => {
-    this.props.changeLocale(locale);
-  };
+
   isInFullScreen = () => {
     return (
       (document.fullscreenElement && document.fullscreenElement !== null) ||
@@ -407,30 +403,6 @@ class TopNav extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
-          {/* <div className="d-inline-block">
-            <UncontrolledDropdown className="ml-2">
-              <DropdownToggle
-                caret
-                color="light"
-                size="sm"
-                className="language-button"
-              >
-                <span className="name">{this.props.locale.toUpperCase()}</span>
-              </DropdownToggle>
-              <DropdownMenu className="mt-3" right>
-                {localeOptions.map((l) => {
-                  return (
-                    <DropdownItem
-                      onClick={() => this.handleChangeLocale(l.id)}
-                      key={l.id}
-                    >
-                      {l.name}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </div> */}
 
           <a className="navbar-logo" href="/">
             <Image className="Logo" src={Logo}></Image>
@@ -695,7 +667,6 @@ export default injectIntl(
     setContainerClassnames,
     clickOnMobileMenu,
     logout,
-    changeLocale,
     searchSelection,
     searchKeyword,
     GetSubscription,

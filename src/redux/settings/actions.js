@@ -1,18 +1,7 @@
-import {
-  CHANGE_LOCALE,
-  SEARCH,
-  SEARCH_BY,
-  SEARCH_KEYWORD,
-} from "../../constants/actionTypes";
+import { SEARCH, SEARCH_BY, SEARCH_KEYWORD } from "../../constants/actionTypes";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
-export const changeLocale = (locale) => {
-  localStorage.setItem("currentLanguage", locale);
-  return {
-    type: CHANGE_LOCALE,
-    payload: locale,
-  };
-};
+
 export const searchSelection = (searchBy) => {
   localStorage.setItem("searchBy", searchBy);
   return {
