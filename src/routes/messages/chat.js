@@ -23,7 +23,6 @@ class ChatApplication extends Component {
     this.state = {
       menuActiveTab: "contacts",
       messageInput: "",
-      searchKey: "",
       socket: null,
       room: "",
       name: "",
@@ -183,11 +182,6 @@ class ChatApplication extends Component {
         })
       );
     }
-  }
-  handleSearchContact(keyword) {
-    this.setState({
-      searchKey: keyword,
-    });
   }
 
   handleChatInputChange(e) {
@@ -384,17 +378,6 @@ class ChatApplication extends Component {
 
         <ApplicationMenu>
           <CardHeader className="pl-0 pr-0"></CardHeader>
-
-          <div className="pt-4 pr-4 pl-4 pb-0">
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control rounded"
-                value={this.state.searchKey}
-                onChange={(e) => this.handleSearchContact(e.target.value)}
-              />
-            </div>
-          </div>
 
           <PerfectScrollbar
             option={{ suppressScrollX: true, wheelPropagation: false }}

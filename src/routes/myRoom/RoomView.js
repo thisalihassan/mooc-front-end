@@ -39,7 +39,6 @@ class ChatApplication extends Component {
     this.state = {
       menuActiveTab: "members",
       messageInput: "",
-      searchKey: "",
       socket: null,
       courseID: null,
       room: "",
@@ -62,9 +61,6 @@ class ChatApplication extends Component {
       this.setState({
         menuActiveTab: tab,
       });
-    }
-    if (tab === "messages") {
-      this.handleSearchContact("");
     }
   }
   async componentDidMount() {
@@ -148,8 +144,6 @@ class ChatApplication extends Component {
           }
         });
       this.state.socket = socket;
-      // const values = queryString.parse(this.props.location.search);
-      // const myroom = values.id;
       const name = this.props.user.name;
       const check = true;
       // const id = this.props.user._id;
@@ -243,11 +237,6 @@ class ChatApplication extends Component {
         })
       );
     }
-  }
-  handleSearchContact(keyword) {
-    this.setState({
-      searchKey: keyword,
-    });
   }
 
   handleChatInputChange(e) {
@@ -552,18 +541,6 @@ class ChatApplication extends Component {
                 </NavItem>
               </Nav>
             </CardHeader>
-
-            <div className="pt-4 pr-4 pl-4 pb-0">
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control rounded"
-                  value={this.state.searchKey}
-                  onChange={(e) => this.handleSearchContact(e.target.value)}
-                  placeholder="Search"
-                />
-              </div>
-            </div>
 
             <TabContent
               activeTab={this.state.menuActiveTab}
