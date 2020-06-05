@@ -8,15 +8,10 @@ import setAuthToken from "./util/setAuthToken";
 import App from "./containers/App";
 import store from "./redux/store";
 import { loadUser } from "./redux/actions";
-// import io from 'socket.io-client';
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
-// let socket;
-// if (!socket) {
-//   socket = io(':3500');
-// }
-// console.log(socket.id);
+
 const MainApp = () => {
   useEffect(() => {
     store.dispatch(loadUser(null));

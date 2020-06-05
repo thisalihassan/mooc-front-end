@@ -122,8 +122,8 @@ class TopNav extends Component {
     });
     this.state.socket.on("VideoCallRinging", async (mess) => {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
-      console.log(this.state.listCourse);
-      if (match && this.props.user._id == mess.userid) {
+      console.log(match);
+      if (match && this.props.user._id !== mess.userid) {
         this.setState({
           callModel: true,
           callerID:

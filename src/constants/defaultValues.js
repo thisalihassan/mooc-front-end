@@ -8,6 +8,9 @@ export const fileMaxSize = 4 * 1000 * 1000;
 export const LectureMaxSize = 100 * 1000 * 1000;
 // export const fileTypes = ["docx", "ppt", "pptx", "pdf"]; for local
 export const fileTypes = ["docx", "ppt", "pptx"]; //for cloudinary
+export const VidFile = ["mp4", "ogg"];
+// export const LectureFiles = ["docx", "ppt", "pptx", "pdf", "mp4", "ogg"];
+export const LectureFiles = ["docx", "ppt", "pptx", "mp4", "ogg"]; //for cloudinry
 export const ImagefileTypes = ["png", "jpg", "jpeg", "gif"];
 export const searchBy = [{ id: "User" }, { id: "Course" }];
 // export const defaultDirection = "rtl";
@@ -16,8 +19,7 @@ export const URL = "https://moocback.herokuapp.com/";
 export const BURL = "https://cryptic-peak-22806.herokuapp.com/";
 export const SURL = "https://moocsreensharing.herokuapp.com/";
 export const AURL = "https://moocaudio.herokuapp.com/";
-export const VidFile = ["mp4", "ogg"];
-export const LectureFiles = ["docx", "ppt", "pptx", "pdf", "mp4", "ogg"];
+
 export const config = {
   headers: {
     "Content-Type": "application/json",

@@ -16,7 +16,7 @@ import "../assets/css/sass/themes/gogo.light.blue.scss";
 import "react-table/react-table.css";
 import Alert from "../routes/alert/alert";
 import AuthRoute from "../privateRoute";
-const App = ({ location, match, auth, locale }) => {
+const App = ({ location, match, locale }) => {
   const currentAppLocale = AppLocale[locale];
   if (
     location.pathname === "/" ||
@@ -50,12 +50,11 @@ App.propTypes = {
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
 };
-const mapStateToProps = ({ auth, settings }) => {
+const mapStateToProps = ({ settings }) => {
   const { locale } = settings;
-  return { auth, locale };
+  return { locale };
 };
 
 export default withRouter(connect(mapStateToProps, {})(App));
