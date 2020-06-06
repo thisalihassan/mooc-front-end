@@ -261,58 +261,64 @@ class ChatApplication extends Component {
       const userid = this.props.user._id;
       const tuple = { room, name, userid, courseID };
       this.state.socket.emit("VideoCall", tuple, () =>
-        this.setState({
-          modalOpen: !this.state.modalOpen,
-          videoURL:
-            BURL +
-            "?id=" +
-            this.state.room +
-            "&u=" +
-            user._id +
-            "&s=video&q=start",
-        })
+        setTimeout(
+          function () {
+            this.setState({
+              modalOpen: !this.state.modalOpen,
+              videoURL:
+                BURL +
+                "?id=" +
+                this.state.room +
+                "&u=" +
+                user._id +
+                "&s=video&q=start",
+            });
+          }.bind(this),
+          3000
+        )
       );
     }
   }
 
   startScreenBroadcasting(owner, user) {
     if (owner._id === user._id) {
-      const myroom = this.state.room;
-      const check = true;
-      const id = this.props.user._id;
-      const msg = "Screen broadcasting has started";
-      const tuple = { myroom, msg, check, id };
-      this.state.socket.emit("sendMessage", tuple, () =>
-        this.setState({
-          messageInput: "",
-        })
+      const room = this.state.room;
+      const courseID = this.state.courseID;
+      const name = this.state.roomName;
+      const userid = this.props.user._id;
+      const tuple = { room, name, userid, courseID };
+      this.state.socket.emit("ScreenSharing", tuple, () =>
+        setTimeout(
+          function () {
+            this.setState({
+              modalOpen: !this.state.modalOpen,
+              videoURL:
+                SURL + "?id=" + this.state.room + "&u=" + user._id + "&q=start",
+            });
+          }.bind(this),
+          3000
+        )
       );
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-      });
-      this.setState({
-        videoURL: SURL + "?id=" + this.state.room,
-      });
     }
   }
   startAudioCall(owner, user) {
     if (owner._id === user._id) {
-      const myroom = this.state.room;
-      const check = true;
-      const id = this.props.user._id;
-      const msg = "Audio Call has started";
-      const tuple = { myroom, msg, check, id };
-      this.state.socket.emit("sendMessage", tuple, () =>
-        this.setState({
-          messageInput: "",
-        })
+      const room = this.state.room;
+      const courseID = this.state.courseID;
+      const name = this.state.roomName;
+      const userid = this.props.user._id;
+      const tuple = { room, name, userid, courseID };
+      this.state.socket.emit("AudioCall", tuple, () =>
+        setTimeout(
+          function () {
+            this.setState({
+              modalOpen: !this.state.modalOpen,
+              videoURL: AURL + "?id=" + this.state.room + "&u=start",
+            });
+          }.bind(this),
+          3000
+        )
       );
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-      });
-      this.setState({
-        videoURL: AURL + "?id=" + this.state.room + "&u=start",
-      });
     }
   }
   deletConversation(e) {

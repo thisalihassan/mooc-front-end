@@ -91,7 +91,7 @@ class SearchPages extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12" className="mb-4">
-            {!isLoading &&
+            {!isLoading && this.state.items.length ? (
               this.state.items.map((item, i) => {
                 return (
                   <div
@@ -100,7 +100,7 @@ class SearchPages extends Component {
                   >
                     {this.props.searchBy === "User" && (
                       <NavLink
-                        to={`/app/profile/userprofile/?id=${item._id}`}
+                        to={`/app/profile/userprofile/?profile=${item._id}`}
                         className="w-40 w-sm-100"
                       >
                         <Card className="d-flex flex-row mb-4">
@@ -160,7 +160,10 @@ class SearchPages extends Component {
                     {rowLength !== i + 1 && <Separator />}
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <div>No search found</div>
+            )}
           </Colxx>
           <Pagination
             currentPage={

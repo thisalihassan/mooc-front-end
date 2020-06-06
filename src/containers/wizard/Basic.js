@@ -24,21 +24,22 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { quillFormats, quillModules } from "../editors";
-import { FormikReactSelect } from "../../components/FormikFields";
+import Select from "react-select";
 const options = [
-  { value: "Business", label: "Business" },
-  { value: "Design", label: "Design" },
-  { value: "Music", label: "Music" },
-  { value: "Photography", label: "Photography" },
+  { value: "Business", label: "Business", id: 0 },
+  { value: "Design", label: "Design", id: 1 },
+  { value: "Music", label: "Music", id: 2 },
+  { value: "Photography", label: "Photography", id: 3 },
   {
     value: "Programming and Development",
     label: "Programming and Development",
+    id: 4,
   },
-  { value: "Data Science", label: "Data Science" },
-  { value: "Artificial Intelligence", label: "Artificial Intelligence" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Accounting", label: "Accounting" },
-  { value: "IT and Software", label: "IT and Software" },
+  { value: "Data Science", label: "Data Science", id: 5 },
+  { value: "Artificial Intelligence", label: "Artificial Intelligence", id: 6 },
+  { value: "Marketing", label: "Marketing", id: 7 },
+  { value: "Accounting", label: "Accounting", id: 8 },
+  { value: "IT and Software", label: "IT and Software", id: 9 },
 ];
 
 export class AddCourse extends Component {
@@ -216,22 +217,20 @@ export class AddCourse extends Component {
                       <br></br>
                       <br></br>
                       <label htmlFor="roll">Category</label>
-                      <FormikReactSelect
-                        name="category"
-                        value={this.state.category}
-                        dont={true}
+                      <Select
+                        name="select"
                         options={options}
-                        onChange={(e) => this.setState({ category: e.value })}
-                      />
+                        value={this.state.category}
+                        className="form-control"
+                        onChange={(e) => this.setState({ category: e })}
+                      ></Select>
+
                       <br></br>
                       <br></br>
                       <Label>Related Tags</Label>
                       <TagsInput
                         value={this.state.tags}
                         onChange={this.handleTagChange}
-                        inputProps={{
-                          placeholder: "form-component",
-                        }}
                       />
                       <br></br>
                       <br></br>

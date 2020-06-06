@@ -137,7 +137,26 @@ class TopNav extends Component {
         });
       }
     });
-
+    this.state.socket.on("ScreenShareCall", async (mess) => {
+      const match = this.state.listCourse.find((u) => u === mess.courseID);
+      if (match && this.props.user._id !== mess.userid) {
+        this.setState({
+          callModel: true,
+          callerID: SURL + "?id=" + mess.room + "&q=join",
+          callerName: mess.name,
+        });
+      }
+    });
+    this.state.socket.on("AudioCallRinging", async (mess) => {
+      const match = this.state.listCourse.find((u) => u === mess.courseID);
+      if (match && this.props.user._id !== mess.userid) {
+        this.setState({
+          callModel: true,
+          callerID: AURL + "?id=" + mess.room + "&u=join",
+          callerName: mess.name,
+        });
+      }
+    });
     if (this.state.notifications !== prevState.notifications) {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
@@ -612,7 +631,12 @@ class TopNav extends Component {
             </ModalBody>
             <ModalFooter>
               <Button
-                onClick={() => this.setState({ callStarted: true })}
+                onClick={() =>
+                  this.setState({
+                    callStarted: true,
+                    callModel: !this.state.callModel,
+                  })
+                }
                 className="btn btn-outline-primary"
               >
                 Accept
