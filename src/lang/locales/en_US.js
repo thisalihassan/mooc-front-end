@@ -1,12 +1,3 @@
-/* Gogo Language Texts
-
-Table of Contents
-
-01.General
-02.User Login, Logout, Register
-03.Menu
-04.Error Page
-*/
 export default {
   /* 01.General */
   "general.copyright": "MOOC",
@@ -154,6 +145,7 @@ export default {
   "menu.NotificationCenter": "Announcements",
   "announcement.add-new": "Add",
   "todo.add-new-title": "Add New Announcement",
+  "form-component": "TagsInput",
   "form-components.date": "Select course",
   "form-components.announce": "Write your announcement",
   "survey.cancel": "Cancel",

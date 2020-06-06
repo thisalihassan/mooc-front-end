@@ -6,7 +6,6 @@ import {
   CardBody,
   Button,
   Badge,
-  CardTitle,
   CardSubtitle,
   CardText,
   CardImg,
@@ -14,7 +13,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Table,
 } from "reactstrap";
 import moment from "moment";
 import { Dropdown } from "react-bootstrap";
@@ -191,7 +189,7 @@ class TheProfile extends React.Component {
                   </tbody>
                 </Table>
               </p> */}
-              <h6>
+              {/* <h6>
                 <IntlMessages id="pages.contact" />
               </h6>
               <div className="social-icons">
@@ -212,7 +210,7 @@ class TheProfile extends React.Component {
                     </NavLink>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </CardBody>
           </Card>
         </Colxx>
