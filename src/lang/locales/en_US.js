@@ -1,3 +1,5 @@
+import TagsInput from "react-tagsinput";
+
 /* Gogo Language Texts
 
 Table of Contents
@@ -154,6 +156,7 @@ export default {
   "menu.NotificationCenter": "Announcements",
   "announcement.add-new": "Add",
   "todo.add-new-title": "Add New Announcement",
+  "form-component": "TagsInput",
   "form-components.date": "Select course",
   "form-components.announce": "Write your announcement",
   "survey.cancel": "Cancel",

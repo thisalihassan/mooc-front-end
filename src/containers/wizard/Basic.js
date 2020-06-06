@@ -213,8 +213,7 @@ export class AddCourse extends Component {
                         </InputGroup>
                       </row>
                       <br></br>
-                      <br></br>
-                      <br></br>
+                 
                       <label htmlFor="roll">Category</label>
                       <FormikReactSelect
                         name="category"
@@ -230,7 +229,7 @@ export class AddCourse extends Component {
                         value={this.state.tags}
                         onChange={this.handleTagChange}
                         inputProps={{
-                          placeholder: "form-component",
+                          // placeholder: "form-component",
                         }}
                       />
                       <br></br>

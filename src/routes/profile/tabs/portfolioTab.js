@@ -191,7 +191,7 @@ class TheProfile extends React.Component {
                   </tbody>
                 </Table>
               </p> */}
-              <h6>
+              {/* <h6>
                 <IntlMessages id="pages.contact" />
               </h6>
               <div className="social-icons">
@@ -212,7 +212,7 @@ class TheProfile extends React.Component {
                     </NavLink>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </CardBody>
           </Card>
         </Colxx>

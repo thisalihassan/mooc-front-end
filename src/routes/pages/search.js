@@ -100,7 +100,7 @@ class SearchPages extends Component {
                   >
                     {this.props.searchBy === "User" && (
                       <NavLink
-                        to={`/app/profile/userprofile/?id=${item._id}`}
+                      to={`/app/profile/userprofile/?profile=${item._id}`}
                         className="w-40 w-sm-100"
                       >
                         <Card className="d-flex flex-row mb-4">
