@@ -114,7 +114,7 @@ class ProfilePortfolio extends Component {
             </Nav>
 
             <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId="1">
+              <TabPane  tabId="1">
                 {profile ? (
                   <PortfolioTab
                     skills={profile.skills}

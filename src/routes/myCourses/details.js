@@ -475,7 +475,7 @@ export class DetailsPages extends Component {
               <br></br>
               <Row>
                 <Colxx xxs="12" xl="8" className="col-left">
-                  <Card className="mb-4">
+                  <Card className="mb-4" >
                     <CardImg
                       id="courseDetails"
                       src={courseimg}

@@ -15,13 +15,13 @@ const ImageListView = ({ product, collect }) => {
   return (
     <Colxx sm="6" lg="4" xl="3" className="mb-3" key={product.id}>
       <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
-        <Card>
+        <Card className="course" id="course">
           <div className="position-relative">
             <NavLink
               to={`/app/mycourses/courseView/?id=${product._id}`}
               className="w-40 w-sm-100"
             >
-              <CardImg top alt={product.title} src={product.pic} />
+              <CardImg className=".card-img-details" top alt={product.title} src={product.pic} />
             </NavLink>
           </div>
           <CardBody>

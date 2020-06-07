@@ -89,8 +89,8 @@ class ThumbListPages extends Component {
           <Colxx lg="1"></Colxx>
 
           <Colxx xxs="12" lg="10">
-            <Card>
-              <CardHeader>
+            <Card className="big" id="big"> 
+              <CardHeader >
                 <br></br>
                 <br></br>
                 <Nav tabs className="card-header-tabs " id="nav">
@@ -159,6 +159,7 @@ class ThumbListPages extends Component {
                           onChangePage={(i) => this.onChangePage(i)}
                         />
                       )}
+                      <br></br>
                     </Row>
                   </TabPane>
                 </TabContent>
