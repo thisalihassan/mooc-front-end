@@ -40,6 +40,7 @@
         "react-holder": "^1.0.0",
         "react-iframe": "^1.8.0",
         "react-intl": "^2.4.0",
+        "react-lines-ellipsis": "^0.14.1",
         "react-moment": "^0.9.6",
         "react-new-window": "^0.1.2",
         "react-perfect-scrollbar": "^1.1.1",

@@ -1,3 +1,4 @@
+import Holder from "react-holder";
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -41,6 +42,8 @@ import VideoPlayer from "../../components/VideoPlayer";
 import "video.js/dist/video-js.css";
 import UserCardBasic from "../../components/cards/UserCardBasic";
 import ProfileCard from "../../components/Profile/ProfileCard";
+import LinesEllipsis from "react-lines-ellipsis";
+import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import {
   URL,
   config,
@@ -55,6 +58,7 @@ import {
   getRooms,
 } from "../../redux/actions";
 import Rating from "../../components/Rating";
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 export class DetailsPages extends Component {
   constructor(props) {
     super(props);
@@ -149,6 +153,11 @@ export class DetailsPages extends Component {
       id = values.id;
       let body = JSON.stringify({ id });
       await axios
+        .post(URL + "api/recomendation/likecourses", body, config)
+        .then((res) => {
+          this.setState({ relatedcourses: res.data.courses });
+        });
+      await axios
         .post(URL + "api/Courses/mycourse", body, config)
         .then((res) => {
           this.props.getProfileById(res.data.user);
@@ -193,6 +202,7 @@ export class DetailsPages extends Component {
         this.setState({ runTime: false });
         let roll = this.props.user.roll;
         const body = JSON.stringify({ id, roll });
+
         await axios
           .post(URL + "api/subscribe/getCoursefollowers", body, config)
           .then((res) => {
@@ -1062,6 +1072,53 @@ export class DetailsPages extends Component {
                       <CardTitle>
                         <IntlMessages id="pages.similar-projects" />
                       </CardTitle>
+                      {this.state.relatedcourses.map((blogItem, index) => {
+                        return (
+                          <div
+                            className={
+                              "d-flex flex-row " +
+                              (index === this.state.relatedcourses.length - 1
+                                ? ""
+                                : "mb-3")
+                            }
+                            key={index}
+                          >
+                            <div>
+                              <Link
+                                to={
+                                  "/app/mycourses/courseView/?id=" +
+                                  blogItem._id
+                                }
+                                target="_blank"
+                              >
+                                <img
+                                  src={blogItem.pic}
+                                  alt="img caption"
+                                  className="list-thumbnail border-0"
+                                />
+                              </Link>
+                            </div>
+                            <div className="pl-3 pt-2 list-item-heading-container">
+                              <Link
+                                to={
+                                  "/app/mycourses/courseView/?id=" +
+                                  blogItem._id
+                                }
+                                target="_blank"
+                              >
+                                <ResponsiveEllipsis
+                                  className="list-item-heading"
+                                  text={blogItem.name}
+                                  maxLine="4"
+                                  trimRight={true}
+                                  basedOn="words"
+                                  component="h5"
+                                />
+                              </Link>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </CardBody>
                   </Card>
                 </Colxx>
@@ -1081,7 +1138,13 @@ const mapStateToProps = (state) => {
   const { subscribed } = state.subscribtion;
   const { userProfile } = state.profile;
   const { rooms, room } = state.room;
-  return { user, userProfile, subscribed, rooms, room };
+  return {
+    user,
+    userProfile,
+    subscribed,
+    rooms,
+    room,
+  };
 };
 
 export default injectIntl(
