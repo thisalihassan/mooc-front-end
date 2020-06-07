@@ -162,7 +162,8 @@ class ThumbListPages extends Component {
                   </TabPane>
                   <TabPane tabId="3">
                     <Row>
-                      {this.props.topcourses &&
+                      {!this.props.toploading ? (
+                        this.props.topcourses &&
                         this.props.topcourses.map((product) => {
                           return (
                             <ImageListView
@@ -172,7 +173,10 @@ class ThumbListPages extends Component {
                               collect={collect}
                             />
                           );
-                        })}
+                        })
+                      ) : (
+                        <div className="loading"></div>
+                      )}
                     </Row>
                   </TabPane>
                 </TabContent>
@@ -188,7 +192,13 @@ class ThumbListPages extends Component {
 const mapStateToProps = ({ auth, subscribtion }) => {
   const { user } = auth;
   const { courses } = subscribtion.subscribed;
-  const { recommendation, recloading, subloading, topcourses } = subscribtion;
+  const {
+    recommendation,
+    recloading,
+    subloading,
+    topcourses,
+    toploading,
+  } = subscribtion;
   return {
     recommendation,
     courses,
@@ -196,6 +206,7 @@ const mapStateToProps = ({ auth, subscribtion }) => {
     recloading,
     subloading,
     topcourses,
+    toploading,
   };
 };
 export default connect(mapStateToProps, {
