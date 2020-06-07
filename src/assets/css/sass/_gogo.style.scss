@@ -51,6 +51,14 @@ Table of Contents
 */
 
 /* 00.Variables and Imports */
+#big{
+  padding-left: 50px;
+  padding-right: 50px;
+}
+#nav{
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
 #z {
   max-width: 645px;
   max-height: 300px;
@@ -86,8 +94,11 @@ Table of Contents
 //   object-fit: cover;
 // }
 #course {
-  min-height: 320px;
-  max-height: 320px;
+  min-height: 280px;
+  max-height: 280px;
+  min-width: 240px;
+  max-width: 240px;
+  
 
   @include respond-below(xs) {
     padding: 1.25rem;
@@ -513,12 +524,12 @@ p {
   }
 
   button {
-    border-color: $secondary-color;
-    color: $secondary-color;
+    border-color: #dd243d;
+    color: #dd243d;
 
     &:hover {
-      background-color: $theme-color-1;
-      border-color: $theme-color-1;
+      background-color: #dd243d;
+      border-color: #dd243d;
       color: $button-text-color;
     }
   }
@@ -526,9 +537,9 @@ p {
   .btn-outline-dark:not(:disabled):not(.disabled):active,
   .btn-outline-dark:not(:disabled):not(.disabled).active,
   .show > .btn-outline-dark.dropdown-toggle {
-    background-color: $theme-color-1;
-    border-color: $theme-color-1;
-    color: $button-text-color;
+    background-color: #dd243d;
+    border-color: #dd243d;
+    color: #dd243d;
   }
 
   .view-icon {
@@ -607,7 +618,7 @@ p {
 /* 02.Buttons */
 
 button {
-  color: $primary-color;
+  color: #dd243d;
   outline: initial !important;
 }
 
@@ -721,7 +732,7 @@ button {
 .dropdown-item:active {
   color: $button-text-color;
   text-decoration: none;
-  background-color: $theme-color-1;
+  background-color: darken(#dd243d, 12%);
 }
 
 .dropdown-divider {
@@ -731,8 +742,8 @@ button {
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-  background-color: darken($theme-color-1, 12%);
-  border-color: darken($theme-color-1, 12%);
+  background-color: darken(#dd243d, 12%);
+  border-color: darken(#dd243d, 12%);
   color: $button-text-color;
 }
 
@@ -759,15 +770,15 @@ button {
 .btn-primary.btn-primary-gradient {
   background: linear-gradient(
     to right,
-    $theme-color-1,
-    darken($theme-color-1, 15%)
+    #dd243d,
+    darken(#dd243d, 15%)
   );
 
   &:hover {
     background: linear-gradient(
       to right,
-      $theme-color-1,
-      darken($theme-color-1, 8%)
+      #dd243d,
+      darken(#dd243d, 8%)
     );
   }
 }
@@ -777,8 +788,8 @@ button {
 .show > .btn-primary-gradient.dropdown-toggle {
   background: linear-gradient(
     to right,
-    $theme-color-1,
-    darken($theme-color-1, 15%)
+    #dd243d,
+    darken(#dd243d, 15%)
   );
 }
 
@@ -1132,12 +1143,19 @@ button {
   }
 }
 
+.icon-button:hover{
+  
+  background-color: darken(#dd243d, 10%);
+border-color: #dd243d;
+}
 .icon-button {
   padding: 0;
   font-size: 14px;
   width: 34px;
   height: 34px;
   line-height: 34px;
+  background-color: #dd243d;
+  border-color: #dd243d;
 
   &.large {
     width: 44px;
@@ -1549,6 +1567,7 @@ button {
   transform: initial;
 }
 
+
 .nav-tabs.separator-tabs .nav-link {
   border: initial;
   padding-top: 1rem;
@@ -1561,18 +1580,22 @@ button {
   letter-spacing: 0.5px;
   color: $secondary-color;
 }
+.nav-tabs .nav-link.active{
+  color: #dd243d;
+}
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   border: initial;
   position: relative;
-  color: $theme-color-1;
+  color: #457B9D;
 }
 
 .nav-tabs .nav-link:hover,
 .nav-tabs .nav-link:focus {
   border: initial;
-  color: $theme-color-1;
+  color: #dd243d;
+  font-weight: bold;
 }
 
 /* 08.Carousel */
@@ -2902,7 +2925,7 @@ main {
   height: 170px;
   align-items: center;
   object-fit: cover;
-  width: 228px;
+  width: 240px;
 }
 
 .card-img-fluid {
@@ -2951,7 +2974,7 @@ main {
   padding: 1.3rem;
   right: 0;
   top: 0;
-
+  
   @include respond-below(xs) {
     padding: 0.35rem;
   }
@@ -5083,6 +5106,7 @@ input:-webkit-autofill {
 }
 
 /* 23.Navs */
+
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: $foreground-color;
@@ -8185,6 +8209,7 @@ i.large-icon {
 
   .icon-button {
     text-align: center;
+  
   }
 
   .ReactTable .rt-resizer {
@@ -8784,7 +8809,9 @@ i.large-icon {
     .card-img-details {
       width: 100%;
       height: 100%;
+      position: center;
       object-fit: cover;
+     
     }
     #okayimgh {
       width: 100%;

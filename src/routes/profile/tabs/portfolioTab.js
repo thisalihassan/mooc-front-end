@@ -221,7 +221,7 @@ class TheProfile extends React.Component {
                       <div className="position-relative">
                         <div className="position-absolute card-top-buttons">
                           <Dropdown>
-                            <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
+                            <Dropdown.Toggle className="icon-button" ></Dropdown.Toggle>
 
                             <Dropdown.Menu>
                               <Dropdown.Item
