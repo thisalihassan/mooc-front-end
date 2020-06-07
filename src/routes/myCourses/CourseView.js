@@ -16,7 +16,11 @@ import { NavLink } from "react-router-dom";
 import Pagination from "../../components/pages/Pagination";
 import ImageListView from "../../components/pages/ImageListView";
 import { connect } from "react-redux";
-import { GetSubscription } from "../../redux/actions";
+import {
+  GetSubscription,
+  GetTopCourses,
+  GetRecommendation,
+} from "../../redux/actions";
 function collect(props) {
   return { data: props.data };
 }
@@ -29,12 +33,12 @@ class ThumbListPages extends Component {
       activeTab: "1",
       currentPage: 1,
       totalPage: 1,
-      selectedItems: [],
-      isLoading: false,
     };
   }
   componentDidMount() {
     this.props.GetSubscription();
+    this.props.GetRecommendation();
+    this.props.GetTopCourses();
   }
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
@@ -44,15 +48,13 @@ class ThumbListPages extends Component {
     }
   }
   onChangePage = (page) => {
-    this.setState(
-      {
-        currentPage: page,
-      },
-      () => this.dataListRender()
-    );
+    this.setState({
+      currentPage: page,
+    });
   };
 
   render() {
+    console.log(this.props.topcourses);
     return (
       <Fragment>
         <Row>
@@ -111,7 +113,8 @@ class ThumbListPages extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
-                      {this.props.courses &&
+                      {!this.props.subloading ? (
+                        this.props.courses &&
                         this.props.courses.map((product) => {
                           return (
                             <ImageListView
@@ -121,14 +124,58 @@ class ThumbListPages extends Component {
                               collect={collect}
                             />
                           );
-                        })}
+                        })
+                      ) : (
+                        <div className="loading"></div>
+                      )}
 
                       {this.props.courses && (
                         <Pagination
                           currentPage={this.state.currentPage}
-                          totalPage={this.props.courses.length / 12}
+                          totalPage={this.props.courses.length / 8}
                           onChangePage={(i) => this.onChangePage(i)}
                         />
+                      )}
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <Row>
+                      {!this.props.recloading ? (
+                        this.props.recommendation ? (
+                          this.props.recommendation.map((product) => {
+                            return (
+                              <ImageListView
+                                key={product.id}
+                                user={this.props.user}
+                                product={product}
+                                collect={collect}
+                              />
+                            );
+                          })
+                        ) : (
+                          <div>You don't have any recommendations</div>
+                        )
+                      ) : (
+                        <div className="loading"></div>
+                      )}
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="3">
+                    <Row>
+                      {!this.props.toploading ? (
+                        this.props.topcourses &&
+                        this.props.topcourses.map((product) => {
+                          return (
+                            <ImageListView
+                              key={product.id}
+                              user={this.props.user}
+                              product={product}
+                              collect={collect}
+                            />
+                          );
+                        })
+                      ) : (
+                        <div className="loading"></div>
                       )}
                     </Row>
                   </TabPane>
@@ -145,9 +192,25 @@ class ThumbListPages extends Component {
 const mapStateToProps = ({ auth, subscribtion }) => {
   const { user } = auth;
   const { courses } = subscribtion.subscribed;
+  const {
+    recommendation,
+    recloading,
+    subloading,
+    topcourses,
+    toploading,
+  } = subscribtion;
   return {
+    recommendation,
     courses,
     user,
+    recloading,
+    subloading,
+    topcourses,
+    toploading,
   };
 };
-export default connect(mapStateToProps, { GetSubscription })(ThumbListPages);
+export default connect(mapStateToProps, {
+  GetSubscription,
+  GetTopCourses,
+  GetRecommendation,
+})(ThumbListPages);

@@ -24,7 +24,6 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { URL, config } from "../../../constants/defaultValues";
-
 class TheProfile extends React.Component {
   static propTypes = {
     skills: PropTypes.array,
@@ -32,6 +31,7 @@ class TheProfile extends React.Component {
     user: PropTypes.object,
     major: PropTypes.string,
     education: PropTypes.array,
+    myCourses: PropTypes.array,
   };
 
   constructor(props) {
@@ -40,7 +40,6 @@ class TheProfile extends React.Component {
     this.state = {
       modal: false,
       upload: "api/auth/avatar",
-      myCourses: [],
     };
   }
   toggle = () => {
@@ -60,15 +59,6 @@ class TheProfile extends React.Component {
     await axios.delete(URL + "api/Courses/delete/" + id, {}, config);
 
     this.props.history.push("/");
-  }
-
-  async componentDidMount() {
-    if (this.props.user && this.props.user._id) {
-      let id = this.props.user._id;
-      const body = JSON.stringify({ id });
-      const res = await axios.post(URL + "api/Courses/mycourses", body, config);
-      this.setState({ myCourses: res.data });
-    }
   }
 
   render() {
@@ -217,8 +207,8 @@ class TheProfile extends React.Component {
 
         <Colxx xxs="12" lg="8" className="mb-4 col-right">
           <Row>
-            {this.state.myCourses ? (
-              this.state.myCourses.map((course) => {
+            {this.props.myCourses ? (
+              this.props.myCourses.map((course) => {
                 return (
                   <Colxx
                     xxs="12"
