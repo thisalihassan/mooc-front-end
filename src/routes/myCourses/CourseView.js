@@ -192,13 +192,7 @@ class ThumbListPages extends Component {
 const mapStateToProps = ({ auth, subscribtion }) => {
   const { user } = auth;
   const { courses } = subscribtion.subscribed;
-  const {
-    recommendation,
-    recloading,
-    subloading,
-    topcourses,
-    toploading,
-  } = subscribtion;
+  const { recommendation, recloading, subloading, topcourses } = subscribtion;
   return {
     recommendation,
     courses,
@@ -206,7 +200,6 @@ const mapStateToProps = ({ auth, subscribtion }) => {
     recloading,
     subloading,
     topcourses,
-    toploading,
   };
 };
 export default connect(mapStateToProps, {
