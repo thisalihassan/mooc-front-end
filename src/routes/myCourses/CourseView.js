@@ -162,8 +162,7 @@ class ThumbListPages extends Component {
                   </TabPane>
                   <TabPane tabId="3">
                     <Row>
-                      {!this.props.toploading ? (
-                        this.props.topcourses &&
+                      {this.props.topcourses &&
                         this.props.topcourses.map((product) => {
                           return (
                             <ImageListView
@@ -173,10 +172,7 @@ class ThumbListPages extends Component {
                               collect={collect}
                             />
                           );
-                        })
-                      ) : (
-                        <div className="loading"></div>
-                      )}
+                        })}
                     </Row>
                   </TabPane>
                 </TabContent>
