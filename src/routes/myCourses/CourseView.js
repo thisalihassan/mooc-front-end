@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import Pagination from "../../components/pages/Pagination";
 import ImageListView from "../../components/pages/ImageListView";
 import { connect } from "react-redux";
+import ReactGA from "react-ga";
 import {
   GetSubscription,
   GetTopCourses,
@@ -36,6 +37,15 @@ class ThumbListPages extends Component {
     };
   }
   componentDidMount() {
+    if (localStorage.userid) {
+      const trackingId = "UA-168654871-1";
+      ReactGA.initialize(trackingId);
+      ReactGA.set({
+        userId: localStorage.userid,
+      });
+    }
+    ReactGA.set({ page: this.props.location.pathname });
+    ReactGA.pageview(this.props.location.pathname);
     this.props.GetSubscription();
     this.props.GetRecommendation();
     this.props.GetTopCourses();
@@ -62,8 +72,8 @@ class ThumbListPages extends Component {
           <Colxx lg="1"></Colxx>
 
           <Colxx xxs="12" lg="10">
-            <Card className="big" id="big"> 
-              <CardHeader >
+            <Card className="big" id="big">
+              <CardHeader>
                 <br></br>
                 <br></br>
                 <Nav tabs className="card-header-tabs " id="nav">

@@ -12,6 +12,7 @@ import { getCurrentProfile, GetSubscription } from "../../redux/actions";
 import PortfolioTab from "./tabs/portfolioTab";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import ReactGA from "react-ga";
 import { URL, config } from "../../constants/defaultValues";
 class ProfilePortfolio extends Component {
   constructor(props) {
@@ -38,6 +39,15 @@ class ProfilePortfolio extends Component {
     this.props.GetSubscription();
   }
   async componentDidUpdate() {
+    if (localStorage.userid) {
+      const trackingId = "UA-168654871-1";
+      ReactGA.initialize(trackingId);
+      ReactGA.set({
+        userId: localStorage.userid,
+      });
+    }
+    ReactGA.set({ page: this.props.location.pathname });
+    ReactGA.pageview(this.props.location.pathname);
     if (this.props.user && this.props.user.roll === "admin") {
       this.props.history.push("/app/admin/visitors");
     }

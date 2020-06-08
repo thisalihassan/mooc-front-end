@@ -44,6 +44,7 @@ import UserCardBasic from "../../components/cards/UserCardBasic";
 import ProfileCard from "../../components/Profile/ProfileCard";
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
+import ReactGA from "react-ga";
 import {
   URL,
   config,
@@ -151,6 +152,15 @@ export class DetailsPages extends Component {
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
       id = values.id;
+      if (localStorage.userid) {
+        const trackingId = "UA-168654871-1";
+        ReactGA.initialize(trackingId);
+        ReactGA.set({
+          userId: localStorage.userid,
+        });
+      }
+      ReactGA.set({ page: this.props.location.pathname + "" + id });
+      ReactGA.pageview(this.props.location.pathname + "" + id);
       let body = JSON.stringify({ id });
       await axios
         .post(URL + "api/recomendation/likecourses", body, config)
@@ -484,7 +494,7 @@ export class DetailsPages extends Component {
               <br></br>
               <Row>
                 <Colxx xxs="12" xl="8" className="col-left">
-                  <Card className="mb-4" >
+                  <Card className="mb-4">
                     <CardImg
                       id="courseDetails"
                       src={courseimg}
