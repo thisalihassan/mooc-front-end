@@ -32,7 +32,6 @@ export const GetTopCourses = () => async (dispatch) => {
 };
 export const GetSimilarCourses = (body) => async (dispatch) => {
   try {
-    console.log("Hereerere");
     const res = await axios.post(
       URL + "api/recomendation/likecourses",
       body,
