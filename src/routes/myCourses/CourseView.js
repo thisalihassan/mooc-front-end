@@ -70,7 +70,6 @@ class ThumbListPages extends Component {
   };
 
   render() {
-    console.log(this.props.topcourses);
     return (
       <Fragment>
         <Row>

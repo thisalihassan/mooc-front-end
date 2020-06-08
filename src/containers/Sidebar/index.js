@@ -362,6 +362,21 @@ class Sidebar extends Component {
           <NavItem
             className={classnames({
               active:
+                (this.state.selectedParentMenu === "Trending" &&
+                  this.state.viewingParentMenu === "") ||
+                this.state.viewingParentMenu === "Trending",
+            })}
+          >
+            <NavLink to="/app/admin/trending">
+              <i className="iconsmind-Student-Hat" />{" "}
+              <IntlMessages id="menu.trending" />
+            </NavLink>
+          </NavItem>
+        )}
+        {roll === "admin" && (
+          <NavItem
+            className={classnames({
+              active:
                 (this.state.selectedParentMenu === "complaints" &&
                   this.state.viewingParentMenu === "") ||
                 this.state.viewingParentMenu === "complaints",

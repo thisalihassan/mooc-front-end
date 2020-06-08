@@ -79,7 +79,7 @@ class ProfilePortfolio extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12">
-            <h1>Welcome {user && user.name}</h1>
+            {/* <h1>Welcome {user && user.name}</h1> */}
             <Nav tabs className="separator-tabs ml-0 mb-5">
               <NavItem>
                 <NavLink

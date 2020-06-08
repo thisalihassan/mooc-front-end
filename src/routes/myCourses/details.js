@@ -43,7 +43,7 @@ import "video.js/dist/video-js.css";
 import UserCardBasic from "../../components/cards/UserCardBasic";
 import ProfileCard from "../../components/Profile/ProfileCard";
 import LinesEllipsis from "react-lines-ellipsis";
-import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
+import RelatedCourse from "../../components/CourseVertical";
 import ReactGA from "react-ga";
 import uuid from "uuid";
 import {
@@ -60,7 +60,6 @@ import {
   getRooms,
 } from "../../redux/actions";
 import Rating from "../../components/Rating";
-const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 export class DetailsPages extends Component {
   constructor(props) {
     super(props);
@@ -307,7 +306,6 @@ export class DetailsPages extends Component {
     };
     const res = await axios.post(URL + "lecturefiles", files, configg);
     const fileNames = files2;
-    console.log(fileNames);
     files = res.data;
     const id = this.state.course._id;
     const lecture = values.lecture;
@@ -372,7 +370,6 @@ export class DetailsPages extends Component {
         vidType: "video/mp4",
       });
     } else {
-      console.log(item);
       this.setState({
         video: item,
         vidType: "video/ogg",
@@ -1083,60 +1080,16 @@ export class DetailsPages extends Component {
                       </p>
                     </CardBody>
                   </Card>
-                  <Card className="mb-4">
-                    <CardBody>
-                      <CardTitle>
-                        <IntlMessages id="pages.similar-projects" />
-                      </CardTitle>
-                      {this.state.relatedcourses.map((blogItem, index) => {
-                        return (
-                          <div
-                            className={
-                              "d-flex flex-row " +
-                              (index === this.state.relatedcourses.length - 1
-                                ? ""
-                                : "mb-3")
-                            }
-                            key={index}
-                          >
-                            <div>
-                              <Link
-                                to={
-                                  "/app/mycourses/courseView/?id=" +
-                                  blogItem._id
-                                }
-                                target="_blank"
-                              >
-                                <img
-                                  src={blogItem.pic}
-                                  alt="img caption"
-                                  className="list-thumbnail border-0"
-                                />
-                              </Link>
-                            </div>
-                            <div className="pl-3 pt-2 list-item-heading-container">
-                              <Link
-                                to={
-                                  "/app/mycourses/courseView/?id=" +
-                                  blogItem._id
-                                }
-                                target="_blank"
-                              >
-                                <ResponsiveEllipsis
-                                  className="list-item-heading"
-                                  text={blogItem.name}
-                                  maxLine="4"
-                                  trimRight={true}
-                                  basedOn="words"
-                                  component="h5"
-                                />
-                              </Link>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </CardBody>
-                  </Card>
+                  {this.state.relatedcourses.length > 0 && (
+                    <Card className="mb-4">
+                      <CardBody>
+                        <CardTitle>
+                          <IntlMessages id="pages.similar-projects" />
+                        </CardTitle>
+                        <RelatedCourse courses={this.state.relatedcourses} />
+                      </CardBody>
+                    </Card>
+                  )}
                 </Colxx>
               </Row>
             </Colxx>

@@ -31,6 +31,7 @@ export default {
   "menu.survey": "Survey",
   "menu.todo": "Todo",
   "menu.search": "Search",
+  "menu.trending": "Trending Courses",
   "menu.rooms": "My Rooms",
   "menu.addCourse": "Add Course",
   "menu.mySubscribers": "My Subscribers",

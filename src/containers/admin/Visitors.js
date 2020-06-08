@@ -1,25 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import SalesChartCard from "../../components/charts/SalesChartCard";
-import ReactTable from "react-table";
-import {
-  Row,
-  Nav,
-  NavItem,
-  TabContent,
-  TabPane,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Button
-} from "reactstrap";
-import classnames from "classnames";
+import VisulizeVisitors from "../../components/charts/VisulizeVisitors";
+import { Row, Card } from "reactstrap";
 import { Colxx } from "../../components/CustomBootstrap";
 
 import IntlMessages from "../../util/IntlMessages";
 
-class ProfilePortfolio extends Component {
+class Visitors extends Component {
   render() {
     return (
       <Fragment>
@@ -31,7 +17,7 @@ class ProfilePortfolio extends Component {
             <Card>
               <Row>
                 <Colxx xxs="12" className="mb-4">
-                  <SalesChartCard />
+                  <VisulizeVisitors />
                 </Colxx>
               </Row>
             </Card>
@@ -41,4 +27,4 @@ class ProfilePortfolio extends Component {
     );
   }
 }
-export default ProfilePortfolio;
+export default Visitors;

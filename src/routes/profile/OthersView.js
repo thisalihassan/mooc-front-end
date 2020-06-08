@@ -156,7 +156,6 @@ class OthersProfile extends React.Component {
     );
   }
   render() {
-    const { messages } = this.props.intl;
     return (
       <Row>
         {this.state.modalOpen && (
