@@ -45,6 +45,7 @@ import ProfileCard from "../../components/Profile/ProfileCard";
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import ReactGA from "react-ga";
+import uuid from "uuid";
 import {
   URL,
   config,
@@ -159,8 +160,13 @@ export class DetailsPages extends Component {
           userId: localStorage.userid,
         });
       }
-      ReactGA.set({ page: this.props.location.pathname + "" + id });
-      ReactGA.pageview(this.props.location.pathname + "" + id);
+      if (!localStorage.userid) {
+        localStorage.setItem("userid", uuid.v4());
+      }
+      this.props.history.listen((location) => {
+        ReactGA.set({ page: location.pathname });
+        ReactGA.pageview(location.pathname);
+      });
       let body = JSON.stringify({ id });
       await axios
         .post(URL + "api/recomendation/likecourses", body, config)

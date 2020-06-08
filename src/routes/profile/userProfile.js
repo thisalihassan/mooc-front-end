@@ -13,6 +13,7 @@ import PortfolioTab from "./tabs/portfolioTab";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import ReactGA from "react-ga";
+import uuid from "uuid";
 import { URL, config } from "../../constants/defaultValues";
 class ProfilePortfolio extends Component {
   constructor(props) {
@@ -46,8 +47,13 @@ class ProfilePortfolio extends Component {
         userId: localStorage.userid,
       });
     }
-    ReactGA.set({ page: this.props.location.pathname });
-    ReactGA.pageview(this.props.location.pathname);
+    if (!localStorage.userid) {
+      localStorage.setItem("userid", uuid.v4());
+    }
+    this.props.history.listen((location) => {
+      ReactGA.set({ page: location.pathname });
+      ReactGA.pageview(location.pathname);
+    });
     if (this.props.user && this.props.user.roll === "admin") {
       this.props.history.push("/app/admin/visitors");
     }

@@ -17,6 +17,7 @@ import Pagination from "../../components/pages/Pagination";
 import ImageListView from "../../components/pages/ImageListView";
 import { connect } from "react-redux";
 import ReactGA from "react-ga";
+import uuid from "uuid";
 import {
   GetSubscription,
   GetTopCourses,
@@ -44,8 +45,13 @@ class ThumbListPages extends Component {
         userId: localStorage.userid,
       });
     }
-    ReactGA.set({ page: this.props.location.pathname });
-    ReactGA.pageview(this.props.location.pathname);
+    if (!localStorage.userid) {
+      localStorage.setItem("userid", uuid.v4());
+    }
+    this.props.history.listen((location) => {
+      ReactGA.set({ page: location.pathname });
+      ReactGA.pageview(location.pathname);
+    });
     this.props.GetSubscription();
     this.props.GetRecommendation();
     this.props.GetTopCourses();

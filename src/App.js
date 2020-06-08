@@ -10,7 +10,6 @@ import store from "./redux/store";
 import ReactGA from "react-ga";
 import { loadUser } from "./redux/actions";
 import uuid from "uuid";
-import queryString from "query-string";
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 if (localStorage.token) {
@@ -28,14 +27,8 @@ if (localStorage.userid) {
 }
 
 history.listen((location) => {
-  const values = queryString.parse(location.search);
-  if (location.pathname === "/app/mycourses/courseView/") {
-    ReactGA.set({ page: location.pathname + "" + values });
-    ReactGA.pageview(location.pathname + "" + values);
-  } else {
-    ReactGA.set({ page: location.pathname });
-    ReactGA.pageview(location.pathname);
-  }
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
   console.log(location.pathname);
 });
 
