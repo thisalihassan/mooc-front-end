@@ -15,7 +15,7 @@ export const ImagefileTypes = ["png", "jpg", "jpeg", "gif"];
 export const searchBy = [{ id: "User" }, { id: "Course" }];
 // export const defaultDirection = "rtl";
 export const searchPath = "/app/layouts/search";
-export const URL = "http://localhost:5000/";
+export const URL = "http://moocback.herokuapp.com/";
 export const BURL = "https://moocvideobroadcasting.herokuapp.com/";
 export const SURL = "https://moocsreensharing.herokuapp.com/";
 export const AURL = "https://moocaudio.herokuapp.com/";
@@ -23,7 +23,7 @@ export const AURL = "https://moocaudio.herokuapp.com/";
 export const config = {
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:5000/",
+    "Access-Control-Allow-Origin": "http://moocback.herokuapp.com/",
     "Access-Control-Allow-Headers":
       "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization",
   },
