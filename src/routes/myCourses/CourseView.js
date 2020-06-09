@@ -8,12 +8,11 @@ import {
   Card,
   CardHeader,
 } from "reactstrap";
-
+import Pagination from "../../components/pages/Pagination";
 import classnames from "classnames";
 import { Colxx } from "../../components/CustomBootstrap";
 import IntlMessages from "../../util/IntlMessages";
 import { NavLink } from "react-router-dom";
-import Pagination from "../../components/pages/Pagination";
 import ImageListView from "../../components/pages/ImageListView";
 import { connect } from "react-redux";
 import ReactGA from "react-ga";
@@ -35,6 +34,9 @@ class ThumbListPages extends Component {
       activeTab: "1",
       currentPage: 1,
       totalPage: 1,
+      perPage: 6,
+      start: 0,
+      end: 6,
     };
   }
   componentDidMount() {
@@ -60,16 +62,24 @@ class ThumbListPages extends Component {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab,
+        currentPage: 1,
+        start: 0,
+        end: 6,
       });
     }
   }
-  onChangePage = (page) => {
+  onChangePage(page) {
+    const start = page * (page + 1);
+    const div = start / 6;
     this.setState({
       currentPage: page,
+      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
+      end: page == 1 ? 6 : start + 7,
     });
-  };
+  }
 
   render() {
+    const { start, end, currentPage } = this.state;
     return (
       <Fragment>
         <Row>
@@ -130,7 +140,7 @@ class ThumbListPages extends Component {
                     <Row>
                       {!this.props.subloading ? (
                         this.props.courses &&
-                        this.props.courses.map((product) => {
+                        this.props.courses.slice(start, end).map((product) => {
                           return (
                             <ImageListView
                               key={product.id}
@@ -146,8 +156,8 @@ class ThumbListPages extends Component {
 
                       {this.props.courses && (
                         <Pagination
-                          currentPage={this.state.currentPage}
-                          totalPage={this.props.courses.length / 8}
+                          currentPage={currentPage}
+                          totalPage={this.props.courses.length / 6}
                           onChangePage={(i) => this.onChangePage(i)}
                         />
                       )}
@@ -158,7 +168,40 @@ class ThumbListPages extends Component {
                     <Row>
                       {!this.props.recloading ? (
                         this.props.recommendation ? (
-                          this.props.recommendation.map((product) => {
+                          this.props.recommendation
+                            .slice(start, end)
+                            .map((product) => {
+                              return (
+                                <ImageListView
+                                  key={product.id}
+                                  user={this.props.user}
+                                  product={product}
+                                  collect={collect}
+                                />
+                              );
+                            })
+                        ) : (
+                          <div>You don't have any recommendations</div>
+                        )
+                      ) : (
+                        <div className="loading"></div>
+                      )}
+                      {this.props.recommendation && (
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPage={this.props.topcourses.length / 6}
+                          onChangePage={(i) => this.onChangePage(i)}
+                        />
+                      )}
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="3">
+                    <Row>
+                      {!this.props.toploading ? (
+                        this.props.topcourses &&
+                        this.props.topcourses
+                          .slice(start, end)
+                          .map((product) => {
                             return (
                               <ImageListView
                                 key={product.id}
@@ -168,30 +211,15 @@ class ThumbListPages extends Component {
                               />
                             );
                           })
-                        ) : (
-                          <div>You don't have any recommendations</div>
-                        )
                       ) : (
                         <div className="loading"></div>
-                      )}
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="3">
-                    <Row>
-                      {!this.props.toploading ? (
-                        this.props.topcourses &&
-                        this.props.topcourses.map((product) => {
-                          return (
-                            <ImageListView
-                              key={product.id}
-                              user={this.props.user}
-                              product={product}
-                              collect={collect}
-                            />
-                          );
-                        })
-                      ) : (
-                        <div className="loading"></div>
+                      )}{" "}
+                      {this.props.topcourses && (
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPage={this.props.topcourses.length / 6}
+                          onChangePage={(i) => this.onChangePage(i)}
+                        />
                       )}
                     </Row>
                   </TabPane>

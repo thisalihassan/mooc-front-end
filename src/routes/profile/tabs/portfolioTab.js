@@ -221,7 +221,7 @@ class TheProfile extends React.Component {
                       <div className="position-relative">
                         <div className="position-absolute card-top-buttons">
                           <Dropdown>
-                            <Dropdown.Toggle className="icon-button" ></Dropdown.Toggle>
+                            <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
                             <Dropdown.Menu>
                               <Dropdown.Item
@@ -266,7 +266,7 @@ class TheProfile extends React.Component {
                           <CardSubtitle>{course.name}</CardSubtitle>
                         </NavLink>
                         <CardText className="text-muted text-small mb-0 font-weight-light">
-                          {moment(course.date).format("'YYYY MM DD")}
+                          {moment(course.date).format("YYYY MMM DD")}
                         </CardText>
                       </CardBody>
                     </Card>

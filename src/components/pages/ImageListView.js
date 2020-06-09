@@ -10,7 +10,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { ContextMenuTrigger } from "react-contextmenu";
 import { Colxx } from "../CustomBootstrap";
-
+import moment from "moment";
 const ImageListView = ({ product, collect }) => {
   return (
     <Colxx xxs="12" lg="6" xl="4" className="mb-4" key={product.id}>
@@ -31,9 +31,10 @@ const ImageListView = ({ product, collect }) => {
           <CardBody>
             <Row>
               <CardSubtitle>{product.name}</CardSubtitle>
-
+            </Row>
+            <Row>
               <CardText className="text-muted text-small mb-0 font-weight-light">
-                {product.date}
+                {moment(product.date).format("YYYY MMM DD")}
               </CardText>
             </Row>
           </CardBody>

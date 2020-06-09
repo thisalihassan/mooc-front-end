@@ -27,7 +27,7 @@ export default class CourseVertical extends Component {
                   <NavLink to="/app/pages/details">
                     <p className="list-item-heading">{course.name}</p>
                     <div className="text-primary text-small font-weight-medium d-none d-sm-block">
-                      {moment(course.date).format("'YYYY MM DD")}
+                      {moment(course.date).format("YYYY MMM DD")}
                     </div>
                   </NavLink>
                 </div>

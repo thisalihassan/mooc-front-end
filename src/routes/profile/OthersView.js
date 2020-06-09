@@ -25,10 +25,10 @@ import { NavLink } from "react-router-dom";
 import { Nav, NavItem, TabContent, TabPane } from "reactstrap";
 import classnames from "classnames";
 import axios from "axios";
-import { URL, config } from "../../constants/defaultValues";
+import { URL, config, AURL } from "../../constants/defaultValues";
 import { getProfileById, GetSubscription } from "../../redux/actions";
-import { AURL } from "./../../constants/defaultValues";
 import { socket } from "../../containers/TopNav";
+import Pagination from "../../components/pages/Pagination";
 import NewWindow from "react-new-window";
 class OthersProfile extends React.Component {
   constructor(props) {
@@ -43,6 +43,11 @@ class OthersProfile extends React.Component {
       follower: "",
       isRported: false,
       reviews: [],
+      currentPage: 1,
+      totalPage: 1,
+      perPage: 6,
+      start: 0,
+      end: 6,
     };
   }
 
@@ -155,7 +160,17 @@ class OthersProfile extends React.Component {
       })
     );
   }
+  onChangePage(page) {
+    const start = page * (page + 1);
+    const div = start / 6;
+    this.setState({
+      currentPage: page,
+      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
+      end: page == 1 ? 6 : start + 7,
+    });
+  }
   render() {
+    const { start, end, currentPage } = this.state;
     return (
       <Row>
         {this.state.modalOpen && (
@@ -181,26 +196,6 @@ class OthersProfile extends React.Component {
                     ></img>
                     <br></br>
                     <br></br>
-
-                    {/* <div className="social-icons">
-                      <ul className="list-unstyled list-inline">
-                        <li className="list-inline-item">
-                          <NavLink to="#">
-                            <i className="simple-icon-social-facebook"></i>
-                          </NavLink>
-                        </li>
-                        <li className="list-inline-item">
-                          <NavLink to="#">
-                            <i className="simple-icon-social-twitter"></i>
-                          </NavLink>
-                        </li>
-                        <li className="list-inline-item">
-                          <NavLink to="#">
-                            <i className="simple-icon-envelope"></i>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div> */}
                   </div>
                 </Colxx>
                 <Colxx md="8" sm="8" lg="6" xxs="12">
@@ -361,58 +356,69 @@ class OthersProfile extends React.Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
-                  <div className="pl-lg-4">
-                    
-                        <Colxx md="12">
+                    <div className="pl-lg-4">
+                      <Colxx md="12">
                         <Row>
-                        {this.state.theCourses.length > 0 &&
-                          this.state.theCourses.map((course) => {
-                            return (
-                              <Colxx
-                              xxs="12"
-                              lg="6"
-                              xl="4"
-                              className="mb-4"
-                                key={course._id}
-                              >
-                                <Card className="course" id="course">
-                                  <div className="position-relative">
-                                    <NavLink
-                                      to={
-                                        "/app/mycourses/courseView/?id=" +
-                                        course._id
-                                      }
-                                      className="w-40 w-sm-100"
-                                    >
-                                      <CardImg
-                                        className=".card-img-details"
-                                        alt={course.name}
-                                        src={course.pic}
-                                      />
-                                    </NavLink>
-                                  </div>
-                                  <CardBody>
-                                    <NavLink
-                                      to={
-                                        "/app/mycourses/courseView/?id=" +
-                                        course._id
-                                      }
-                                      className="w-40 w-sm-100"
-                                    >
-                                      <CardSubtitle>{course.name}</CardSubtitle>
-                                    </NavLink>
-                                    <CardText className="text-muted text-small mb-0 font-weight-light">
-                                      {course.date}
-                                    </CardText>
-                                  </CardBody>
-                                </Card>
-                              </Colxx>
-                            );
-                          })}
-                           </Row>
-                          </Colxx>
-                         
-                     </div>
+                          {this.state.theCourses.length > 0 &&
+                            this.state.theCourses
+                              .slice(start, end)
+                              .map((course) => {
+                                return (
+                                  <Colxx
+                                    xxs="12"
+                                    lg="6"
+                                    xl="4"
+                                    className="mb-4"
+                                    key={course._id}
+                                  >
+                                    <Card className="course" id="course">
+                                      <div className="position-relative">
+                                        <NavLink
+                                          to={
+                                            "/app/mycourses/courseView/?id=" +
+                                            course._id
+                                          }
+                                          className="w-40 w-sm-100"
+                                        >
+                                          <CardImg
+                                            className=".card-img-details"
+                                            alt={course.name}
+                                            src={course.pic}
+                                          />
+                                        </NavLink>
+                                      </div>
+                                      <CardBody>
+                                        <NavLink
+                                          to={
+                                            "/app/mycourses/courseView/?id=" +
+                                            course._id
+                                          }
+                                          className="w-40 w-sm-100"
+                                        >
+                                          <CardSubtitle>
+                                            {course.name}
+                                          </CardSubtitle>
+                                        </NavLink>
+                                        <CardText className="text-muted text-small mb-0 font-weight-light">
+                                          {moment(course.date).format(
+                                            "YYYY MMM DD"
+                                          )}
+                                        </CardText>
+                                      </CardBody>
+                                    </Card>
+                                  </Colxx>
+                                );
+                              })}
+                          {this.state.theCourses.length > 0 && (
+                            <Pagination
+                              currentPage={currentPage}
+                              totalPage={this.state.theCourses.length / 6}
+                              onChangePage={(i) => this.onChangePage(i)}
+                            />
+                          )}
+                        </Row>
+                      </Colxx>
+                    </div>
                   </TabPane>
                   <TabPane tabId="2">
                     <div className="pl-lg-4">
