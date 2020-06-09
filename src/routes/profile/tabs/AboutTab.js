@@ -576,7 +576,7 @@ class Profile extends React.Component {
         <Row>
           <Col className="order-xl-1" xl="1"></Col>
           <Col className="order-xl-2" xl="10">
-            <Card className="shadow">
+            <Card className="shadow" id="rest">
               <CardHeader className="border-10">
                 <Row className="align-items-center"></Row>
               </CardHeader>
@@ -588,7 +588,7 @@ class Profile extends React.Component {
                 user ? (
                   <Form>
                     <div className="pl-lg-4">
-                      <h3>User information</h3>
+                      <h3>User Information</h3>
 
                       <Row>
                         <Col lg="4">
@@ -653,23 +653,26 @@ class Profile extends React.Component {
                           </FormGroup>
                         </Col>
                       </Row>
-                      <Button onClick={this.informationSection}>
-                        Edit Information
-                      </Button>
-
-                      {!this.state.information && (
-                        <Button
-                          className="float-right"
-                          onClick={(e) => this.submitInformation(e)}
-                        >
-                          Submit
+                      <Row>
+                        <Button onClick={this.informationSection} id="ms">
+                          Edit Information
                         </Button>
-                      )}
+                        <span />
+                        {!this.state.information && (
+                          <Button
+                            id="mr"
+                            className="float-right"
+                            onClick={(e) => this.submitInformation(e)}
+                          >
+                            Submit
+                          </Button>
+                        )}
+                      </Row>
                     </div>
                     <hr className="my-4" />
                     {/* Address */}
                     <div className="pl-lg-4">
-                      <h3>Education information</h3>
+                      <h3>Education Information</h3>
                       <Row>
                         <Col md="12">
                           <Table>
@@ -705,6 +708,7 @@ class Profile extends React.Component {
                                       >
                                         Delete
                                       </Link>{" "}
+                                      {"    |    "}{" "}
                                       <Link
                                         to={
                                           "/app/profile/profile/?e=" + edu._id
@@ -768,6 +772,7 @@ class Profile extends React.Component {
                                       >
                                         Delete
                                       </Link>{" "}
+                                      {" | "}{" "}
                                       <Link
                                         to={
                                           "/app/profile/profile/?w=" + work._id
@@ -802,10 +807,9 @@ class Profile extends React.Component {
                             <label
                               className="form-control-label"
                               htmlFor="skills"
-                            >
-                              My Skills
-                            </label>
+                            ></label>
                             <TagsInput
+                              id="TagsInput"
                               value={this.state.skills}
                               onChange={this.handleTagChange}
                             />

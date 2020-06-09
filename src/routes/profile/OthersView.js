@@ -182,7 +182,7 @@ class OthersProfile extends React.Component {
                     <br></br>
                     <br></br>
 
-                    <div className="social-icons">
+                    {/* <div className="social-icons">
                       <ul className="list-unstyled list-inline">
                         <li className="list-inline-item">
                           <NavLink to="#">
@@ -200,7 +200,7 @@ class OthersProfile extends React.Component {
                           </NavLink>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </Colxx>
                 <Colxx md="8" sm="8" lg="6" xxs="12">
@@ -361,20 +361,21 @@ class OthersProfile extends React.Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
-                    <Colxx xxs="12" lg="8" className="mb-4 col-right">
-                      <Row>
+                  <div className="pl-lg-4">
+                    
+                        <Colxx md="12">
+                        <Row>
                         {this.state.theCourses.length > 0 &&
                           this.state.theCourses.map((course) => {
                             return (
                               <Colxx
-                                xxs="12"
-                                lg="6"
-                                xl="4"
-                                okayimgh
-                                className="mb-4"
+                              xxs="12"
+                              lg="6"
+                              xl="4"
+                              className="mb-4"
                                 key={course._id}
                               >
-                                <Card id="othercourse">
+                                <Card className="course" id="course">
                                   <div className="position-relative">
                                     <NavLink
                                       to={
@@ -384,7 +385,7 @@ class OthersProfile extends React.Component {
                                       className="w-40 w-sm-100"
                                     >
                                       <CardImg
-                                        id="okayimgh"
+                                        className=".card-img-details"
                                         alt={course.name}
                                         src={course.pic}
                                       />
@@ -408,8 +409,10 @@ class OthersProfile extends React.Component {
                               </Colxx>
                             );
                           })}
-                      </Row>
-                    </Colxx>
+                           </Row>
+                          </Colxx>
+                         
+                     </div>
                   </TabPane>
                   <TabPane tabId="2">
                     <div className="pl-lg-4">
