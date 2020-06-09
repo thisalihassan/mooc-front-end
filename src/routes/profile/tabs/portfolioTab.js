@@ -23,6 +23,7 @@ import DropzoneExample from "../../../components/DropzoneExample";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
+import Pagination from "../../../components/pages/Pagination";
 import { URL, config } from "../../../constants/defaultValues";
 class TheProfile extends React.Component {
   static propTypes = {
@@ -40,6 +41,11 @@ class TheProfile extends React.Component {
     this.state = {
       modal: false,
       upload: "api/auth/avatar",
+      currentPage: 1,
+      totalPage: 1,
+      perPage: 6,
+      start: 0,
+      end: 6,
     };
   }
   toggle = () => {
@@ -60,7 +66,15 @@ class TheProfile extends React.Component {
 
     this.props.history.push("/");
   }
-
+  onChangePage(page) {
+    const start = page * (page + 1);
+    const div = start / 6;
+    this.setState({
+      currentPage: page,
+      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
+      end: page == 1 ? 6 : start + 7,
+    });
+  }
   render() {
     let profileImage;
     let imageName;
@@ -69,7 +83,7 @@ class TheProfile extends React.Component {
       imageName =
         "https://res.cloudinary.com/mooc/image/upload/v1590922028/profile/2020-05-31T10:47:02.070Z.jpg";
     }
-
+    const { start, end, currentPage } = this.state;
     return (
       <Row>
         <Colxx xxs="12" lg="4" className="mb-4 col-left">
@@ -110,15 +124,6 @@ class TheProfile extends React.Component {
             />
 
             <CardBody>
-              {/* <p className="text-muted text-small mb-2">
-                <IntlMessages id="pages.AboutMe" />
-              </p>
-              <p className="mb-3">{this.props.description}</p>
-              <p className="text-muted text-small mb-2">
-                <IntlMessages id="pages.status" />
-              </p>
-              <p className="mb-3">{this.props.major}</p> */}
-
               <h6>
                 <IntlMessages id="pages.rating" />
               </h6>
@@ -126,81 +131,6 @@ class TheProfile extends React.Component {
               <div className="mb-3">
                 <Rating total={5} rating={3} interactive={false} />
               </div>
-
-              {/* <p className="text-muted text-small mb-2">
-                <IntlMessages id="pages.skills" />
-              </p>
-              <p className="mb-3">
-                <p className="d-sm-inline-block mb-1">
-                  {this.props.skills &&
-                    this.props.skills.map(skill => (
-                      <Badge
-                        key={skill}
-                        color="outline-secondary mb-1 mr-1"
-                        pill
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                </p>
-              </p> */}
-              {/* <p className="mb-3">
-                <Table>
-                  <thead>
-                    <tr>
-                      <th className="text-muted text-small mb-2">
-                        Field of Study
-                      </th>
-                      <th className="text-muted text-small mb-2">
-                        Current Education
-                      </th>
-                      <th className="text-muted text-small mb-2">From</th>
-                      <th className="text-muted text-small mb-2">To</th>
-                    </tr>
-                  </thead>{" "}
-                  <tbody>
-                    {this.props.education &&
-                      this.props.education.map(edu => (
-                        <tr key={edu._id}>
-                          <td className="text-muted text-small mb-2">
-                            {edu.fieldofstudy}
-                          </td>
-                          <td className="text-muted text-small mb-2">
-                            {edu.current}
-                          </td>
-                          <td className="text-muted text-small mb-1">
-                            {moment(edu.from).format("YYYY-MM-DD")}
-                          </td>
-                          <td className="text-muted text-small mb-1">
-                            {moment(edu.to).format("YYYY-MM-DD")}
-                          </td>{" "}
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </p> */}
-              {/* <h6>
-                <IntlMessages id="pages.contact" />
-              </h6>
-              <div className="social-icons">
-                <ul className="list-unstyled list-inline">
-                  <li className="list-inline-item">
-                    <NavLink to="#">
-                      <i className="simple-icon-social-facebook"></i>
-                    </NavLink>
-                  </li>
-                  <li className="list-inline-item">
-                    <NavLink to="#">
-                      <i className="simple-icon-social-twitter"></i>
-                    </NavLink>
-                  </li>
-                  <li className="list-inline-item">
-                    <NavLink to="#">
-                      <i className="simple-icon-social-instagram"></i>
-                    </NavLink>
-                  </li>
-                </ul>
-              </div> */}
             </CardBody>
           </Card>
         </Colxx>
@@ -208,7 +138,7 @@ class TheProfile extends React.Component {
         <Colxx xxs="12" lg="8" className="mb-4 col-right">
           <Row>
             {this.props.myCourses ? (
-              this.props.myCourses.map((course) => {
+              this.props.myCourses.slice(start, end).map((course) => {
                 return (
                   <Colxx
                     xxs="12"
@@ -275,6 +205,13 @@ class TheProfile extends React.Component {
               })
             ) : (
               <div className="loading"></div>
+            )}
+            {this.props.myCourses && (
+              <Pagination
+                currentPage={currentPage}
+                totalPage={this.props.myCourses.length / 6}
+                onChangePage={(i) => this.onChangePage(i)}
+              />
             )}
           </Row>
         </Colxx>
