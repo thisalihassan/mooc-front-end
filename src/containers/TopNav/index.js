@@ -111,14 +111,17 @@ class TopNav extends Component {
     }
 
     this.state.socket.on("CallRinging", (mess) => {
+      console.log(mess.userid);
+      console.log(this.props.user._id);
       if (mess.userid == this.props.user._id) {
+        console.log(mess);
         this.setState({
           callModel: true,
           callerID: mess.URL,
           callerName: mess.name,
         });
+        document.getElementById("call-sound").play();
       }
-      console.log(mess);
     });
     this.state.socket.on("VideoCallRinging", async (mess) => {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
@@ -135,6 +138,7 @@ class TopNav extends Component {
             "&s=video&q=join",
           callerName: mess.name,
         });
+        document.getElementById("call-sound").play();
       }
     });
     this.state.socket.on("ScreenShareCall", async (mess) => {
@@ -145,6 +149,7 @@ class TopNav extends Component {
           callerID: SURL + "?id=" + mess.room + "&q=join",
           callerName: mess.name,
         });
+        document.getElementById("call-sound").play();
       }
     });
     this.state.socket.on("AudioCallRinging", async (mess) => {
@@ -155,15 +160,18 @@ class TopNav extends Component {
           callerID: AURL + "?id=" + mess.room + "&u=join",
           callerName: mess.name,
         });
+        document.getElementById("call-sound").play();
       }
     });
     if (this.state.notifications !== prevState.notifications) {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
-        if (mess !== this.state.notifications[0])
+        if (mess !== this.state.notifications[0]) {
+          document.getElementById("notification-sound").play();
           this.setState((prevState) => ({
             notifications: [mess, ...prevState.notifications],
           }));
+        }
       });
     }
   }
@@ -331,6 +339,7 @@ class TopNav extends Component {
     });
   };
   callModel = () => {
+    document.getElementById("call-sound").pause();
     this.setState({ callModel: !this.state.callModel });
   };
   render() {
@@ -378,6 +387,10 @@ class TopNav extends Component {
               <rect x="0.5" y="15.5" width="25" height="1" />
             </svg>
           </NavLink>
+          <audio
+            id="notification-sound"
+            src="https://res.cloudinary.com/mooc/video/upload/v1591720583/assests/got-it-done_hnuqqt.mp3"
+          />
 
           <div className="search" data-search-path="/app/layouts/search">
             <Input
@@ -621,22 +634,23 @@ class TopNav extends Component {
             </ModalHeader>
             <ModalBody>
               <div>
-                <img src="https://res.cloudinary.com/mooc/image/upload/v1591019665/assests/CompetentWindingFrigatebird-small_qdoqsi.gif" />
                 <audio
                   loop={true}
-                  autoPlay={true}
+                  id="call-sound"
                   src="https://res.cloudinary.com/mooc/video/upload/v1591019505/assests/skype-incoming-call_f59uo2.mp3"
                 />
+                <img src="https://res.cloudinary.com/mooc/image/upload/v1591019665/assests/CompetentWindingFrigatebird-small_qdoqsi.gif" />
               </div>
             </ModalBody>
             <ModalFooter>
               <Button
-                onClick={() =>
+                onClick={() => {
+                  document.getElementById("call-sound").pause();
                   this.setState({
                     callStarted: true,
                     callModel: !this.state.callModel,
-                  })
-                }
+                  });
+                }}
                 className="btn btn-outline-primary"
               >
                 Accept

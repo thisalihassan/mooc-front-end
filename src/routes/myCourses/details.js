@@ -117,6 +117,7 @@ export class DetailsPages extends Component {
 
   async subscribeCourse(e) {
     e.preventDefault();
+    document.getElementById("subscribecourse").disabled = true;
     const id = this.state.course._id;
     const body = JSON.stringify({ id });
     await axios.post(URL + "api/subscribe/", body, config);
@@ -125,6 +126,7 @@ export class DetailsPages extends Component {
 
   async unsubscribeCourse(e) {
     e.preventDefault();
+    document.getElementById("unsubscribecourse").disabled = true;
     const id = this.state.course._id;
     const body = JSON.stringify({ id });
     await axios.post(URL + "api/subscribe/unsubscribecourse", body, config);
@@ -974,8 +976,8 @@ export class DetailsPages extends Component {
                     this.props.user.roll.toLowerCase() !== "admin" &&
                     this.props.user._id !== this.state.course.user && (
                       <Button
-                        color="primary"
                         size="md"
+                        id="subscribecourse"
                         onClick={(e) => this.subscribeCourse(e)}
                       >
                         SUBSCRIBE
@@ -985,8 +987,8 @@ export class DetailsPages extends Component {
                   <div>
                     {this.state.subscribed && (
                       <Button
-                        color="primary "
                         size="md"
+                        id="unsubscribecourse"
                         onClick={(e) => this.unsubscribeCourse(e)}
                       >
                         UNSUBSCRIBE

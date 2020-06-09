@@ -1,14 +1,11 @@
 import React, { Fragment, Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import "./App.css";
-import Logo from "./logoMOOC.png";
-import { FormikReactSelect } from "../../components/FormikFields";
 import Log from "./login.svg";
-import { Formik, Form, Field } from "formik";
-import { Image, Dropdown, DropdownButton } from "react-bootstrap";
-import { Input, FormGroup, Button } from "reactstrap";
+import { Formik, Form } from "formik";
+import { Image } from "react-bootstrap";
+import { Input, Button, NavItem } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../../redux/actions";
 export function validate(values) {
@@ -37,7 +34,7 @@ export class Register extends Component {
       email: "",
       password: "",
       roll: "",
-      cpassword: ""
+      cpassword: "",
     };
   }
 
@@ -102,7 +99,7 @@ export class Register extends Component {
                 email: "",
                 password: "",
                 cpassword: "",
-                roll: ""
+                roll: "",
               }}
               onSubmit={this.handleSubmit}
             >
@@ -114,7 +111,7 @@ export class Register extends Component {
                       placeholder="User Name"
                       type="text"
                       name="name"
-                      onChange={val => {
+                      onChange={(val) => {
                         this.setState({ name: val.target.value });
                       }}
                     />
@@ -130,7 +127,7 @@ export class Register extends Component {
                       placeholder="Email"
                       type="email"
                       name="email"
-                      onChange={val => {
+                      onChange={(val) => {
                         this.setState({ email: val.target.value });
                       }}
                     />
@@ -141,7 +138,7 @@ export class Register extends Component {
                       placeholder="Password"
                       type="password"
                       name="password"
-                      onChange={val => {
+                      onChange={(val) => {
                         this.setState({ password: val.target.value });
                       }}
                     />
@@ -157,7 +154,7 @@ export class Register extends Component {
                       placeholder="Password"
                       type="password"
                       name="cpassword"
-                      onChange={val => {
+                      onChange={(val) => {
                         this.setState({ cpassword: val.target.value });
                       }}
                     />
@@ -173,7 +170,7 @@ export class Register extends Component {
                       type="select"
                       name="roll"
                       defaultValue="Student"
-                      onChange={val => {
+                      onChange={(val) => {
                         this.setState({ roll: val.target.value });
                       }}
                     >
@@ -191,7 +188,7 @@ export class Register extends Component {
                     <Button className="btn-lg btn-block" type="submit">
                       Create Account
                     </Button>
-                    <small>Already Have an Account?</small>
+                    <Link to="/login">Already Have an Account?</Link>
                   </div>
                 </Form>
               )}
@@ -210,6 +207,6 @@ const mapStateToProps = ({ auth }) => {
 
 export default withRouter(
   connect(mapStateToProps, {
-    register
+    register,
   })(Register)
 );

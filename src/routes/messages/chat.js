@@ -8,6 +8,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { connect } from "react-redux";
 import moment from "moment";
 import AttachmentModel from "./AttachmentModel";
+import NewWindow from "react-new-window";
 import {
   getProfiles,
   loadConversations,
@@ -15,7 +16,8 @@ import {
 } from "../../redux/actions";
 import io from "socket.io-client";
 import queryString from "query-string";
-import { URL } from "./../../constants/defaultValues";
+import { socket } from "../../containers/TopNav";
+import { URL, AURL } from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -192,7 +194,6 @@ class ChatApplication extends Component {
   reterieveURL = (e) => {
     const myroom = this.state.room;
     var msg = e.url + "*" + e.filename;
-    console.log(msg);
     const check = false;
     const id = this.props.user._id;
     const timeStamp = moment().format("D MMM YY HH:MM");
@@ -222,11 +223,25 @@ class ChatApplication extends Component {
       this.props.user._id,
       this.props.profile.profiles[userId].user._id,
     ];
-    console.log(myData.sort());
     // this.setState({ room: myData.sort() });
     this.joinRoom(myData.sort());
   }
-
+  startAudioCall(owner, user) {
+    const myData = [owner, user];
+    console.log(this.props.user._id);
+    console.log(myData);
+    const myroom = myData.sort();
+    const name = this.props.user.name;
+    const userid = owner;
+    const URL = AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=join";
+    const tuple = { userid, name, URL };
+    socket.emit("CallRing", tuple, () =>
+      this.setState({
+        callModal: !this.state.callModal,
+        videoURL: AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=start",
+      })
+    );
+  }
   deletConversation() {
     this.props.deleteConversation(this.state.room);
     window.location.reload();
@@ -238,6 +253,9 @@ class ChatApplication extends Component {
     return (
       <Fragment>
         <Row className="app-row">
+          {this.state.callModal && (
+            <NewWindow url={this.state.videoURL}></NewWindow>
+          )}
           <Colxx xxs="12" className="chat-app">
             {reciever && (
               <div className="d-flex flex-row chat-heading">
@@ -270,6 +288,18 @@ class ChatApplication extends Component {
                     onClick={() => this.deletConversation()}
                   >
                     Delete
+                  </Button>
+                </div>{" "}
+                <div className="float-sm-right mb-2">
+                  <Button
+                    onClick={() =>
+                      this.startAudioCall(
+                        reciever.user._id,
+                        this.props.user._id
+                      )
+                    }
+                  >
+                    <i className="simple-icon-phone" />
                   </Button>
                 </div>
               </div>

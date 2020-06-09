@@ -14,7 +14,7 @@ import {
   Container,
   Row,
   Col,
-  Table
+  Table,
 } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import { FormikDatePicker } from "../../../components/FormikFields";
@@ -30,7 +30,7 @@ import {
   UpdateEducation,
   addWork,
   deleteWork,
-  UpdateWork
+  UpdateWork,
 } from "../../../redux/actions";
 import "./aboutMe.css";
 import queryString from "query-string";
@@ -60,7 +60,7 @@ class Profile extends React.Component {
       company: "",
       position: "",
       eduId: "",
-      wid: ""
+      wid: "",
     };
     this.validate = this.validate.bind(this);
     this.validateWork = this.validateWork.bind(this);
@@ -70,7 +70,7 @@ class Profile extends React.Component {
     this.submitWork = this.submitWork.bind(this);
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ ...this.state, [name]: value });
   };
@@ -80,28 +80,28 @@ class Profile extends React.Component {
   };
 
   educationSection() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       education: !prevState.education,
       fieldofstudy: "",
       from: "",
       to: "",
       current: "",
-      eduId: ""
+      eduId: "",
     }));
   }
 
   informationSection() {
-    this.setState(prevState => ({ information: !prevState.information }));
+    this.setState((prevState) => ({ information: !prevState.information }));
   }
 
   workSection() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       work: !prevState.work,
       company: "",
       wfrom: "",
       wto: "",
       position: "",
-      wid: ""
+      wid: "",
     }));
   }
 
@@ -113,27 +113,27 @@ class Profile extends React.Component {
     if (values.d) {
       axios
         .post(URL + "api/profile/geteducation/" + values.d, {}, config)
-        .then(res => {
+        .then((res) => {
           return res.data;
         })
-        .then(data => {
+        .then((data) => {
           this.setState({
             fieldofstudy: data.education[0].fieldofstudy,
             from: data.education[0].from,
             to: data.education[0].to,
             current: data.education[0].current,
             eduId: data.education[0]._id,
-            education: false
+            education: false,
           });
           this.props.history.push("/app/profile/profile/");
         });
     } else if (values.w) {
       axios
         .post(URL + "api/profile/getwork/" + values.w, {}, config)
-        .then(res => {
+        .then((res) => {
           return res.data;
         })
-        .then(data => {
+        .then((data) => {
           console.log(data);
           this.setState({
             company: data.work[0].company,
@@ -141,7 +141,7 @@ class Profile extends React.Component {
             wto: data.work[0].to,
             position: data.work[0].position,
             wid: data.work[0]._id,
-            work: false
+            work: false,
           });
           this.props.history.push("/app/profile/profile/");
         });
@@ -155,7 +155,7 @@ class Profile extends React.Component {
     this.state.infoUpdate = true;
     this.informationSection();
   }
-  handleDescription = description => {
+  handleDescription = (description) => {
     this.setState({ description });
   };
   async submitEducation(e) {
@@ -193,7 +193,7 @@ class Profile extends React.Component {
     this.setState({ company: "", position: "", wfrom: "", wto: "" });
     this.props.getCurrentProfile();
   }
-  handleTagChange = skills => {
+  handleTagChange = (skills) => {
     this.setState({ skills });
   };
   async submitSkills(e) {
@@ -320,7 +320,7 @@ class Profile extends React.Component {
             fieldofstudy: this.state.fieldofstudy,
             current: this.state.current,
             from: null,
-            to: null
+            to: null,
           }}
           onSubmit={this.submitEducation}
         >
@@ -330,23 +330,9 @@ class Profile extends React.Component {
             isValidating,
             setFieldValue,
             setFieldTouched,
-            values
+            values,
           }) => (
             <Form className="av-tooltip tooltip-label-right">
-              {this.state.education ? (
-                <Button type="submit">Submit</Button>
-              ) : (
-                <div>
-                  <Button type="submit">Edit</Button>
-                  <Button
-                    className="float-right icon-button icon simple-icon-close"
-                    color="white"
-                    onClick={e => this.educationSection(e)}
-                  >
-                    {/* <i className="simple-icon-close"></i> */}
-                  </Button>
-                </div>
-              )}
               <Row>
                 <Col md="12">
                   <FormGroup className="form-group">
@@ -427,7 +413,21 @@ class Profile extends React.Component {
                     ) : null}
                   </FormGroup>
                 </Col>
-              </Row>
+              </Row>{" "}
+              {this.state.education ? (
+                <Button type="submit">Submit</Button>
+              ) : (
+                <div>
+                  <Button type="submit">Edit</Button>
+                  <Button
+                    className="float-right icon-button icon simple-icon-close"
+                    color="white"
+                    onClick={(e) => this.educationSection(e)}
+                  >
+                    {/* <i className="simple-icon-close"></i> */}
+                  </Button>
+                </div>
+              )}
             </Form>
           )}
         </Formik>
@@ -444,7 +444,7 @@ class Profile extends React.Component {
             company: this.state.company,
             position: this.state.position,
             wfrom: null,
-            wto: null
+            wto: null,
           }}
           onSubmit={this.submitWork}
         >
@@ -454,23 +454,9 @@ class Profile extends React.Component {
             isValidating,
             setFieldValue,
             setFieldTouched,
-            values
+            values,
           }) => (
             <Form className="av-tooltip tooltip-label-right">
-              {this.state.work ? (
-                <Button type="submit">Submit</Button>
-              ) : (
-                <div>
-                  <Button type="submit">Edit</Button>
-                  <Button
-                    className="float-right icon-button icon simple-icon-close"
-                    color="white"
-                    onClick={e => this.workSection(e)}
-                  >
-                    {/* <i className="simple-icon-close"></i> */}
-                  </Button>
-                </div>
-              )}
               <Row>
                 <Col md="12">
                   <FormGroup>
@@ -551,6 +537,20 @@ class Profile extends React.Component {
                   </FormGroup>
                 </Col>
               </Row>
+              {this.state.work ? (
+                <Button type="submit">Submit</Button>
+              ) : (
+                <div>
+                  <Button type="submit">Edit</Button>
+                  <Button
+                    className="float-right icon-button icon simple-icon-close"
+                    color="white"
+                    onClick={(e) => this.workSection(e)}
+                  >
+                    {/* <i className="simple-icon-close"></i> */}
+                  </Button>
+                </div>
+              )}
             </Form>
           )}
         </Formik>
@@ -568,7 +568,7 @@ class Profile extends React.Component {
         major: profile.major,
         skills: profile.skills,
         description: profile.description,
-        infoUpdate: false
+        infoUpdate: false,
       });
     }
     return (
@@ -589,18 +589,6 @@ class Profile extends React.Component {
                   <Form>
                     <div className="pl-lg-4">
                       <h3>User information</h3>
-                      <Button onClick={this.informationSection}>
-                        Edit Information
-                      </Button>
-
-                      {!this.state.information && (
-                        <Button
-                          className="float-right"
-                          onClick={e => this.submitInformation(e)}
-                        >
-                          Submit
-                        </Button>
-                      )}
 
                       <Row>
                         <Col lg="4">
@@ -665,6 +653,18 @@ class Profile extends React.Component {
                           </FormGroup>
                         </Col>
                       </Row>
+                      <Button onClick={this.informationSection}>
+                        Edit Information
+                      </Button>
+
+                      {!this.state.information && (
+                        <Button
+                          className="float-right"
+                          onClick={(e) => this.submitInformation(e)}
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </div>
                     <hr className="my-4" />
                     {/* Address */}
@@ -684,7 +684,7 @@ class Profile extends React.Component {
                             </thead>{" "}
                             <tbody>
                               {profile.education ? (
-                                profile.education.map(edu => (
+                                profile.education.map((edu) => (
                                   <tr key={edu._id}>
                                     <td>{edu.fieldofstudy}</td>
                                     <td>{edu.current}</td>
@@ -699,7 +699,7 @@ class Profile extends React.Component {
                                     <td>
                                       <Link
                                         to="#"
-                                        onClick={e =>
+                                        onClick={(e) =>
                                           this.deleteEducation(e, edu._id)
                                         }
                                       >
@@ -709,7 +709,7 @@ class Profile extends React.Component {
                                         to={
                                           "/app/profile/profile/?e=" + edu._id
                                         }
-                                        onClick={e =>
+                                        onClick={(e) =>
                                           this.updateEducation(e, edu._id)
                                         }
                                       >
@@ -747,7 +747,7 @@ class Profile extends React.Component {
                             </thead>{" "}
                             <tbody>
                               {profile.work ? (
-                                profile.work.map(work => (
+                                profile.work.map((work) => (
                                   <tr key={work._id}>
                                     <td>{work.company}</td>
                                     <td>{work.position}</td>
@@ -762,7 +762,7 @@ class Profile extends React.Component {
                                     <td>
                                       <Link
                                         to="#"
-                                        onClick={e =>
+                                        onClick={(e) =>
                                           this.deleteWork(e, work._id)
                                         }
                                       >
@@ -772,7 +772,7 @@ class Profile extends React.Component {
                                         to={
                                           "/app/profile/profile/?w=" + work._id
                                         }
-                                        onClick={e =>
+                                        onClick={(e) =>
                                           this.updateWork(e, work._id)
                                         }
                                       >
@@ -795,11 +795,6 @@ class Profile extends React.Component {
                     {/* Description */}
                     <div className="pl-lg-4">
                       <h3>My Skills</h3>
-
-                      <Button onClick={e => this.submitSkills(e)}>
-                        Submit
-                      </Button>
-
                       <Row>
                         <Col lg="12">
                           <br></br>
@@ -825,15 +820,14 @@ class Profile extends React.Component {
                           /> */}
                           </FormGroup>
                         </Col>
-                      </Row>
+                      </Row>{" "}
+                      <Button onClick={(e) => this.submitSkills(e)}>
+                        Submit
+                      </Button>
                     </div>
                     <hr className="my-4" />
                     <div className="pl-lg-4">
                       <h3>About me</h3>
-
-                      <Button onClick={e => this.submitDescription(e)}>
-                        Submit
-                      </Button>
 
                       <FormGroup>
                         <br></br>
@@ -858,6 +852,9 @@ class Profile extends React.Component {
                           readOnly={this.state.mydescription}
                         /> */}
                       </FormGroup>
+                      <Button onClick={(e) => this.submitDescription(e)}>
+                        Submit
+                      </Button>
                     </div>
                   </Form>
                 ) : (
@@ -872,7 +869,7 @@ class Profile extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const authUser = state.auth;
   const profile = state.profile;
   return { authUser, profile };
@@ -887,6 +884,6 @@ export default injectIntl(
     UpdateEducation,
     addWork,
     deleteWork,
-    UpdateWork
+    UpdateWork,
   })(Profile)
 );

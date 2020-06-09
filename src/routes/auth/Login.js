@@ -1,28 +1,33 @@
 import React, { Fragment, useState } from "react";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import "./App.css";
 import Logo from "./logoMOOC.png";
 import Log from "./log.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Image } from "react-bootstrap";
-import { Button, Form, FormGroup, Label, Input, NavItem } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { login } from "../../redux/actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 export const Login = ({ history, login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const { email, password } = formData;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    document.getElementById("loginUser").disabled = true;
+    const out = await login(email, password);
+    if (!out) {
+      setFormData({ email: "", password: "" });
+      document.getElementById("loginUser").disabled = false;
+    }
   };
 
   if (isAuthenticated) {
@@ -38,7 +43,7 @@ export const Login = ({ history, login, isAuthenticated }) => {
         <div className="form-wrapper">
           <Image className="Logo" src={Logo}></Image>
           <h1>WELCOME BACK!</h1>
-          <Form className="login-form" onSubmit={e => onSubmit(e)}>
+          <Form className="login-form" onSubmit={(e) => onSubmit(e)}>
             <FormGroup>
               <Label>Email</Label>
               <Input
@@ -46,7 +51,7 @@ export const Login = ({ history, login, isAuthenticated }) => {
                 type="email"
                 name="email"
                 value={email}
-                onChange={e => handleChange(e)}
+                onChange={(e) => handleChange(e)}
               />
             </FormGroup>
             <FormGroup>
@@ -56,16 +61,19 @@ export const Login = ({ history, login, isAuthenticated }) => {
                 type="password"
                 name="password"
                 value={password}
-                onChange={e => handleChange(e)}
+                onChange={(e) => handleChange(e)}
               />
             </FormGroup>
-            <Button className="btn-lg btn-block">Login</Button>
+            <Button id="loginUser" className="btn-lg btn-block">
+              Login
+            </Button>
             <div className="text-center pt-3">
-              <NavItem>
-                <Link to="/register">
-                  <h6> Or Create Account</h6>
-                </Link>
-              </NavItem>
+              <Link to="/register">
+                <h6> Or Create Account</h6>
+              </Link>
+              <Link to="/forgot">
+                <h6> Forgot your password?</h6>
+              </Link>
             </div>
           </Form>
         </div>
@@ -76,9 +84,9 @@ export const Login = ({ history, login, isAuthenticated }) => {
 Login.propTypes = {
   login: PropTypes.func,
   isAuthenticated: PropTypes.bool,
-  history: PropTypes.object
+  history: PropTypes.object,
 };
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
 });
 export default withRouter(connect(mapStateToProps, { login })(Login));

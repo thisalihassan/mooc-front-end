@@ -21,7 +21,12 @@ const ImageListView = ({ product, collect }) => {
               to={`/app/mycourses/courseView/?id=${product._id}`}
               className="w-40 w-sm-100"
             >
-              <CardImg className=".card-img-details" top alt={product.title} src={product.pic} />
+              <CardImg
+                className=".card-img-details"
+                top
+                alt={product.title}
+                src={product.pic}
+              />
             </NavLink>
           </div>
           <CardBody>
