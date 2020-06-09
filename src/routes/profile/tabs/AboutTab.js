@@ -334,10 +334,10 @@ class Profile extends React.Component {
           }) => (
             <Form className="av-tooltip tooltip-label-right">
               {this.state.education ? (
-                <Button type="submit">Submit</Button>
+                <Button type="submit" >Submit</Button>
               ) : (
                 <div>
-                  <Button type="submit">Edit</Button>
+                  <Button type="submit" >Edit</Button>
                   <Button
                     className="float-right icon-button icon simple-icon-close"
                     color="white"
@@ -576,7 +576,7 @@ class Profile extends React.Component {
         <Row>
           <Col className="order-xl-1" xl="1"></Col>
           <Col className="order-xl-2" xl="10">
-            <Card className="shadow">
+            <Card className="shadow" id="rest" >
               <CardHeader className="border-10">
                 <Row className="align-items-center"></Row>
               </CardHeader>
@@ -588,20 +588,10 @@ class Profile extends React.Component {
                 user ? (
                   <Form>
                     <div className="pl-lg-4">
-                      <h3>User information</h3>
-                      <Button onClick={this.informationSection}>
-                        Edit Information
-                      </Button>
+                      <h3>User Information</h3>
+                     
 
-                      {!this.state.information && (
-                        <Button
-                          className="float-right"
-                          onClick={e => this.submitInformation(e)}
-                        >
-                          Submit
-                        </Button>
-                      )}
-
+                    
                       <Row>
                         <Col lg="4">
                           <br></br>
@@ -665,11 +655,26 @@ class Profile extends React.Component {
                           </FormGroup>
                         </Col>
                       </Row>
+                      <Row>
+                      <Button onClick={this.informationSection} id="ms" >
+                        Edit Information
+                      </Button>
+                      <span />
+                      {!this.state.information && (
+                        <Button
+                        id="mr"
+                          className="float-right"
+                          onClick={e => this.submitInformation(e)}
+                        >
+                          Submit
+                        </Button>
+                      )}
+                      </Row>
                     </div>
                     <hr className="my-4" />
                     {/* Address */}
                     <div className="pl-lg-4">
-                      <h3>Education information</h3>
+                      <h3>Education Information</h3>
                       <Row>
                         <Col md="12">
                           <Table>
@@ -704,7 +709,7 @@ class Profile extends React.Component {
                                         }
                                       >
                                         Delete
-                                      </Link>{" "}
+                                      </Link>{" "}{"    |    "} {" "}
                                       <Link
                                         to={
                                           "/app/profile/profile/?e=" + edu._id
@@ -767,7 +772,7 @@ class Profile extends React.Component {
                                         }
                                       >
                                         Delete
-                                      </Link>{" "}
+                                      </Link>{" "}{" | "}{" "}
                                       <Link
                                         to={
                                           "/app/profile/profile/?w=" + work._id
@@ -808,9 +813,10 @@ class Profile extends React.Component {
                               className="form-control-label"
                               htmlFor="skills"
                             >
-                              My Skills
+                            
                             </label>
-                            <TagsInput
+                            <TagsInput 
+                            id="TagsInput"
                               value={this.state.skills}
                               onChange={this.handleTagChange}
                             />
