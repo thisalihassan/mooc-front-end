@@ -8,7 +8,7 @@ import {
   getQuizDetail,
   deleteQuizQuestion,
   saveSurvey,
-  findSolvedQuiz
+  findSolvedQuiz,
 } from "../../redux/actions";
 import QuizDetailCard from "../../containers/Quiz/DetailCard";
 // import axios from "axios";
@@ -23,7 +23,8 @@ class SurveyDetailApp extends Component {
       dropdownSplitOpen: false,
       actions: "",
       firstTime: true,
-      runTimes: 2
+      runTimes: 2,
+      marks: 0,
     };
   }
 
@@ -34,7 +35,7 @@ class SurveyDetailApp extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeFirstTab: tab
+        activeFirstTab: tab,
       });
     }
   }
@@ -53,14 +54,13 @@ class SurveyDetailApp extends Component {
                 {quiz && quiz.course.name}
               </span>
             </h1>
-
             <div className="float-sm-right mb-2">
               <Button
                 outline
                 className="top-right-button top-right-button-single flex-grow-1"
                 size="lg"
               >
-                Mark Quz
+                Mark Quiz
               </Button>
             </div>
 
@@ -110,7 +110,7 @@ const mapStateToProps = ({ quizzes, quizList, auth }) => {
   return {
     allSurveyItems,
     quizzes,
-    user
+    user,
   };
 };
 export default withRouter(
@@ -118,6 +118,6 @@ export default withRouter(
     getQuizDetail,
     findSolvedQuiz,
     deleteQuizQuestion,
-    saveSurvey
+    saveSurvey,
   })(SurveyDetailApp)
 );

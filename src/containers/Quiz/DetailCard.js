@@ -38,6 +38,10 @@ class DetailCard extends Component {
 
               <p className="text-muted text-small mb-2">Course</p>
               <p className="mb-3">{this.props.quiz.course.name}</p>
+              <p className="text-muted text-small mb-2">Marks</p>
+              <p className="mb-3">
+                {this.props.marks} out of {10}
+              </p>
             </CardBody>
           )}
         </Card>

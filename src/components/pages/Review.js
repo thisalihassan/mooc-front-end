@@ -41,7 +41,7 @@ class Review extends Component {
             }}
           ></div>
         </div>
-        <div className="comment-likes">
+        <div>
           <span>
             <Rating
               total={5}

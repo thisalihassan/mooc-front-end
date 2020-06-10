@@ -8,7 +8,7 @@ import {
   DropdownToggle,
   DropdownItem,
   DropdownMenu,
-  Collapse
+  Collapse,
 } from "reactstrap";
 
 import IntlMessages from "../../util/IntlMessages";
@@ -20,7 +20,7 @@ import {
   getSurveyListSearch,
   getmyCourse,
   GetSubscription,
-  selectedSurveyItemsChange
+  selectedSurveyItemsChange,
 } from "../../redux/actions";
 
 import ListItem from "../../containers/Quiz/ListItem";
@@ -43,7 +43,7 @@ class Quiz extends Component {
       title: null,
       course: null,
       autocheck: false,
-      time: 1
+      time: 1,
     };
   }
   async componentDidMount() {
@@ -53,14 +53,14 @@ class Quiz extends Component {
     if (values.id) {
       await axios
         .post(URL + "api/quiz/detailquiz/" + values.id, {}, config)
-        .then(res => {
+        .then((res) => {
           this.props.history.push("/app/myportal/quiz");
           this.setState({
             id: values.id,
             title: res.data.title,
             autocheck: res.data.autocheck,
             time: res.data.time,
-            course: { label: res.data.course.name, value: res.data.course._id }
+            course: { label: res.data.course.name, value: res.data.course._id },
           });
 
           this.toggleModal();
@@ -96,24 +96,18 @@ class Quiz extends Component {
 
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
 
   toggleSplit = () => {
-    this.setState(prevState => ({
-      dropdownSplitOpen: !prevState.dropdownSplitOpen
+    this.setState((prevState) => ({
+      dropdownSplitOpen: !prevState.dropdownSplitOpen,
     }));
   };
 
-  changeOrderBy = column => {
+  changeOrderBy = (column) => {
     this.props.getSurveyListWithOrder(column);
-  };
-
-  handleKeyPress = e => {
-    if (e.key === "Enter") {
-      this.props.getSurveyListSearch(e.target.value);
-    }
   };
 
   async deleteQuiz(id) {
@@ -130,11 +124,10 @@ class Quiz extends Component {
   render() {
     const {
       surveyItems,
-      searchKeyword,
       loading,
       orderColumn,
       orderColumns,
-      selectedItems
+      selectedItems,
     } = this.props.quizList;
     const { messages } = this.props.intl;
     const { modalOpen } = this.state;
@@ -195,34 +188,27 @@ class Quiz extends Component {
                       })}
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                    <input
-                      type="text"
-                      name="keyword"
-                      id="search"
-                      placeholder={messages["menu.search"]}
-                      defaultValue={searchKeyword}
-                      onKeyPress={e => this.handleKeyPress(e)}
-                    />
-                  </div>
                 </div>
               </Collapse>
             </div>
             <Separator className="mb-5" />
             <Row>
-              {surveyItems &&
+              {surveyItems ? (
                 surveyItems.map((item, index) => {
                   return (
                     <ListItem
                       key={`todo_item_${index}`}
                       item={item}
-                      deleteClick={id => {
+                      deleteClick={(id) => {
                         this.deleteQuiz(id);
                       }}
                       roll={this.props.user.roll}
                     />
                   );
-                })}
+                })
+              ) : (
+                <div className="loading"></div>
+              )}
             </Row>
           </Colxx>
         </Row>
@@ -236,7 +222,7 @@ class Quiz extends Component {
               time={this.state.time}
               autocheck={this.state.autocheck}
               course={this.state.course}
-              reloadModel={e => this.reloadModel(e)}
+              reloadModel={(e) => this.reloadModel(e)}
               toggleModal={this.toggleModal}
               modalOpen={modalOpen}
               courses={this.props.myCourses}
@@ -257,7 +243,7 @@ const mapStateToProps = ({ quizList, auth, course, subscribtion }) => {
     courses,
     myCourses,
     user,
-    quizList
+    quizList,
   };
 };
 export default injectIntl(
@@ -267,6 +253,6 @@ export default injectIntl(
     getSurveyListSearch,
     selectedSurveyItemsChange,
     getmyCourse,
-    GetSubscription
+    GetSubscription,
   })(Quiz)
 );

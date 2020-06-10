@@ -42,7 +42,6 @@ import VideoPlayer from "../../components/VideoPlayer";
 import "video.js/dist/video-js.css";
 import UserCardBasic from "../../components/cards/UserCardBasic";
 import ProfileCard from "../../components/Profile/ProfileCard";
-import LinesEllipsis from "react-lines-ellipsis";
 import RelatedCourse from "../../components/CourseVertical";
 import ReactGA from "react-ga";
 import uuid from "uuid";

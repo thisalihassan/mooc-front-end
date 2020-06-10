@@ -258,19 +258,18 @@ export const UpdateWork = (id, body) => async (dispatch) => {
 };
 
 export const deleteMyAccount = (formData) => async (dispatch) => {
-  if (window.confirm("Are you sure? This can NOT be undone!")) {
-    try {
-      await axios.post(URL + "api/profile/delete", formData, config);
+  try {
+    await axios.post(URL + "api/profile/delete", formData, config);
 
-      dispatch({ type: CLEAR_PROFILE });
-      dispatch({ type: ACCOUNT_DELETED });
+    dispatch({ type: CLEAR_PROFILE });
+    dispatch({ type: ACCOUNT_DELETED });
 
-      dispatch(setAlert("Your account has been permanantly deleted"));
-    } catch (err) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
-    }
+    dispatch(setAlert("Your account has been permanantly deleted"));
+  } catch (err) {
+    dispatch(setAlert("Invalid Credentials", "danger"));
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
