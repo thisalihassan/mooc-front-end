@@ -65,18 +65,17 @@ class Settings extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12">
-            <Card className="mb-4">
+            <Card className="mb-4" id="rest">
               <CardBody>
                 <CardTitle>
                   <h3>Change Password</h3>
                 </CardTitle>
                 <div>
                   <Button
-                    color="primary"
-                    outline
+                  
                     onClick={this.ChangePassToggle}
                   >
-                    Button
+                    Change
                   </Button>
                   <Modal
                     isOpen={this.state.ChangePasswordModal}
@@ -85,8 +84,10 @@ class Settings extends Component {
                     <ModalHeader toggle={this.ChangePassToggle}>
                       Password Change
                     </ModalHeader>
-                    <ModalBody>
+                    <ModalBody id="rest">
                       Do you want to change the password?
+                      <br></br>
+                      <br></br>
                       <Form>
                         <FormGroup row>
                           <Label for="thepassword" sm={2}>
@@ -121,13 +122,13 @@ class Settings extends Component {
                     </ModalBody>
                     <ModalFooter>
                       <Button
-                        color="primary"
+                       
                         onClick={e => this.checkPassword(e)}
                       >
-                        Accept
+                       Done
                       </Button>{" "}
-                      <Button color="secondary" onClick={this.ChangePassToggle}>
-                        Reject
+                      <Button onClick={this.ChangePassToggle}>
+                        Cancel
                       </Button>
                     </ModalFooter>
                   </Modal>
@@ -138,14 +139,14 @@ class Settings extends Component {
         </Row>
         <Row>
           <Colxx xxs="12">
-            <Card className="mb-4">
+            <Card className="mb-4" id="rest">
               <CardBody>
                 <CardTitle>
                   <h3>Delete Account</h3>
                 </CardTitle>
                 <div>
-                  <Button color="primary" outline onClick={this.AccountToggle}>
-                    Button
+                  <Button  onClick={this.AccountToggle}>
+                  Delete
                   </Button>
                   <Modal
                     isOpen={this.state.AccountDeleteModal}
@@ -157,7 +158,8 @@ class Settings extends Component {
                     <ModalBody>
                       Are you Sure you want to delete this account? The process
                       is irreversible. Please Enter your password to continue.
-                      <Form>
+                      <br></br>
+<br></br>                      <Form>
                         <FormGroup row>
                           <Label for="thepassword" sm={2}>
                             Password
@@ -176,13 +178,13 @@ class Settings extends Component {
                     </ModalBody>
                     <ModalFooter>
                       <Button
-                        color="primary"
+                        
                         onClick={e => this.deleteAccount(e)}
                       >
-                        Accept
+                        Delete
                       </Button>{" "}
-                      <Button color="secondary" onClick={this.AccountToggle}>
-                        Reject
+                      <Button  onClick={this.AccountToggle}>
+                       Cancel
                       </Button>
                     </ModalFooter>
                   </Modal>

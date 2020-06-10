@@ -445,7 +445,7 @@ class ChatApplication extends Component {
                   {this.state.messages.map((item, index) => {
                     return (
                       <Fragment key={index}>
-                        <Card
+                        <Card id="rest"
                           className={`d-inline-block mb-3 float-${
                             item.user !== user.name ? "left" : "right"
                           }`}

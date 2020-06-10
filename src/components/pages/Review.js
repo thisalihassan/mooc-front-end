@@ -41,15 +41,14 @@ class Review extends Component {
             }}
           ></div>
         </div>
-        <div>
-          <span>
-            <Rating
-              total={5}
-              rating={this.props.data.rating}
-              interactive={false}
-            />
-          </span>
-        </div>
+
+        <span>
+          <Rating
+            total={5}
+            rating={this.props.data.rating}
+            interactive={false}
+          />
+        </span>
       </div>
     );
   }

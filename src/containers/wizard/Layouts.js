@@ -39,7 +39,7 @@ class Layouts extends Component {
     return (
       <Row>
         <Colxx xxs="12" xl="6" className="mb-5">
-          <Card>
+          <Card id="rest">
             <CardBody className="wizard wizard-default">
               <Wizard>
                 <TopNavigation
@@ -98,7 +98,7 @@ class Layouts extends Component {
           </Card>
         </Colxx>
         <Colxx xxs="12" xl="6">
-          <Card>
+          <Card id="rest">
             <CardBody className="wizard wizard-default">
               <Wizard>
                 <TopNavigation

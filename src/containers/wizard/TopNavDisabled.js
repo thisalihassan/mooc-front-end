@@ -41,7 +41,7 @@ class TopNavDisabled extends Component {
   render() {
     const { messages } = this.props.intl;
     return (
-      <Card>
+      <Card id="rest">
         <CardBody className="wizard wizard-default">
           <Wizard>
             <TopNavigation

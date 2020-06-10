@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { injectIntl } from "react-intl";
-import { Card, CardBody, CardSubtitle, CardText } from "reactstrap";
+import { Card, CardBody, CardSubtitle, CardText, Row } from "reactstrap";
 import ThumbnailImage from "../../components/cards/ThumbnailImage";
 
 class UserCardBasic extends Component {
   render() {
-    return (
-      <Card className="d-flex flex-row mb-4">
+    return (<Row>
+      <Card className="d-flex flex-row mb-4" id="rest">
         <NavLink
           to={"/app/profile/userprofile/?profile=" + this.props.data._id}
           className="d-flex"
@@ -37,6 +37,7 @@ class UserCardBasic extends Component {
           </CardBody>
         </div>
       </Card>
+      </Row>
     );
   }
 }

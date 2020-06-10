@@ -146,7 +146,7 @@ class TodoApp extends Component {
                   {this.props.user && this.props.user.roll === "teacher" && (
                     <div className="float-sm-right">
                       <Button
-                        color="primary"
+                       
                         size="lg"
                         float="right"
                         onClick={this.toggleModal}

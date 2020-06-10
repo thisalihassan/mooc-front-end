@@ -174,7 +174,7 @@ export class AddCourse extends Component {
 
   render() {
     return (
-      <Card>
+      <Card id="rest">
         <CardBody className="wizard wizard-default">
           <Wizard>
             <TopNavigation

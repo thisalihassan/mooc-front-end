@@ -22,7 +22,7 @@ class DataListView extends React.Component {
     return (
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={this.props.product._id}>
-          <Card className="d-flex flex-row">
+          <Card className="d-flex flex-row" id="rest">
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <NavLink

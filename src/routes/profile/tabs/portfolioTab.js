@@ -87,7 +87,7 @@ class TheProfile extends React.Component {
     return (
       <Row>
         <Colxx xxs="12" lg="4" className="mb-4 col-left">
-          <Card className="mb-4">
+          <Card className="mb-4" id="rest">
             <Dropdown
               color={"white"}
               outline

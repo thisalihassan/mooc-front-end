@@ -76,7 +76,7 @@ class ChatApplication extends Component {
     return (
       <Fragment>
         <h1>We are here to help! </h1>
-        <Card className="mb-4">
+        <Card className="mb-4" id="rest">
           <CardBody>
             <CardTitle>
               <IntlMessages id="input-groups.button-addons" />
@@ -116,7 +116,7 @@ class ChatApplication extends Component {
               </h1>
               {this.state.complaints.map((item, index) => {
                 return (
-                  <Card className="d-flex mb-3" key={index}>
+                  <Card className="d-flex mb-3" key={index} id="rest">
                     <div className="d-flex flex-grow-1 min-width-zero">
                       <Button
                         color="link"

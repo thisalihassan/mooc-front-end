@@ -498,7 +498,7 @@ export class DetailsPages extends Component {
               <br></br>
               <Row>
                 <Colxx xxs="12" xl="8" className="col-left">
-                  <Card className="mb-4">
+                  <Card className="mb-4" id="rest">
                     <CardImg
                       id="courseDetails"
                       src={courseimg}
@@ -507,7 +507,7 @@ export class DetailsPages extends Component {
                       className="img-thumbnail"
                     ></CardImg>
                   </Card>
-                  <Card className="mb-4">
+                  <Card className="mb-4" id="rest">
                     <CardHeader>
                       <Nav tabs className="card-header-tabs " id="nav">
                         <NavItem>
@@ -908,7 +908,7 @@ export class DetailsPages extends Component {
                               </h6>
                             </div>
                           </Colxx>
-                          <Colxx md="8" sm="8" lg="6" xxs="12">
+                          <Colxx>
                             <ProfileCard
                               major={this.props.userProfile.major}
                               theCourses={this.state.theCourses}
@@ -1045,7 +1045,7 @@ export class DetailsPages extends Component {
                   <br></br>
                   <br></br>
 
-                  <Card className="mb-4">
+                  <Card className="mb-4" id="rest">
                     <CardBody>
                       <Rating
                         total={5}
@@ -1055,7 +1055,7 @@ export class DetailsPages extends Component {
                     </CardBody>
                   </Card>
 
-                  <Card className="mb-4">
+                  <Card className="mb-4" id="rest">
                     <CardBody>
                       <h3>Why Should I Enroll For This Course?</h3>
                       <br></br>
