@@ -150,7 +150,7 @@ class Quiz extends Component {
               {this.props.user && this.props.user.roll === "teacher" && (
                 <div className="float-sm-right">
                   <Button
-                    color="primary"
+                    
                     size="lg"
                     className="top-right-button mr-1"
                     onClick={this.toggleModal}
@@ -163,7 +163,7 @@ class Quiz extends Component {
 
             <div className="mb-2">
               <Button
-                color="empty"
+               
                 id="displayOptions"
                 className="pt-0 pl-0 d-inline-block d-md-none"
                 onClick={this.toggleDisplayOptions}

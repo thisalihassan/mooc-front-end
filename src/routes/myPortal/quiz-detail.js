@@ -245,7 +245,7 @@ class SurveyDetailApp extends Component {
             {roll === "teacher" && (
               <div className="float-sm-right mb-2">
                 <Button
-                  outline
+                 
                   className="top-right-button top-right-button-single flex-grow-1"
                   size="lg"
                   onClick={() => this.submitQuiz()}
@@ -402,7 +402,7 @@ class SurveyDetailApp extends Component {
                       return (
                         <TabPane tabId="2">
                           <Colxx xxs="12">
-                            <Card className="card d-flex flex-row mb-3">
+                            <Card className="card d-flex flex-row mb-3" id="rest" id="rest"> 
                               <div className="d-flex flex-grow-1 min-width-zero">
                                 <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                                   <Link

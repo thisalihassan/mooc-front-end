@@ -13,7 +13,7 @@ class DetailCard extends Component {
   render() {
     return (
       <Colxx xxs="12" lg="4" className="mb-4">
-        <Card className="mb-4">
+        <Card className="mb-4" id="rest">
           {this.props.isSubmitted &&
           this.props.user._id !== this.props.quiz.user._id ? (
             <CardBody>

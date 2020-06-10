@@ -132,7 +132,7 @@ class Assignment extends Component {
               {this.props.user && this.props.user.roll === "teacher" && (
                 <div className="float-sm-right">
                   <Button
-                    color="primary"
+                    
                     size="lg"
                     className="top-right-button mr-1"
                     onClick={this.toggleModal}

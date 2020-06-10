@@ -43,6 +43,7 @@ export default class EditorsUi extends Component {
         <Row className="mb-4">
           <Colxx xxs="12">
             <ReactQuill
+            id="rest"
               theme="snow"
               value={this.state.textQuillStandart}
               onChange={this.handleChangeQuillStandart}

@@ -34,7 +34,7 @@ export default class ModalUi extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12">
-            <Card className="mb-4">
+            <Card className="mb-4" id="rest">
               <CardBody>
                 <CardTitle>
                   <IntlMessages id="modal.basic" />

@@ -41,7 +41,7 @@ class Review extends Component {
             }}
           ></div>
         </div>
-        <div className="comment-likes">
+      
           <span>
             <Rating
               total={5}
@@ -49,7 +49,7 @@ class Review extends Component {
               interactive={false}
             />
           </span>
-        </div>
+       
       </div>
     );
   }

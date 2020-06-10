@@ -158,7 +158,7 @@ class SurveyQuestionBuilder extends React.Component {
   render() {
     const roll = this.props.roll.toLowerCase();
     return (
-      <Card className={`question d-flex mb-4 ${this.state.mode}`}>
+      <Card id="rest" className={`question d-flex mb-4 ${this.state.mode}`}>
         <div className="d-flex flex-grow-1 min-width-zero">
           <div className="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <div className="list-item-heading mb-0 truncate w-80 mb-1 mt-1">
@@ -177,7 +177,7 @@ class SurveyQuestionBuilder extends React.Component {
                 className="icon-button ml-1 edit-button"
                 onClick={this.editClick}
               >
-                <i className="simple-icon-pencil" />
+                <i id="in" className="simple-icon-pencil" />
               </Button>
             )}
             {roll === "teacher" && (
@@ -310,8 +310,8 @@ class SurveyQuestionBuilder extends React.Component {
                 <div className="text-center">
                   {this.state.answerType && this.state.answerType.id !== 1 && (
                     <Button
-                      outline
-                      color="primary"
+                    
+                     
                       className="mt-3"
                       onClick={() => this.addAnswer()}
                     >
