@@ -11,7 +11,7 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  Button
+  Button,
 } from "reactstrap";
 import classnames from "classnames";
 import { Colxx } from "../../components/CustomBootstrap";
@@ -22,7 +22,7 @@ import {
   AcceptCourse,
   DeleteCourse,
   getApprovedCourse,
-  getPendingCourse
+  getPendingCourse,
 } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 class ProfilePortfolio extends Component {
@@ -37,48 +37,48 @@ class ProfilePortfolio extends Component {
         {
           Header: "Name",
           accessor: "name",
-          Cell: props => (
+          Cell: (props) => (
             <NavLink
               to={"/app/mycourses/courseView/?id=" + props.original._id}
               className="w-40 w-sm-100"
             >
               {props.value}
             </NavLink>
-          )
+          ),
         },
         {
           Header: "Publisher",
           accessor: "publisher",
-          Cell: props => (
+          Cell: (props) => (
             <p className="text-muted">{props.original.user.name}</p>
-          )
+          ),
         },
         {
           Header: "Category",
           accessor: "category",
-          Cell: props => <p className="text-muted">{props.value}</p>
+          Cell: (props) => <p className="text-muted">{props.value}</p>,
         },
         {
           Header: "Action",
           accessor: "accept",
-          Cell: props => (
+          Cell: (props) => (
             <div>
-              <Button outline color="danger" className="icon-button">
+              <Button id="g" className="icon-button">
                 <i
                   className="simple-icon-check"
-                  onClick={e => this.AcceptCourse(e, props.original._id)}
+                  onClick={(e) => this.AcceptCourse(e, props.original._id)}
                 />
               </Button>
-              <Button outline className="icon-button">
+              <Button className="icon-button">
                 <i
                   className="simple-icon-close"
-                  onClick={e => this.RejectCourse(e, props.original._id)}
+                  onClick={(e) => this.RejectCourse(e, props.original._id)}
                 />
               </Button>
             </div>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     };
   }
   AcceptCourse(e, id) {
@@ -95,7 +95,7 @@ class ProfilePortfolio extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -112,14 +112,14 @@ class ProfilePortfolio extends Component {
             <h1>
               <IntlMessages id="admin.managecourse" />
             </h1>
-            <Card>
+            <Card id="rest">
               <CardHeader>
                 <Nav tabs className="card-header-tabs " id="nav">
                   <NavItem>
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "1",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("1");
@@ -133,7 +133,7 @@ class ProfilePortfolio extends Component {
                     <NavLink
                       className={classnames({
                         active: this.state.activeFirstTab === "2",
-                        "nav-link": true
+                        "nav-link": true,
                       })}
                       onClick={() => {
                         this.toggleTab("2");
@@ -172,7 +172,7 @@ class ProfilePortfolio extends Component {
                   <TabPane tabId="2">
                     <Row>
                       {this.props.activeCourses &&
-                        this.props.activeCourses.map(itemData => {
+                        this.props.activeCourses.map((itemData) => {
                           return (
                             <Colxx xxs="12" md="6" lg="4" key={itemData.key}>
                               <UserCardBasic data={itemData} />
@@ -191,7 +191,7 @@ class ProfilePortfolio extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { pendingCourses, activeCourses } = state.course;
   return { pendingCourses, activeCourses };
 };
@@ -200,6 +200,6 @@ export default injectIntl(
     getPendingCourse,
     AcceptCourse,
     getApprovedCourse,
-    DeleteCourse
+    DeleteCourse,
   })(ProfilePortfolio)
 );

@@ -206,6 +206,7 @@ class OthersProfile extends React.Component {
                       this.props.user.roll.toLowerCase() !== "admin" && (
                         <div>
                           <Button
+                            id="g"
                             onClick={() =>
                               this.startAudioCall(
                                 this.props.userProfile.user._id,
@@ -213,7 +214,7 @@ class OthersProfile extends React.Component {
                               )
                             }
                           >
-                            <i className="simple-icon-phone" />
+                            <i id="othr" className="simple-icon-phone" />
                           </Button>
                           <a
                             href={
@@ -222,7 +223,7 @@ class OthersProfile extends React.Component {
                             }
                           >
                             <Button>
-                              <i className="simple-icon-bubble"></i>
+                              <i id="othr" className="simple-icon-bubble"></i>
                             </Button>
                           </a>{" "}
                           {!this.state.isRported && (

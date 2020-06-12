@@ -23,48 +23,48 @@ class DefaultDashboard extends Component {
         {
           Header: "Name",
           accessor: "name",
-          Cell: props => (
+          Cell: (props) => (
             <NavLink
               to={"/app/mycourses/courseView/?id=" + props.original._id}
               className="w-40 w-sm-100"
             >
               {props.value}
             </NavLink>
-          )
+          ),
         },
         {
           Header: "Publisher",
           accessor: "publisher",
-          Cell: props => (
+          Cell: (props) => (
             <p className="text-muted">{props.original.user.name}</p>
-          )
+          ),
         },
         {
           Header: "Category",
           accessor: "category",
-          Cell: props => <p className="text-muted">{props.value}</p>
+          Cell: (props) => <p className="text-muted">{props.value}</p>,
         },
         {
           Header: "Action",
           accessor: "accept",
-          Cell: props => (
+          Cell: (props) => (
             <div>
               <Button outline color="danger" className="icon-button">
                 <i
                   className="simple-icon-check"
-                  onClick={e => this.AcceptCourse(e, props.original._id)}
+                  onClick={(e) => this.AcceptCourse(e, props.original._id)}
                 />
               </Button>
               <Button outline className="icon-button">
                 <i
                   className="simple-icon-close"
-                  onClick={e => this.RejectCourse(e, props.original._id)}
+                  onClick={(e) => this.RejectCourse(e, props.original._id)}
                 />
               </Button>
             </div>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     };
   }
 
@@ -99,7 +99,7 @@ class DefaultDashboard extends Component {
             <Calendar/>
           </Colxx> */}
           <Colxx xl="6" lg="12" className="mb-4">
-            <Card className="h-100">
+            <Card className="h-100" id="rest">
               <CardBody>
                 <CardTitle>
                   <h2>Course Requests</h2>
@@ -177,7 +177,7 @@ class DefaultDashboard extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { pendingCourses } = state.course;
   return { pendingCourses };
 };

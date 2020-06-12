@@ -69,7 +69,7 @@ class VisulizeVisitors extends Component {
             {
               label: "",
               data: values,
-              borderColor: colors.themeColor1,
+              borderColor: "#e43f5a",
               pointBackgroundColor: colors.foregroundColor,
               pointBorderColor: colors.themeColor1,
               pointHoverBackgroundColor: colors.themeColor1,
@@ -86,7 +86,7 @@ class VisulizeVisitors extends Component {
   }
   render() {
     return (
-      <Card>
+      <Card id="rest">
         <CardBody>
           <CardTitle>
             <IntlMessages id="dashboards.sales" />

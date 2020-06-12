@@ -11,27 +11,27 @@ class ChatApplication extends Component {
       collapse: false,
       accordion: [],
       answers: [],
-      complaints: []
+      complaints: [],
     };
   }
 
-  toggleAccordion = tab => {
+  toggleAccordion = (tab) => {
     const prevState = this.state.accordion;
     const state = prevState.map((x, index) => (tab === index ? !x : false));
     this.setState({
-      accordion: state
+      accordion: state,
     });
   };
   componentDidMount() {
     axios
       .post(URL + "api/complaint/getComplaints", {}, config)
-      .then(res => {
+      .then((res) => {
         return res.data;
       })
-      .then(data => {
+      .then((data) => {
         let accordionData = [];
         let answersdata = [];
-        data.forEach(d => {
+        data.forEach((d) => {
           accordionData.push(false);
           if (d.answer) {
             answersdata.push(d.answer);
@@ -43,7 +43,7 @@ class ChatApplication extends Component {
         this.setState({
           complaints: data,
           accordion: accordionData,
-          answers: answersdata
+          answers: answersdata,
         });
       });
   }
@@ -54,13 +54,13 @@ class ChatApplication extends Component {
     await axios.post(URL + "api/complaint/answercomplaints", body, config);
     await axios
       .post(URL + "api/complaint/getComplaints", {}, config)
-      .then(res => {
+      .then((res) => {
         return res.data;
       })
-      .then(data => {
+      .then((data) => {
         let accordionData = [];
         let answersdata = [];
-        data.forEach(d => {
+        data.forEach((d) => {
           accordionData.push(false);
           if (d.answer) {
             answersdata.push(d.answer);
@@ -72,7 +72,7 @@ class ChatApplication extends Component {
         this.setState({
           complaints: data,
           accordion: accordionData,
-          answers: answersdata
+          answers: answersdata,
         });
       });
   }
@@ -86,7 +86,7 @@ class ChatApplication extends Component {
             <Fragment>
               {this.state.complaints.map((item, index) => {
                 return (
-                  <Card className="d-flex mb-3" key={index}>
+                  <Card id="rest" className="d-flex mb-3" key={index}>
                     <div className="d-flex flex-grow-1 min-width-zero">
                       <Button
                         color="link"
@@ -107,7 +107,7 @@ class ChatApplication extends Component {
                             type="textarea"
                             name="description"
                             value={this.state.answers[index]}
-                            onChange={e => {
+                            onChange={(e) => {
                               const ans = this.state.answers;
                               ans[index] = e.target.value;
                               this.setState({ answers: ans });
