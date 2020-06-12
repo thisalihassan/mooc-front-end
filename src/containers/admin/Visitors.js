@@ -14,7 +14,7 @@ class Visitors extends Component {
             <h1>
               <IntlMessages id="admin.top" />
             </h1>
-            <Card>
+            <Card id="rest">
               <Row>
                 <Colxx xxs="12" className="mb-4">
                   <VisulizeVisitors />

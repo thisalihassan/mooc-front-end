@@ -89,7 +89,7 @@ class ProfilePortfolio extends Component {
             <h1>
               <IntlMessages id="admin.manageaccount" />
             </h1>
-            <Card>
+            <Card id="rest">
               <CardHeader>
                 <Row>
                   <Colxx xl="1" lg="1" className="mb-4"></Colxx>

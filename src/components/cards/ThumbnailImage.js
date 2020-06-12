@@ -4,6 +4,7 @@ const ThumbnailImage = (props) => {
     const { alt, src, className, rounded, small } = props;
   return (
     <img
+    id="cov"
       alt={alt}
       src={src}
       className={`img-thumbnail list-thumbnail align-self-center ${

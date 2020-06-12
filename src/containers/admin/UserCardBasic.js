@@ -7,17 +7,18 @@ import ThumbnailImage from "../../components/cards/ThumbnailImage";
 class UserCardBasic extends Component {
   render() {
     return (
-      <Card className="d-flex flex-row mb-4">
+      <Card className="d-flex flex-row mb-4" id="rest">
         <NavLink
           to={"/app/mycourses/courseView/?id=" + this.props.data._id}
           className="d-flex"
         >
           <ThumbnailImage
-            rounded
+          id="cov"
+           
             small
             src={this.props.data.pic}
             alt="profile"
-            className="m-4"
+           
           />
         </NavLink>
         <div className=" d-flex flex-grow-1 min-width-zero">

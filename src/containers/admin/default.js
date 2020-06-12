@@ -99,7 +99,7 @@ class DefaultDashboard extends Component {
             <Calendar/>
           </Colxx> */}
           <Colxx xl="6" lg="12" className="mb-4">
-            <Card className="h-100">
+            <Card className="h-100" id="rest">
               <CardBody>
                 <CardTitle>
                   <h2>Course Requests</h2>

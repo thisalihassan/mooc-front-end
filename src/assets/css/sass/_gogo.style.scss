@@ -238,7 +238,15 @@ body {
     bottom: 0;
     left: 0;
 }
-
+#cov{
+   
+    height: 80px;
+    max-width: 100px;
+    margin-right: 10px;
+    margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;  
+}
 h1 {
     font-size: 1.75rem;
     padding-bottom: 10px;
@@ -265,6 +273,13 @@ h3 {
     @include respond-below(sm) {
         font-size: 1rem;
     }
+}
+#othr{
+
+    font-size: 18px;
+}
+#g{
+    margin-right: 4px;
 }
 
 h3 {
@@ -1715,16 +1730,16 @@ button {
         }
     }
     .navbar-logo {
-        width: 110px;
-        height: 35px;
+        width: 150px;
+        height: 50px;
         position: absolute;
         left: 0;
         right: 0;
         margin: 0 auto;
         top: 0;
         .logo {
-            width: 100%;
-            height: 100%;
+            width: 150px;
+            height: 150px;
             background: url($logoPath) no-repeat;
             background-position: center center;
         }

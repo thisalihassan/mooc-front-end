@@ -86,7 +86,7 @@ class ChatApplication extends Component {
             <Fragment>
               {this.state.complaints.map((item, index) => {
                 return (
-                  <Card className="d-flex mb-3" key={index}>
+                  <Card id="rest" className="d-flex mb-3" key={index}>
                     <div className="d-flex flex-grow-1 min-width-zero">
                       <Button
                         color="link"

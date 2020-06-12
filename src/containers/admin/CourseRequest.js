@@ -63,13 +63,13 @@ class ProfilePortfolio extends Component {
           accessor: "accept",
           Cell: props => (
             <div>
-              <Button outline color="danger" className="icon-button">
+              <Button id="g" className="icon-button">
                 <i
                   className="simple-icon-check"
                   onClick={e => this.AcceptCourse(e, props.original._id)}
                 />
               </Button>
-              <Button outline className="icon-button">
+              <Button  className="icon-button">
                 <i
                   className="simple-icon-close"
                   onClick={e => this.RejectCourse(e, props.original._id)}
@@ -112,7 +112,7 @@ class ProfilePortfolio extends Component {
             <h1>
               <IntlMessages id="admin.managecourse" />
             </h1>
-            <Card>
+            <Card id="rest">
               <CardHeader>
                 <Nav tabs className="card-header-tabs " id="nav">
                   <NavItem>
