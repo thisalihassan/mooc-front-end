@@ -7,11 +7,11 @@ import { ImagefileTypes } from "../constants/defaultValues";
 var ReactDOMServer = require("react-dom/server");
 
 var dropzoneComponentConfig = {
-  acceptedFiles: "image/png,image/gif,image/jpg",
+  acceptedFiles: "image/png,image/gif,image/jpg,image/jpeg",
   postUrl: URL + "upload",
 };
 var dropzoneConfig = {
-  acceptedFiles: "image/png,image/gif,image/jpg",
+  acceptedFiles: "image/png,image/gif,image/jpg,image/jpeg",
   thumbnailHeight: 160,
   maxFilesize: 2,
   previewTemplate: ReactDOMServer.renderToStaticMarkup(
