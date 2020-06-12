@@ -19,7 +19,6 @@ export class SurveyApplicationMenu extends Component {
   }
   render() {
     const { filter } = this.props.quizList;
-    console.log(filter);
     return (
       <ApplicationMenu>
         <PerfectScrollbar
@@ -32,19 +31,19 @@ export class SurveyApplicationMenu extends Component {
             </p>
             <ul className="list-unstyled mb-5">
               <NavItem className={classnames({ active: !filter })}>
-                <NavLink to="#" onClick={e => this.addFilter("", "")}>
+                <NavLink to="#" onClick={(e) => this.addFilter("", "")}>
                   All Items
                 </NavLink>
               </NavItem>
               {this.props.courses &&
-                this.props.courses.map(itemData => {
+                this.props.courses.map((itemData) => {
                   let match;
                   if (filter) match = filter.value == itemData._id;
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink
                         to="#"
-                        onClick={e => this.addFilter("course", itemData._id)}
+                        onClick={(e) => this.addFilter("course", itemData._id)}
                       >
                         {itemData.name}
                       </NavLink>
@@ -60,9 +59,9 @@ export class SurveyApplicationMenu extends Component {
 }
 const mapStateToProps = ({ quizList }) => {
   return {
-    quizList
+    quizList,
   };
 };
 export default connect(mapStateToProps, {
-  getQuizListWithFilter
+  getQuizListWithFilter,
 })(SurveyApplicationMenu);

@@ -10,7 +10,7 @@ class ListItem extends React.Component {
     super(props);
     this.state = {};
   }
-  deleteItem = e => {
+  deleteItem = (e) => {
     this.props.deleteClick(this.props.item._id);
   };
   render() {
@@ -20,7 +20,7 @@ class ListItem extends React.Component {
           <div className="d-flex flex-grow-1 min-width-zero">
             <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
               <NavLink
-                to={`/app/myportal/openquiz/?id=${this.props.item._id}&cid=${this.props.item.course._id}`}
+                to={`/app/myportal/openquiz/?id=${this.props.item._id}&cid=${this.props.item.course._id}&title=${this.props.item.title}`}
                 className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
               >
                 <i className="" />

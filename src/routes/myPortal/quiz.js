@@ -42,8 +42,9 @@ class Quiz extends Component {
       listCourse: [],
       title: null,
       course: null,
-      autocheck: false,
-      time: 1,
+      autocheck: null,
+      marks: null,
+      time: null,
     };
   }
   async componentDidMount() {
@@ -51,19 +52,19 @@ class Quiz extends Component {
     this.props.getmyCourse();
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
-      await axios
+      axios
         .post(URL + "api/quiz/detailquiz/" + values.id, {}, config)
         .then((res) => {
-          this.props.history.push("/app/myportal/quiz");
           this.setState({
             id: values.id,
             title: res.data.title,
+            marks: res.data.marks,
             autocheck: res.data.autocheck,
             time: res.data.time,
             course: { label: res.data.course.name, value: res.data.course._id },
           });
-
           this.toggleModal();
+          this.props.history.push("/app/myportal/quiz");
         });
     }
   }
@@ -122,14 +123,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const {
-      surveyItems,
-      loading,
-      orderColumn,
-      orderColumns,
-      selectedItems,
-    } = this.props.quizList;
-    const { messages } = this.props.intl;
+    const { surveyItems, orderColumn, orderColumns } = this.props.quizList;
     const { modalOpen } = this.state;
     return (
       <Fragment>
@@ -143,7 +137,6 @@ class Quiz extends Component {
               {this.props.user && this.props.user.roll === "teacher" && (
                 <div className="float-sm-right">
                   <Button
-                    
                     size="lg"
                     className="top-right-button mr-1"
                     onClick={this.toggleModal}
@@ -156,7 +149,6 @@ class Quiz extends Component {
 
             <div className="mb-2">
               <Button
-               
                 id="displayOptions"
                 className="pt-0 pl-0 d-inline-block d-md-none"
                 onClick={this.toggleDisplayOptions}
@@ -220,6 +212,7 @@ class Quiz extends Component {
               id={this.state.id}
               title={this.state.title}
               time={this.state.time}
+              marks={this.state.marks}
               autocheck={this.state.autocheck}
               course={this.state.course}
               reloadModel={(e) => this.reloadModel(e)}

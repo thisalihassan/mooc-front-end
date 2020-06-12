@@ -8,7 +8,7 @@ import {
   Form,
   Input,
   Badge,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "../../components/CustomSelectInput";
@@ -19,8 +19,9 @@ import { mapOrder } from "../../util/Utils";
 import { saveSurvey, saveQuiz } from "../../redux/actions";
 const answerTypes = [
   { label: "Text Area", value: "1", id: 1 },
-  { label: "Radiobutton", value: "2", id: 2 }
+  { label: "Radiobutton", value: "2", id: 2 },
 ];
+const autocheck = { label: "Radiobutton", value: "2", id: 2 };
 class SurveyQuestionBuilder extends React.Component {
   constructor(props) {
     super(props);
@@ -29,14 +30,10 @@ class SurveyQuestionBuilder extends React.Component {
       mode: "edit-quesiton",
       id: this.props.id,
       question: this.props.question || "",
-      answerType: this.props.answerType
-        ? answerTypes.find(item => {
-            return item.id === this.props.answerType;
-          })
-        : null,
+      answerType: this.props.answerType ? autocheck : answerTypes,
       answers: this.props.answers || [],
       shouldHide: true,
-      myAnswer: this.props.myAnswer || ""
+      myAnswer: this.props.myAnswer || "",
     };
   }
   deleteClick = () => {
@@ -50,6 +47,7 @@ class SurveyQuestionBuilder extends React.Component {
   };
 
   submitQuestion() {
+    console.log(this.state.myAnswer);
     this.setState({ shouldHide: false });
     for (let i = 0; i < this.props.runTimes; i++) {
       this.props.submitQuestion(
@@ -70,7 +68,7 @@ class SurveyQuestionBuilder extends React.Component {
     this.setState({ mode: "view-quesiton" });
     this.setState({ collapse: true });
   };
-  typeChange = answerType => {
+  typeChange = (answerType) => {
     if (this.state.answerType) {
       if (
         (this.state.answerType.id === 2 || this.state.answerType.id === 3) &&
@@ -79,12 +77,11 @@ class SurveyQuestionBuilder extends React.Component {
         this.setState({ answers: [] });
       }
     }
-
     this.setState({ answerType });
   };
-  removeAnswer = answerId => {
+  removeAnswer = (answerId) => {
     this.setState({
-      answers: this.state.answers.filter(item => item.id !== answerId)
+      answers: this.state.answers.filter((item) => item.id !== answerId),
     });
   };
   addAnswer = () => {
@@ -96,18 +93,18 @@ class SurveyQuestionBuilder extends React.Component {
       nextId = orderedAnswers[0].id + 1;
     }
     this.setState({
-      answers: [...this.state.answers, { id: nextId, label: "" }]
+      answers: [...this.state.answers, { id: nextId, label: "" }],
     });
   };
 
   updateAnswer = (answerId, event) => {
     var answerIndex = this.state.answers.findIndex(
-      item => item.id === answerId
+      (item) => item.id === answerId
     );
     var answers = this.state.answers;
     answers[answerIndex]["label"] = event.target.value;
     this.setState({
-      answers
+      answers,
     });
   };
 
@@ -121,7 +118,7 @@ class SurveyQuestionBuilder extends React.Component {
           <Input
             type="text"
             value={this.state.myAnswer}
-            onChange={val => {
+            onChange={(val) => {
               this.setState({ myAnswer: val.target.value });
             }}
           />
@@ -129,11 +126,15 @@ class SurveyQuestionBuilder extends React.Component {
       case 2:
         return (
           <FormGroup>
-            {this.state.answers.map(answer => {
+            {this.state.answers.map((answer) => {
               return (
                 <CustomInput
                   key={answer.id}
                   type="radio"
+                  checked={answer.label === this.state.myAnswer}
+                  onChange={(val) => {
+                    this.setState({ myAnswer: answer.label });
+                  }}
                   name={`radio${this.state.id}`}
                   id={`radio${this.state.id}_${answer.id}`}
                   label={answer.label}
@@ -148,7 +149,7 @@ class SurveyQuestionBuilder extends React.Component {
             type="text"
             placeholder=""
             value={this.state.myAnswer}
-            onChange={val => {
+            onChange={(val) => {
               this.setState({ myAnswer: val.target.value });
             }}
           />
@@ -244,38 +245,40 @@ class SurveyQuestionBuilder extends React.Component {
                   <Input
                     type="text"
                     value={this.state.question}
-                    onChange={event => {
+                    onChange={(event) => {
                       this.setState({ question: event.target.value });
                     }}
                   />
                 </FormGroup>
                 <div className="separator mb-4 mt-4" />
 
-                <FormGroup>
-                  <Label>Answer Type</Label>
-                  <Select
-                    components={{ Input: CustomSelectInput }}
-                    className="react-select"
-                    classNamePrefix="react-select"
-                    name="form-field-name"
-                    value={this.state.answerType}
-                    onChange={this.typeChange}
-                    options={answerTypes}
-                  />
-                </FormGroup>
+                {!this.props.answerType && (
+                  <FormGroup>
+                    <Label>Answer Type</Label>
+                    <Select
+                      components={{ Input: CustomSelectInput }}
+                      className="react-select"
+                      classNamePrefix="react-select"
+                      name="form-field-name"
+                      value={this.state.answerType}
+                      onChange={this.typeChange}
+                      options={answerTypes}
+                    />
+                  </FormGroup>
+                )}
                 {this.state.answers.length > 0 && <Label>Answers</Label>}
 
                 <Sortable
                   className="answers"
                   options={{
-                    handle: ".handle"
+                    handle: ".handle",
                   }}
                   onChange={(order, sortable, evt) => {
                     var answers = mapOrder(this.state.answers, order, "id");
                     this.setState({ answers });
                   }}
                 >
-                  {this.state.answers.map(item => {
+                  {this.state.answers.map((item) => {
                     return (
                       <FormGroup
                         data-id={item.id}
@@ -286,7 +289,7 @@ class SurveyQuestionBuilder extends React.Component {
                           type="text"
                           value={item.label}
                           autoFocus
-                          onChange={event => {
+                          onChange={(event) => {
                             this.updateAnswer(item.id, event);
                           }}
                         />
@@ -309,12 +312,7 @@ class SurveyQuestionBuilder extends React.Component {
 
                 <div className="text-center">
                   {this.state.answerType && this.state.answerType.id !== 1 && (
-                    <Button
-                    
-                     
-                      className="mt-3"
-                      onClick={() => this.addAnswer()}
-                    >
+                    <Button className="mt-3" onClick={() => this.addAnswer()}>
                       <i className="simple-icon-plus btn-group-icon" /> Add
                       Answer
                     </Button>
@@ -336,10 +334,10 @@ class SurveyQuestionBuilder extends React.Component {
 }
 const mapStateToProps = ({ quiz }) => {
   return {
-    quiz
+    quiz,
   };
 };
 export default connect(mapStateToProps, {
   saveSurvey,
-  saveQuiz
+  saveQuiz,
 })(SurveyQuestionBuilder);

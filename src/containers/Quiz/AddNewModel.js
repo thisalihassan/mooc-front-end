@@ -7,7 +7,7 @@ import {
   ModalBody,
   FormGroup,
   Input,
-  Label
+  Label,
 } from "reactstrap";
 import { FormikReactSelect, FormikSwitch } from "../../components/FormikFields";
 import { Formik, Form, Field } from "formik";
@@ -22,8 +22,9 @@ class AddNewSurveyModal extends Component {
     this.validate = this.validate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      time: 1,
-      socket: null
+      time: this.props.time,
+      marks: this.props.marks,
+      socket: null,
     };
   }
 
@@ -34,10 +35,11 @@ class AddNewSurveyModal extends Component {
   }
   async handleSubmit(values) {
     const title = values.title;
+    const marks = this.state.marks;
     const course = values.course["value"];
     const time = this.state.time;
     const autocheck = values.switch;
-    let body = JSON.stringify({ title, course, time, autocheck });
+    let body = JSON.stringify({ title, course, marks, time, autocheck });
     let res;
     if (this.props.id) {
       res = await axios.post(
@@ -58,7 +60,7 @@ class AddNewSurveyModal extends Component {
         message: message,
         user: user,
         course: course,
-        quiz: quiz
+        quiz: quiz,
       });
       this.props.reloadModel();
       this.props.toggleModal();
@@ -81,6 +83,12 @@ class AddNewSurveyModal extends Component {
     }
     if (!this.state.time) {
       errors.time = "Please select Quiz time";
+    }
+    if (!this.state.marks) {
+      errors.marks = "Please Enter Total Marks";
+    }
+    if (this.state.marks < 1) {
+      errors.marks = "Marks cannot be null or negative";
     }
     if (this.state.time < 1) {
       errors.time = "Please select appropriate time";
@@ -106,8 +114,9 @@ class AddNewSurveyModal extends Component {
             initialValues={{
               title: this.props.title,
               course: this.props.course,
+              marks: this.props.marks ? this.props.marks : 1,
               time: this.props.time ? this.props.time : 1,
-              switch: this.props.autocheck
+              switch: this.props.autocheck,
             }}
             onSubmit={this.handleSubmit}
           >
@@ -117,7 +126,7 @@ class AddNewSurveyModal extends Component {
               isValidating,
               setFieldValue,
               setFieldTouched,
-              values
+              values,
             }) => (
               <Form className="av-tooltip tooltip-label-right">
                 <FormGroup className="form-group has-float-label">
@@ -165,13 +174,32 @@ class AddNewSurveyModal extends Component {
                     id="time"
                     name="time"
                     value={this.state.time}
-                    onChange={val => {
+                    onChange={(val) => {
                       this.setState({ time: val.target.value });
                     }}
                   />
                   {errors.time && touched.time ? (
                     <div className="invalid-feedback d-block">
                       {errors.time}
+                    </div>
+                  ) : null}
+                </FormGroup>
+                <FormGroup className="form-group has-float-label">
+                  <Label className="d-block">
+                    <IntlMessages id="quiz.marks" />
+                  </Label>
+                  <Input
+                    type="Number"
+                    id="marks"
+                    name="marks"
+                    value={this.state.marks}
+                    onChange={(val) => {
+                      this.setState({ marks: val.target.value });
+                    }}
+                  />
+                  {errors.marks && touched.marks ? (
+                    <div className="invalid-feedback d-block">
+                      {errors.marks}
                     </div>
                   ) : null}
                 </FormGroup>
@@ -207,7 +235,7 @@ const mapStateToProps = ({ quizList, auth }) => {
   const { user } = auth;
   return {
     quizList,
-    user
+    user,
   };
 };
 export default connect(mapStateToProps, { setAlert })(AddNewSurveyModal);

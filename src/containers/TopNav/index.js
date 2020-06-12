@@ -167,7 +167,17 @@ class TopNav extends Component {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
         if (mess !== this.state.notifications[0]) {
-          document.getElementById("notification-sound").play();
+          let match = true;
+          let itself = false;
+          if (mess.course) {
+            match = this.state.listCourse.find((u) => u === mess.course);
+          }
+          if (mess.user) {
+            itself = mess.user === this.props.user._id;
+          }
+          if (match && !itself) {
+            document.getElementById("notification-sound").play();
+          }
           this.setState((prevState) => ({
             notifications: [mess, ...prevState.notifications],
           }));
@@ -328,7 +338,7 @@ class TopNav extends Component {
       <div>
         <p className="font-weight-medium mb-1">{message}</p>
         <p className="text-muted mb-0 text-small">
-          {moment(date).format("ddd HH:mm a")}
+          {moment(date).format("MMM DD HH:mm a")}
         </p>
       </div>
     );

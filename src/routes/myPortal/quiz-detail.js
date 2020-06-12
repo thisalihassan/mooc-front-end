@@ -8,7 +8,7 @@ import {
   TabPane,
   Button,
   Card,
-  CardBody
+  CardBody,
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
 import classnames from "classnames";
@@ -20,7 +20,7 @@ import {
   getQuizDetail,
   deleteQuizQuestion,
   saveSurvey,
-  findSolvedQuiz
+  findSolvedQuiz,
 } from "../../redux/actions";
 import QuizDetailCard from "../../containers/Quiz/DetailCard";
 import axios from "axios";
@@ -34,10 +34,10 @@ if (typeof document.hidden !== "undefined") {
   hidden = "hidden";
   visibilityChange = "visibilitychange";
 } else if (typeof document.msHidden !== "undefined") {
-  hidden = "msHidden";
+  hidden = "hidden";
   visibilityChange = "msvisibilitychange";
 } else if (typeof document.webkitHidden !== "undefined") {
-  hidden = "webkitHidden";
+  hidden = "hidden";
   visibilityChange = "webkitvisibilitychange";
 }
 
@@ -48,7 +48,6 @@ class SurveyDetailApp extends Component {
     this.state = {
       activeFirstTab: "1",
       dropdownSplitOpen: false,
-      actions: "",
       socket: null,
       firstTime: true,
       totalQuestions: [],
@@ -56,7 +55,7 @@ class SurveyDetailApp extends Component {
       runTimes: 2,
       quiz: "",
       course: "",
-      isSubmitted: false
+      isSubmitted: false,
     };
   }
 
@@ -64,7 +63,7 @@ class SurveyDetailApp extends Component {
     if (this.props.quizzes.quiz && this.state.firstTime) {
       this.setState({
         firstTime: false,
-        totalQuestions: this.props.quizzes.quiz.questions
+        totalQuestions: this.props.quizzes.quiz.questions,
       });
     }
   }
@@ -78,11 +77,7 @@ class SurveyDetailApp extends Component {
 
     if (values.id) {
       this.props.getQuizDetail(values.id);
-      const quiz = values.id;
-      const body = JSON.stringify({ quiz });
-      await axios.post(URL + "api/quiz/isSubmitted", body, config).then(res => {
-        this.setState({ isSubmitted: res.data });
-      });
+      this.checkSubmission(values.id);
     }
     if (values.id && values.cid) {
       this.setState({ course: values.cid, quiz: values.id });
@@ -92,6 +87,14 @@ class SurveyDetailApp extends Component {
       this.state.socket = socket;
     }
   }
+
+  async checkSubmission(id) {
+    const quiz = id;
+    const body = JSON.stringify({ quiz });
+    await axios.post(URL + "api/quiz/isSubmitted", body, config).then((res) => {
+      this.setState({ isSubmitted: res.data });
+    });
+  }
   handleVisibilityChange = () => {
     if (document[hidden]) {
       if (
@@ -100,10 +103,7 @@ class SurveyDetailApp extends Component {
         this.props.user.roll.toLowerCase() === "student"
       ) {
         this.studentSubmitQuiz();
-        window.location.reload();
       }
-    } else {
-      this.setState({ actions: "show" });
     }
   };
   handleWindowClose() {
@@ -113,7 +113,6 @@ class SurveyDetailApp extends Component {
       this.props.user.roll.toLowerCase() === "student"
     ) {
       this.studentSubmitQuiz();
-      window.location.reload();
     }
   }
 
@@ -134,12 +133,12 @@ class SurveyDetailApp extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeFirstTab: tab
+        activeFirstTab: tab,
       });
     }
   }
   SolvedAnswers(id, qestion, type, answers, myans) {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       myQuestions: [
         ...prevState.myQuestions,
         {
@@ -147,14 +146,14 @@ class SurveyDetailApp extends Component {
           question: qestion,
           answerType: type,
           answers: answers,
-          myAnswer: myans
-        }
-      ]
+          myAnswer: myans,
+        },
+      ],
     }));
     this.setState({ runTimes: 1 });
   }
 
-  addQuestion(qestion, type, answers) {
+  addQuestion(qestion, type, answers, myAnswer) {
     const { quiz } = this.props.quizzes;
     var nextId = quiz.questions.length;
     const newQuizItem = Object.assign({}, quiz);
@@ -162,7 +161,8 @@ class SurveyDetailApp extends Component {
       id: nextId,
       question: qestion,
       answerType: type,
-      answers: answers
+      answers: answers,
+      myAnswer: myAnswer,
     });
     this.props.saveSurvey(newQuizItem);
   }
@@ -173,16 +173,16 @@ class SurveyDetailApp extends Component {
     this.props.saveSurvey(ordered_array);
   }
   find(array, title) {
-    return array.find(element => {
+    return array.find((element) => {
       return element.title === title;
     });
   }
-  async studentSubmitQuiz() {
+  studentSubmitQuiz = async () => {
     const items = this.state.myQuestions;
 
     let questions = [];
     for (let i = items.length - 1; i > 0; i--) {
-      let bool = questions.find(element => element.id === items[i].id);
+      let bool = questions.find((element) => element.id === items[i].id);
       if (!bool) {
         questions.push(items[i]);
       }
@@ -190,16 +190,21 @@ class SurveyDetailApp extends Component {
     const values = queryString.parse(this.props.location.search);
     const quiz = values.id;
     const course = values.cid;
-    const body = JSON.stringify({ quiz, course, questions });
-    const res = await axios.post(URL + "api/quiz/studentsubmit", body, config);
-    window.location.reload();
-  }
+    const title = values.title;
+    const autocheck = this.props.quizzes.quiz.autocheck;
+    const body = JSON.stringify({ quiz, course, questions, title, autocheck });
+    axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
+      this.checkSubmission(quiz);
+      window.location.reload();
+    });
+  };
 
-  async submitQuiz() {
+  async submitQuiz(e) {
+    e.preventDefault();
     const items = this.props.quizzes.quiz.questions;
     let questions = [];
     for (let i = items.length - 1; i > 0; i--) {
-      let bool = questions.find(element => element.id === items[i].id);
+      let bool = questions.find((element) => element.id === items[i].id);
       if (!bool) {
         questions.push(items[i]);
       }
@@ -218,7 +223,7 @@ class SurveyDetailApp extends Component {
       message: message,
       user: user,
       course: course,
-      quiz: quiz
+      quiz: quiz,
     });
     window.location.reload();
   }
@@ -242,30 +247,37 @@ class SurveyDetailApp extends Component {
               </span>
             </h1>
 
-            {roll === "teacher" && (
-              <div className="float-sm-right mb-2">
-                <Button
-                 
-                  className="top-right-button top-right-button-single flex-grow-1"
-                  size="lg"
-                  onClick={() => this.submitQuiz()}
-                >
-                  UPDATE
-                </Button>
-              </div>
-            )}
-            {!this.state.isSubmitted && roll === "student" && (
-              <div className="float-sm-right mb-2">
-                <Button
-                  outline
-                  className="top-right-button top-right-button-single flex-grow-1"
-                  size="lg"
-                  onClick={() => this.studentSubmitQuiz()}
-                >
-                  SUBMIT
-                </Button>
-              </div>
-            )}
+            {this.props.user &&
+              this.props.quizzes &&
+              this.props.quizzes.quiz &&
+              this.props.quizzes.quiz.user._id === this.props.user._id &&
+              roll === "teacher" && (
+                <div className="float-sm-right mb-2">
+                  <Button
+                    className="top-right-button top-right-button-single flex-grow-1"
+                    size="lg"
+                    onClick={(e) => this.submitQuiz(e)}
+                  >
+                    UPDATE
+                  </Button>
+                </div>
+              )}
+            {this.props.user &&
+              this.props.quizzes &&
+              this.props.quizzes.quiz &&
+              this.props.quizzes.quiz.user._id != this.props.user._id &&
+              !this.state.isSubmitted && (
+                <div className="float-sm-right mb-2">
+                  <Button
+                    outline
+                    className="top-right-button top-right-button-single flex-grow-1"
+                    size="lg"
+                    onClick={this.studentSubmitQuiz}
+                  >
+                    SUBMIT
+                  </Button>
+                </div>
+              )}
             {loading ? (
               <Fragment>
                 {roll === "teacher" && (
@@ -274,7 +286,7 @@ class SurveyDetailApp extends Component {
                       <Link
                         className={classnames({
                           active: this.state.activeFirstTab === "1",
-                          "nav-link": true
+                          "nav-link": true,
                         })}
                         onClick={() => {
                           this.toggleTab("1");
@@ -288,7 +300,7 @@ class SurveyDetailApp extends Component {
                       <Link
                         className={classnames({
                           active: this.state.activeFirstTab === "2",
-                          "nav-link": true
+                          "nav-link": true,
                         })}
                         onClick={() => {
                           this.toggleTab("2");
@@ -306,8 +318,8 @@ class SurveyDetailApp extends Component {
                     <Row>
                       {this.props.user && (
                         <QuizDetailCard
-                          deleteClick={id => {
-                            this.studentSubmitQuiz(id);
+                          deleteClick={() => {
+                            this.studentSubmitQuiz();
                           }}
                           isSubmitted={!this.state.isSubmitted}
                           user={this.props.user}
@@ -320,24 +332,33 @@ class SurveyDetailApp extends Component {
                           <ul className="list-unstyled mb-4">
                             {quiz.questions.map((item, index) => {
                               return (
-                                <li data-id={item.id} key={item.id}>
+                                <li data-id={item._id} key={item._id}>
                                   <QuestionBuilder
                                     order={index}
-                                    {...item}
+                                    myAnswer={item.myAnswer}
+                                    id={item._id}
+                                    question={item.question}
                                     runTimes={1}
                                     roll="teacher"
+                                    answerType={quiz.autocheck}
                                     answers={item.answers}
                                     expanded={!item.question && true}
-                                    deleteClick={id => {
+                                    deleteClick={(id) => {
                                       this.deleteQuestion(id);
                                     }}
                                     submitQuestion={(
                                       id,
                                       qestion,
                                       type,
-                                      answers
+                                      answers,
+                                      myAnswer
                                     ) => {
-                                      this.addQuestion(qestion, type, answers);
+                                      this.addQuestion(
+                                        qestion,
+                                        type,
+                                        answers,
+                                        myAnswer
+                                      );
                                     }}
                                   />
                                 </li>
@@ -352,9 +373,19 @@ class SurveyDetailApp extends Component {
                                 <li data-id={item.id} key={item.id}>
                                   <QuestionBuilder
                                     order={index}
-                                    {...item}
+                                    myAnswer={
+                                      this.props.quizzes &&
+                                      this.props.quizzes.quiz &&
+                                      this.props.quizzes.quiz.user._id ===
+                                        this.props.user._id &&
+                                      item.myAnswer
+                                    }
+                                    order={index}
+                                    id={item._id}
+                                    question={item.question}
                                     answers={item.answers}
                                     expanded={!item.question && true}
+                                    answerType={quiz.autocheck}
                                     roll="student"
                                     submitQuestion={(
                                       id,
@@ -402,7 +433,11 @@ class SurveyDetailApp extends Component {
                       return (
                         <TabPane tabId="2">
                           <Colxx xxs="12">
-                            <Card className="card d-flex flex-row mb-3" id="rest" id="rest"> 
+                            <Card
+                              className="card d-flex flex-row mb-3"
+                              id="rest"
+                              id="rest"
+                            >
                               <div className="d-flex flex-grow-1 min-width-zero">
                                 <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                                   <Link
@@ -463,7 +498,7 @@ const mapStateToProps = ({ quizzes, quizList, auth }) => {
   return {
     allSurveyItems,
     quizzes,
-    user
+    user,
   };
 };
 export default withRouter(
@@ -471,6 +506,6 @@ export default withRouter(
     getQuizDetail,
     findSolvedQuiz,
     deleteQuizQuestion,
-    saveSurvey
+    saveSurvey,
   })(SurveyDetailApp)
 );

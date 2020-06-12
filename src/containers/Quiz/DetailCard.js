@@ -8,13 +8,14 @@ class DetailCard extends Component {
     this.state = {};
   }
   deleteClick = () => {
-    this.props.deleteClick(this.state.id);
+    this.props.deleteClick();
   };
   render() {
     return (
       <Colxx xxs="12" lg="4" className="mb-4">
         <Card className="mb-4" id="rest">
           {this.props.isSubmitted &&
+          this.props.quiz &&
           this.props.user._id !== this.props.quiz.user._id ? (
             <CardBody>
               <p className="text-muted text-small mb-2">Quiz</p>
@@ -39,9 +40,13 @@ class DetailCard extends Component {
               <p className="text-muted text-small mb-2">Course</p>
               <p className="mb-3">{this.props.quiz.course.name}</p>
               <p className="text-muted text-small mb-2">Marks</p>
-              <p className="mb-3">
-                {this.props.marks} out of {10}
-              </p>
+              {this.props.quiz.quiz ? (
+                <p className="mb-3">
+                  {this.props.quiz.marks} out of {this.props.quiz.quiz.marks}
+                </p>
+              ) : (
+                <p className="mb-3">out of {this.props.quiz.marks}</p>
+              )}
             </CardBody>
           )}
         </Card>

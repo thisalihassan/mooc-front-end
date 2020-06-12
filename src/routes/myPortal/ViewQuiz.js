@@ -11,8 +11,8 @@ import {
   findSolvedQuiz,
 } from "../../redux/actions";
 import QuizDetailCard from "../../containers/Quiz/DetailCard";
-// import axios from "axios";
-// import { URL, config } from "../../constants/defaultValues";
+import axios from "axios";
+import { URL, config } from "../../constants/defaultValues";
 
 class SurveyDetailApp extends Component {
   constructor(props) {
@@ -39,6 +39,18 @@ class SurveyDetailApp extends Component {
       });
     }
   }
+  async setMarks(e) {
+    e.preventDefault();
+    const marks = this.state.marks;
+    const body = JSON.stringify({ marks });
+    console.log(this.props.quizzes.quiz._id);
+    await axios.post(
+      URL + "api/quiz/setMarks/" + this.props.quizzes.quiz._id,
+      body,
+      config
+    );
+    this.props.getQuizDetail(this.props.match.params.id);
+  }
 
   render() {
     const { quiz, loading } = this.props.quizzes;
@@ -59,11 +71,21 @@ class SurveyDetailApp extends Component {
                 outline
                 className="top-right-button top-right-button-single flex-grow-1"
                 size="lg"
+                onClick={(e) => this.setMarks(e)}
               >
-                Mark Quiz
+                > Mark Quiz
               </Button>
             </div>
-
+            <div className="mb-2">
+              <input
+                type="Number"
+                value={this.state.marks}
+                min="0"
+                onChange={(val) => {
+                  this.setState({ marks: val.target.value });
+                }}
+              />
+            </div>
             {loading ? (
               <Fragment>
                 <Row>
@@ -75,7 +97,6 @@ class SurveyDetailApp extends Component {
                     <ul className="list-unstyled mb-4">
                       {quiz &&
                         quiz.questions.map((item, index) => {
-                          console.log(item);
                           return (
                             <li data-id={item.id} key={item.id}>
                               <QuestionBuilder
