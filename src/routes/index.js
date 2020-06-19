@@ -15,6 +15,7 @@ import search from "./pages/search";
 import notification from "./pages/notification";
 import feedback from "./pages/feedback";
 import help from "./pages/help";
+
 class MainApp extends Component {
   // constructor(props) {
   //   super(props);
@@ -47,6 +48,7 @@ class MainApp extends Component {
               <Route path={`${match.url}/profile`} component={profile} />{" "}
               <Route path={`${match.url}/admin`} component={admin} />
               <Route path={`${match.url}/search`} component={search} />
+             
               <Redirect to="/error" />
             </Switch>
           </div>

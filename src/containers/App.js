@@ -16,6 +16,7 @@ import "../assets/css/sass/themes/gogo.light.blue.scss";
 import "react-table/react-table.css";
 import Alert from "../routes/alert/alert";
 import AuthRoute from "../privateRoute";
+import Home from "../routes/home/landing";
 const App = ({ location, match, locale }) => {
   const currentAppLocale = AppLocale[locale];
   if (
@@ -40,6 +41,7 @@ const App = ({ location, match, locale }) => {
             <Route path={`/login`} component={Login} />
             <Route path={`/register`} component={Register} />
             <Route path={`/conformation`} component={conformation} />
+            <Route path={`/home`} component={Home} />
           </Switch>
         </Fragment>
       </IntlProvider>
