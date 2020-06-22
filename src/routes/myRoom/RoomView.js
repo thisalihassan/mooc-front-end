@@ -334,11 +334,10 @@ class ChatApplication extends Component {
     this.props.history.push("/app/myrooms/rooms");
   }
   toggleScreen = () => {
-    this.setState({
-      videoURL: SURL + "?id=" + this.state.room,
-    });
+    const userid = this.props.user._id;
     this.setState({
       modalOpen: !this.state.modalOpen,
+      videoURL: SURL + "?id=" + this.state.room + "&u=" + userid,
     });
   };
   toggleAudioCall = () => {
