@@ -31,6 +31,7 @@ import { socket } from "../../containers/TopNav";
 import axios from "axios";
 import { BURL, URL, config, AURL, SURL } from "../../constants/defaultValues";
 import queryString from "query-string";
+import moment from "moment";
 import NewWindow from "react-new-window";
 class ChatApplication extends Component {
   constructor(props) {
@@ -188,10 +189,10 @@ class ChatApplication extends Component {
     if (this.state.messages !== prevState.messages) {
       const mess = this.state.messageInput;
       this.state.socket.on("message", (mess) => {
-        // if (mess !== this.state.messages[this.state.messages.length - 1])
-        this.setState((prevState) => ({
-          messages: [...prevState.messages, mess],
-        }));
+        if (mess !== this.state.messages[this.state.messages.length - 1])
+          this.setState((prevState) => ({
+            messages: [...prevState.messages, mess],
+          }));
       });
 
       // this.state.socket.on("roomData", ({ users }) => {
@@ -230,7 +231,8 @@ class ChatApplication extends Component {
       const msg = this.state.messageInput;
       const check = true;
       const id = this.props.user._id;
-      const tuple = { myroom, msg, check, id };
+      const timeStamp = moment().format("D MMM YY HH:MM");
+      const tuple = { myroom, msg, check, id, timeStamp };
       this.state.socket.emit("sendMessage", tuple, () =>
         this.setState({
           messageInput: "",
@@ -238,7 +240,23 @@ class ChatApplication extends Component {
       );
     }
   }
-
+  sendMessage2(event) {
+    if (event.key === "Enter") {
+      if (this.state.messageInput !== "") {
+        const myroom = this.state.room;
+        const msg = this.state.messageInput;
+        const check = true;
+        const id = this.props.user._id;
+        const timeStamp = moment().format("D MMM YY HH:MM");
+        const tuple = { myroom, msg, check, id, timeStamp };
+        this.state.socket.emit("sendMessage", tuple, () =>
+          this.setState({
+            messageInput: "",
+          })
+        );
+      }
+    }
+  }
   handleChatInputChange(e) {
     this.setState({
       messageInput: e.target.value,
@@ -260,22 +278,22 @@ class ChatApplication extends Component {
       const name = this.state.roomName;
       const userid = this.props.user._id;
       const tuple = { room, name, userid, courseID };
-      this.state.socket.emit("VideoCall", tuple, () =>
-        setTimeout(
-          function () {
-            this.setState({
-              modalOpen: !this.state.modalOpen,
-              videoURL:
-                BURL +
-                "?id=" +
-                this.state.room +
-                "&u=" +
-                user._id +
-                "&s=video&q=start",
-            });
-          }.bind(this),
-          3000
-        )
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL:
+          BURL +
+          "?id=" +
+          this.state.room +
+          "&u=" +
+          user._id +
+          "&s=video&q=start",
+      });
+
+      setTimeout(
+        function () {
+          this.state.socket.emit("VideoCall", tuple, () => console.log("done"));
+        }.bind(this),
+        2000
       );
     }
   }
@@ -287,17 +305,24 @@ class ChatApplication extends Component {
       const name = this.state.roomName;
       const userid = this.props.user._id;
       const tuple = { room, name, userid, courseID };
-      this.state.socket.emit("ScreenSharing", tuple, () =>
-        setTimeout(
-          function () {
-            this.setState({
-              modalOpen: !this.state.modalOpen,
-              videoURL:
-                SURL + "?id=" + this.state.room + "&u=" + user._id + "&q=start",
-            });
-          }.bind(this),
-          3000
-        )
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL:
+          SURL +
+          "?id=" +
+          this.state.room +
+          "&n=" +
+          this.state.roomName +
+          "&q=start",
+      });
+
+      setTimeout(
+        function () {
+          this.state.socket.emit("ScreenSharing", tuple, () =>
+            console.log("done")
+          );
+        }.bind(this),
+        2000
       );
     }
   }
@@ -308,16 +333,16 @@ class ChatApplication extends Component {
       const name = this.state.roomName;
       const userid = this.props.user._id;
       const tuple = { room, name, userid, courseID };
-      this.state.socket.emit("AudioCall", tuple, () =>
-        setTimeout(
-          function () {
-            this.setState({
-              modalOpen: !this.state.modalOpen,
-              videoURL: AURL + "?id=" + this.state.room + "&u=start",
-            });
-          }.bind(this),
-          3000
-        )
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL: AURL + "?id=" + this.state.room + "&u=start",
+      });
+
+      setTimeout(
+        function () {
+          this.state.socket.emit("AudioCall", tuple, () => console.log("done"));
+        }.bind(this),
+        2000
       );
     }
   }
@@ -337,7 +362,13 @@ class ChatApplication extends Component {
     const userid = this.props.user._id;
     this.setState({
       modalOpen: !this.state.modalOpen,
-      videoURL: SURL + "?id=" + this.state.room + "&u=" + userid,
+      videoURL:
+        SURL +
+        "?id=" +
+        this.state.room +
+        "&n=" +
+        this.state.roomName +
+        "&q=start",
     });
   };
   toggleAudioCall = () => {
@@ -494,6 +525,7 @@ class ChatApplication extends Component {
               placeholder={messages["chat.saysomething"]}
               value={this.state.messageInput}
               onChange={(e) => this.handleChatInputChange(e)}
+              onKeyPress={(event) => this.sendMessage2(event)}
             />
             <div>
               <Button
@@ -508,7 +540,6 @@ class ChatApplication extends Component {
                 color={"primary"}
                 className="icon-button large ml-1"
                 onClick={(event) => this.sendMessage(event)}
-                onKeyDown={(event) => this.sendMessage(event)}
               >
                 <i className="simple-icon-arrow-right" />
               </Button>

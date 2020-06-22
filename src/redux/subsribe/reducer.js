@@ -6,7 +6,7 @@ import {
 } from "../../constants/actionTypes";
 
 const INIT_STATE = {
-  subscribed: [],
+  subscribed: false,
   recommendation: [],
   relatedcourses: [],
   topcourses: [],

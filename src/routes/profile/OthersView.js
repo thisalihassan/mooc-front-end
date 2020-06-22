@@ -43,6 +43,7 @@ class OthersProfile extends React.Component {
       follower: "",
       isRported: false,
       reviews: [],
+      showMSg: false,
       currentPage: 1,
       totalPage: 1,
       perPage: 6,
@@ -99,9 +100,13 @@ class OthersProfile extends React.Component {
     if (this.props.user) {
       if (this.props.subscribed !== prevProps.subscribed) {
         const values = queryString.parse(this.props.location.search);
-        let id = values.id;
+        let id = values.profile;
         if (this.state.runTime && this.props.subscribed.following) {
           const log = this.props.subscribed.following.find((x) => x._id === id);
+          const match = this.props.subscribed.followers.find(
+            (x) => x._id === id
+          );
+          this.setState({ showMSg: log && match });
           this.setState({ subscribed: log });
           this.setState({ runTime: false });
           const body = JSON.stringify({ id });
@@ -216,16 +221,18 @@ class OthersProfile extends React.Component {
                           >
                             <i id="othr" className="simple-icon-phone" />
                           </Button>
-                          <a
-                            href={
-                              "/app/messages/chat/?t=" +
-                              this.props.userProfile.user._id
-                            }
-                          >
-                            <Button>
-                              <i id="othr" className="simple-icon-bubble"></i>
-                            </Button>
-                          </a>{" "}
+                          {this.state.showMSg && (
+                            <a
+                              href={
+                                "/app/messages/chat/?t=" +
+                                this.props.userProfile.user._id
+                              }
+                            >
+                              <Button>
+                                <i id="othr" className="simple-icon-bubble"></i>
+                              </Button>
+                            </a>
+                          )}
                           {!this.state.isRported && (
                             <Button onClick={(e) => this.reportProfile(e)}>
                               Report

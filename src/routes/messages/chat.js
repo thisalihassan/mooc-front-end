@@ -13,6 +13,7 @@ import {
   getProfiles,
   loadConversations,
   deleteConversation,
+  GetSubscription,
 } from "../../redux/actions";
 import io from "socket.io-client";
 import queryString from "query-string";
@@ -30,6 +31,8 @@ class ChatApplication extends Component {
       name: "",
       messages: [],
       users: "",
+      setProfiles: false,
+      profiles: [],
       loading: false,
       firstTime: true,
       firstMessage: false,
@@ -50,16 +53,39 @@ class ChatApplication extends Component {
     }
   }
   async componentDidMount() {
-    await this.props.getProfiles();
+    this.props.GetSubscription();
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log();
+    if (
+      !this.state.setProfiles &&
+      this.props.followers &&
+      this.props.following
+    ) {
+      let users = [];
+      let followigs = this.props.following;
+      let sizeF = followigs.length;
+      let followers = this.props.followers;
+      let sizeFrs = followigs.length;
+      let m = 0;
+      for (let i = 0; i < sizeF; i += 1) {
+        for (let j = 0; j < sizeFrs; j += 1) {
+          if (followigs[i]._id == followers[j]._id) {
+            users[m] = followigs[i];
+            m += 1;
+          }
+        }
+      }
+      this.setState({
+        setProfiles: true,
+        profiles: users,
+      });
+    }
     const values = queryString.parse(this.props.location.search);
-    if (this.props.profile.profiles.length > 0)
+    if (this.state.profiles.length > 0)
       if (values.t && this.state.changeUser) {
-        const profile = this.props.profile.profiles.find(
-          (x) => x.user._id === values.t
-        );
-        const myData = [this.props.user._id, profile.user._id];
+        const profile = this.state.profiles.find((x) => x._id === values.t);
+        const myData = [this.props.user._id, profile._id];
         this.setState({ loading: true });
         this.props.loadConversations(myData.sort());
         this.setState({ loading: false });
@@ -185,7 +211,23 @@ class ChatApplication extends Component {
       );
     }
   }
-
+  sendMessage2(event) {
+    if (event.key === "Enter") {
+      if (this.state.messageInput !== "") {
+        const myroom = this.state.room;
+        const msg = this.state.messageInput;
+        const check = false;
+        const id = this.props.user._id;
+        const timeStamp = moment().format("D MMM YY HH:MM");
+        const tuple = { myroom, msg, check, id, timeStamp };
+        this.state.socket.emit("sendMessage", tuple, () =>
+          this.setState({
+            messageInput: "",
+          })
+        );
+      }
+    }
+  }
   handleChatInputChange(e) {
     this.setState({
       messageInput: e.target.value,
@@ -215,21 +257,16 @@ class ChatApplication extends Component {
     this.setState({ loading: false });
     this.setState({
       firstMessage: true,
-      reciever: this.props.profile.profiles[userId],
+      reciever: this.state.profiles[userId],
       changeUser: true,
     });
 
-    const myData = [
-      this.props.user._id,
-      this.props.profile.profiles[userId].user._id,
-    ];
+    const myData = [this.props.user._id, this.state.profiles[userId]._id];
     // this.setState({ room: myData.sort() });
     this.joinRoom(myData.sort());
   }
   startAudioCall(owner, user) {
     const myData = [owner, user];
-    console.log(this.props.user._id);
-    console.log(myData);
     const myroom = myData.sort();
     const name = this.props.user.name;
     const userid = owner;
@@ -261,8 +298,8 @@ class ChatApplication extends Component {
               <div className="d-flex flex-row chat-heading">
                 <div className="d-flex">
                   <img
-                    alt={reciever && reciever.user.name}
-                    src={reciever && reciever.user.avatar}
+                    alt={reciever && reciever.name}
+                    src={reciever && reciever.avatar}
                     className="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
                   />
                 </div>
@@ -271,7 +308,7 @@ class ChatApplication extends Component {
                     <div className="min-width-zero">
                       <div>
                         <p className="list-item-heading mb-1 truncate ">
-                          {reciever && reciever.user.name}
+                          {reciever && reciever.name}
                         </p>
                       </div>
                       <p className="mb-0 text-muted text-small">
@@ -293,10 +330,7 @@ class ChatApplication extends Component {
                 <div className="float-sm-right mb-2">
                   <Button
                     onClick={() =>
-                      this.startAudioCall(
-                        reciever.user._id,
-                        this.props.user._id
-                      )
+                      this.startAudioCall(reciever._id, this.props.user._id)
                     }
                   >
                     <i className="simple-icon-phone" />
@@ -376,6 +410,7 @@ class ChatApplication extends Component {
             className="form-control flex-grow-1"
             type="text"
             placeholder={messages["chat.saysomething"]}
+            onKeyPress={(event) => this.sendMessage2(event)}
             value={this.state.messageInput}
             onChange={(e) => this.handleChatInputChange(e)}
           />
@@ -413,10 +448,10 @@ class ChatApplication extends Component {
             option={{ suppressScrollX: true, wheelPropagation: false }}
           >
             <div className="pt-2 pr-4 pl-4 pb-2">
-              {this.props.profile.profiles !== [] &&
-                this.props.profile.profiles.map((item, index) => {
+              {this.state.profiles !== [] &&
+                this.state.profiles.map((item, index) => {
                   if (user) {
-                    if (item.user._id !== user._id) {
+                    if (item._id !== user._id) {
                       return (
                         <div
                           key={index}
@@ -424,20 +459,18 @@ class ChatApplication extends Component {
                         >
                           <NavLink
                             className="d-flex"
-                            to={"/app/messages/chat/?t=" + item.user._id}
+                            to={"/app/messages/chat/?t=" + item._id}
                             onClick={() => this.handleContactClick(index)}
                           >
                             <img
-                              alt={item.user.name}
-                              src={item.user.avatar}
+                              alt={item.name}
+                              src={item.avatar}
                               className="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
                             />
                             <div className="d-flex flex-grow-1 min-width-zero">
                               <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                 <div className="min-width-zero">
-                                  <p className="mb-0 truncate">
-                                    {item.user.name}
-                                  </p>
+                                  <p className="mb-0 truncate">{item.name}</p>
                                 </div>
                               </div>
                             </div>
@@ -455,13 +488,16 @@ class ChatApplication extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, chat, profile }) => {
+const mapStateToProps = ({ auth, chat, profile, subscribtion }) => {
   const { user } = auth;
-  return { user, chat, profile };
+  const { followers } = subscribtion.subscribed;
+  const { following } = subscribtion.subscribed;
+  return { user, chat, profile, followers, following };
 };
 export default injectIntl(
   connect(mapStateToProps, {
     getProfiles,
+    GetSubscription,
     loadConversations,
     deleteConversation,
   })(ChatApplication)
