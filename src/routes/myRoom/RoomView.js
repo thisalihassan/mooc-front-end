@@ -445,7 +445,8 @@ class ChatApplication extends Component {
                   {this.state.messages.map((item, index) => {
                     return (
                       <Fragment key={index}>
-                        <Card id="rest"
+                        <Card
+                          id="rest"
                           className={`d-inline-block mb-3 float-${
                             item.user !== user.name ? "left" : "right"
                           }`}
@@ -650,7 +651,6 @@ class ChatApplication extends Component {
               </TabPane>
             </TabContent>
           </ApplicationMenu>
-          }
         </Fragment>
       );
     else {

@@ -37,9 +37,8 @@ const options = [
   },
   { value: "Data Science", label: "Data Science", id: 5 },
   { value: "Artificial Intelligence", label: "Artificial Intelligence", id: 6 },
-  { value: "Marketing", label: "Marketing", id: 7 },
-  { value: "Accounting", label: "Accounting", id: 8 },
-  { value: "IT and Software", label: "IT and Software", id: 9 },
+  { value: "Accounting", label: "Accounting", id: 7 },
+  { value: "IT and Software", label: "IT and Software", id: 8 },
 ];
 
 export class AddCourse extends Component {
@@ -123,6 +122,7 @@ export class AddCourse extends Component {
           return res.data;
         })
         .then((data) => {
+          console.log(data.category);
           this.setState({
             id: id,
             name: data.name,
@@ -131,6 +131,9 @@ export class AddCourse extends Component {
             importance: data.importance,
             preReq: data.preReq,
             outcome: data.outcome,
+            category: options.filter((value) => {
+              return value.label == data.category;
+            }),
             courseContent: data.courseContent,
           });
         });

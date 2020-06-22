@@ -221,7 +221,9 @@ class TopNav extends Component {
         this.addEventsSearch();
       }
     } else {
-      this.search();
+      this.props.history.push(
+        "/app/search/?search=" + this.state.searchKeyword + "&r=" + true
+      );
     }
   };
   addEventsSearch() {
@@ -272,7 +274,7 @@ class TopNav extends Component {
       );
     }
   }
-  dropDownSearch() {}
+
   search() {
     this.setState({
       searchKeyword: "",

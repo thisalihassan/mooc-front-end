@@ -1,4 +1,4 @@
-// import { defaultDirection } from "../constants/defaultValues";
+import { defaultDirection } from "../constants/defaultValues";
 
 export const mapOrder = (array, order, key) => {
   array.sort(function (a, b) {
@@ -33,19 +33,19 @@ export const getCurrentTime = () => {
   return now.getHours() + ":" + now.getMinutes();
 };
 
-// export const getDirection = () => {
-//   let direction = defaultDirection;
-//   if (localStorage.getItem("direction")) {
-//     const localValue = localStorage.getItem("direction");
-//     if (localValue === "rtl" || localValue === "ltr") {
-//       direction = localValue;
-//     }
-//   }
-//   return {
-//     direction,
-//     isRtl: direction === "rtl"
-//   };
-// };
+export const getDirection = () => {
+  let direction = defaultDirection;
+  if (localStorage.getItem("direction")) {
+    const localValue = localStorage.getItem("direction");
+    if (localValue === "rtl" || localValue === "ltr") {
+      direction = localValue;
+    }
+  }
+  return {
+    direction,
+    isRtl: direction === "rtl",
+  };
+};
 
 // export const setDirection = (localValue) => {
 //   let direction = "ltr";
