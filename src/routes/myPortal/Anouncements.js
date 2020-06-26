@@ -41,16 +41,6 @@ class TodoApp extends Component {
     this.props.getmyCourse();
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
-      await axios
-        .post(URL + "api/Courses/getanouncement/" + values.id, {}, config)
-        .then((res) => {
-          this.setState({
-            id: res.data.anouncement[0]._id,
-            description: res.data.anouncement[0].description,
-            course: { label: res.data.course.name, value: res.data.course._id },
-          });
-          this.toggleModal();
-        });
     }
   }
 
@@ -65,7 +55,7 @@ class TodoApp extends Component {
     );
   }
 
-  async dataListRender(search) {
+  async dataListRender() {
     const currentPage = this.state.currentPage;
     const perPage = this.state.perPage;
     if (this.props.user.roll === "student") {
@@ -110,16 +100,37 @@ class TodoApp extends Component {
       modalOpen: !this.state.modalOpen,
     });
   };
+  clearModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+    this.setState({
+      course: null,
+      id: null,
+      description: null,
+    });
+  };
   reloadModel() {
-    this.props.history.push("/app/myportal/anouncements");
-    window.location.reload();
+    this.makecoursesList();
+    this.dataListRender();
   }
-
-  async deleteAnouncement(id) {
+  async updateAnouncement(id) {
     await axios
-      .get(URL + "api/Courses/remove/" + id, {}, config)
-      .then(this.props.history.push("/app/myportal/anouncements"));
-    window.location.reload();
+      .post(URL + "api/Courses/getanouncement/" + id, {}, config)
+      .then((res) => {
+        console.log(res.data.anouncement[0].description);
+        this.setState({
+          id: res.data.anouncement[0]._id,
+          description: res.data.anouncement[0].description,
+          course: { label: res.data.course.name, value: res.data.course._id },
+        });
+        this.toggleModal();
+      });
+  }
+  async deleteAnouncement(id) {
+    await axios.get(URL + "api/Courses/remove/" + id, {}, config);
+    this.makecoursesList();
+    this.dataListRender();
   }
 
   render() {
@@ -170,6 +181,9 @@ class TodoApp extends Component {
                         deleteClick={(id) => {
                           this.deleteAnouncement(id);
                         }}
+                        updateAnouncement={(id) => {
+                          this.updateAnouncement(id);
+                        }}
                       />
                     );
                   });
@@ -194,7 +208,7 @@ class TodoApp extends Component {
               description={this.state.description}
               course={this.state.course}
               reloadModel={(e) => this.reloadModel(e)}
-              toggleModal={this.toggleModal}
+              toggleModal={this.clearModal}
               modalOpen={modalOpen}
               courses={this.props.myCourses}
             />

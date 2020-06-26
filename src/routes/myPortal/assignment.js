@@ -26,7 +26,6 @@ import ListItem from "../../containers/Assignment/ListItem";
 import AddNewModel from "../../containers/Assignment/AddNewModel";
 import ApplicationMenu from "../../containers/Assignment/ApplicationMenu";
 import axios from "axios";
-import queryString from "query-string";
 import { URL, config } from "../../constants/defaultValues";
 class Assignment extends Component {
   constructor(props) {

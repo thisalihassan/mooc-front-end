@@ -10,8 +10,11 @@ class ListItem extends React.Component {
     super(props);
     this.state = {};
   }
-  deleteItem = e => {
+  deleteItem = (e) => {
     this.props.deleteClick(this.props.item._id);
+  };
+  updateAnouncement = (e) => {
+    this.props.updateAnouncement(this.props.item._id);
   };
   render() {
     const item = this.props.item;
@@ -42,9 +45,7 @@ class ListItem extends React.Component {
                   <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item
-                      href={`/app/myportal/anouncements/?id=${this.props.item._id}`}
-                    >
+                    <Dropdown.Item onClick={this.updateAnouncement}>
                       Edit
                     </Dropdown.Item>
 

@@ -13,6 +13,9 @@ class ListItem extends React.Component {
   deleteItem = (e) => {
     this.props.deleteClick(this.props.item._id);
   };
+  updateQuiz = (e) => {
+    this.props.updateQuiz(this.props.item._id);
+  };
   render() {
     return (
       <Colxx xxs="12">
@@ -41,9 +44,7 @@ class ListItem extends React.Component {
                   <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item
-                      href={`/app/myportal/quiz/?id=${this.props.item._id}`}
-                    >
+                    <Dropdown.Item onClick={this.updateQuiz}>
                       Edit
                     </Dropdown.Item>
 

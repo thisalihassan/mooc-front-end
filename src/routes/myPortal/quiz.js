@@ -28,7 +28,6 @@ import AddNewModal from "../../containers/Quiz/AddNewModel";
 import ApplicationMenu from "../../containers/Quiz/ApplicationMenu";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
-import queryString from "query-string";
 class Quiz extends Component {
   constructor(props) {
     super(props);
@@ -50,23 +49,6 @@ class Quiz extends Component {
   async componentDidMount() {
     this.props.GetSubscription();
     this.props.getmyCourse();
-    const values = queryString.parse(this.props.location.search);
-    if (values.id) {
-      axios
-        .post(URL + "api/quiz/detailquiz/" + values.id, {}, config)
-        .then((res) => {
-          this.setState({
-            id: values.id,
-            title: res.data.title,
-            marks: res.data.marks,
-            autocheck: res.data.autocheck,
-            time: res.data.time,
-            course: { label: res.data.course.name, value: res.data.course._id },
-          });
-          this.toggleModal();
-          this.props.history.push("/app/myportal/quiz");
-        });
-    }
   }
   componentDidUpdate(prevState, prevProps) {
     if (this.props.user && this.state.listCourse.length == 0) {
@@ -100,7 +82,19 @@ class Quiz extends Component {
       modalOpen: !this.state.modalOpen,
     });
   };
-
+  clearModal = () => {
+    this.setState({
+      id: null,
+      title: null,
+      course: null,
+      autocheck: null,
+      marks: null,
+      time: null,
+    });
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  };
   toggleSplit = () => {
     this.setState((prevState) => ({
       dropdownSplitOpen: !prevState.dropdownSplitOpen,
@@ -112,14 +106,34 @@ class Quiz extends Component {
   };
 
   async deleteQuiz(id) {
-    await axios
-      .post(URL + "api/quiz/deletequiz/" + id, {}, config)
-      .then(this.props.history.push("/app/myportal/quiz"));
-    window.location.reload();
+    await axios.post(URL + "api/quiz/deletequiz/" + id, {}, config);
+
+    this.makecoursesList();
+    this.props.addQuizToList(
+      this.state.listCourse,
+      this.props.user.roll.toLowerCase()
+    );
+  }
+
+  async updateQuiz(id) {
+    axios.post(URL + "api/quiz/detailquiz/" + id, {}, config).then((res) => {
+      this.setState({
+        id: id,
+        title: res.data.title,
+        marks: res.data.marks,
+        autocheck: res.data.autocheck,
+        time: res.data.time,
+        course: { label: res.data.course.name, value: res.data.course._id },
+      });
+      this.toggleModal();
+    });
   }
   reloadModel() {
-    this.props.history.push("/app/myportal/quiz");
-    window.location.reload();
+    this.makecoursesList();
+    this.props.addQuizToList(
+      this.state.listCourse,
+      this.props.user.roll.toLowerCase()
+    );
   }
 
   render() {
@@ -162,7 +176,7 @@ class Quiz extends Component {
                 isOpen={this.state.displayOptionsIsOpen}
               >
                 <div className="d-block mb-2 d-md-inline-block">
-                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                  {/* <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                     <DropdownToggle caret color="outline-dark" size="xs">
                       <IntlMessages id="quizes.orderby" />
                       {orderColumn ? orderColumn.label : ""}
@@ -179,7 +193,7 @@ class Quiz extends Component {
                         );
                       })}
                     </DropdownMenu>
-                  </UncontrolledDropdown>
+                  </UncontrolledDropdown> */}
                 </div>
               </Collapse>
             </div>
@@ -194,6 +208,7 @@ class Quiz extends Component {
                       deleteClick={(id) => {
                         this.deleteQuiz(id);
                       }}
+                      updateQuiz={(id) => this.updateQuiz(id)}
                       roll={this.props.user.roll}
                     />
                   );
@@ -216,7 +231,7 @@ class Quiz extends Component {
               autocheck={this.state.autocheck}
               course={this.state.course}
               reloadModel={(e) => this.reloadModel(e)}
-              toggleModal={this.toggleModal}
+              toggleModal={this.clearModal}
               modalOpen={modalOpen}
               courses={this.props.myCourses}
             />

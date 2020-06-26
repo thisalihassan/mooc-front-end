@@ -7,14 +7,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
   FormGroup,
-  Label
+  Label,
 } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import { FormikReactSelect } from "../../components/FormikFields";
-import Select from "react-select";
-import CustomSelectInput from "../../components/CustomSelectInput";
 import IntlMessages from "../../util/IntlMessages";
 import { URL, config } from "../../constants/defaultValues";
 import axios from "axios";
@@ -26,7 +23,7 @@ class AddNewTodoModal extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       description: this.props.description,
-      socket: null
+      socket: null,
     };
   }
   componentDidMount() {
@@ -35,7 +32,7 @@ class AddNewTodoModal extends Component {
     }
   }
   async handleSubmit(values) {
-    const description = this.state.description;
+    const description = values.description;
     const course = values.course["value"];
     let body = JSON.stringify({ description, course });
     console.log(this.props.id);
@@ -61,7 +58,7 @@ class AddNewTodoModal extends Component {
       message: message,
       user: user,
       course: course,
-      anouncements: anouncements
+      anouncements: anouncements,
     });
     this.props.reloadModel();
     this.props.toggleModal();
@@ -69,7 +66,7 @@ class AddNewTodoModal extends Component {
 
   validate(values) {
     let errors = {};
-    if (!this.state.description) {
+    if (!values.description) {
       errors.description = "Please enter a description";
     }
     if (!values.course) {
@@ -79,7 +76,7 @@ class AddNewTodoModal extends Component {
   }
 
   render() {
-    const { labels, categories } = this.props.todoApp;
+    console.log(this.props.description);
     const { modalOpen, toggleModal } = this.props;
     return (
       <Modal
@@ -97,7 +94,7 @@ class AddNewTodoModal extends Component {
             initialValues={{
               course: this.props.course,
               description: this.props.description ? this.props.description : "",
-              file: null
+              file: null,
             }}
             onSubmit={this.handleSubmit}
           >
@@ -107,7 +104,7 @@ class AddNewTodoModal extends Component {
               isValidating,
               setFieldValue,
               setFieldTouched,
-              values
+              values,
             }) => (
               <Form className="av-tooltip tooltip-label-right">
                 <FormGroup>
@@ -137,13 +134,7 @@ class AddNewTodoModal extends Component {
                   <Label className="mt-4">
                     <IntlMessages id="form-components.announce" />
                   </Label>
-                  <Input
-                    type="textarea"
-                    value={this.state.description}
-                    onChange={event => {
-                      this.setState({ description: event.target.value });
-                    }}
-                  />{" "}
+                  <Field component="textarea" rows="2" name="description" />{" "}
                   {errors.description && touched.description ? (
                     <div className="invalid-feedback d-block">
                       {errors.description}
@@ -170,7 +161,7 @@ const mapStateToProps = ({ todoApp, auth }) => {
   const { user } = auth;
   return {
     user,
-    todoApp
+    todoApp,
   };
 };
 export default connect(mapStateToProps, {})(AddNewTodoModal);
