@@ -1,7 +1,8 @@
 export default {
   /* 01.General */
   "general.copyright": "MOOC",
-
+  "form-components.recording": "Record your broadcast",
+  "form-components.autozoom": "AutoZoom on whiteboard",
   /* 02.User Login, Logout, Register */
   "user.login-title": "Login",
   "user.register": "Register",

@@ -135,7 +135,10 @@ class TopNav extends Component {
             mess.room +
             "&u=" +
             this.props.user._id +
-            "&s=video&q=join",
+            "&s=video&q=join" +
+            mess.zoom
+              ? "z=zoom"
+              : "",
           callerName: mess.name,
         });
         document.getElementById("call-sound").play();
@@ -676,7 +679,14 @@ class TopNav extends Component {
             </ModalFooter>
           </Modal>
           {this.state.callStarted && (
-            <NewWindow url={this.state.callerID}></NewWindow>
+            <NewWindow
+              onUnload={(e) =>
+                this.setState({
+                  callStarted: !this.state.callStarted,
+                })
+              }
+              url={this.state.callerID}
+            ></NewWindow>
           )}
         </nav>
       );

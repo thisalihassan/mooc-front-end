@@ -50,14 +50,21 @@ class AddNewSurveyModal extends Component {
         "Content-Type": "multipart/form-data",
       },
     };
-    const res = await axios.post(URL + "lecturefiles", file, configg);
-    console.log(res.data);
-    this.setState({ upload: false, file: res.data[0] });
+    let res;
+    try {
+      res = await axios.post(URL + "lecturefiles", file, configg);
+      console.log(res.data);
+      this.setState({ upload: false, file: res.data[0] });
+    } catch (error) {
+      console.log(error);
+    }
   }
   async handleSubmit(values) {
+    this.setState({ upload: true });
     const course = values.course["value"];
+    await this.uploadLecture();
     let file = this.state.file;
-
+    console.log(this.state.file);
     const title = values.title;
     const duedate = values.duedate.toISOString();
     let body = JSON.stringify({ file, title, course, duedate });
@@ -69,8 +76,6 @@ class AddNewSurveyModal extends Component {
         config
       );
     } else {
-      this.setState({ upload: true });
-      await this.uploadLecture();
       file = this.state.file;
       let body = JSON.stringify({ file, title, course, duedate });
       res = await axios.post(URL + "api/assignment/", body, config);

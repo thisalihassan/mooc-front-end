@@ -6,17 +6,16 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 import ApplicationMenu from "../../components/ApplicationMenu";
 import IntlMessages from "../../util/IntlMessages";
-// import { getQuizListWithFilter } from "../../redux/actions";
+import { getAnouncementswithFilter } from "../../redux/actions";
 class TodoApplicationMenu extends Component {
   constructor(props) {
     super();
   }
-  // addFilter(column, value) {
-  //   this.props.getQuizListWithFilter(column, value);
-  // }
+  addFilter(column, value) {
+    this.props.getAnouncementswithFilter(column, value);
+  }
   render() {
-    const { allTodoItems, loading } = this.props.todoApp;
-    const { allSurveyItems } = this.props.quizList;
+    const { filter } = this.props.todoApp;
     return (
       <ApplicationMenu>
         <PerfectScrollbar
@@ -27,12 +26,21 @@ class TodoApplicationMenu extends Component {
               <IntlMessages id="todo.status" />
             </p>
             <ul className="list-unstyled mb-5">
+              <NavItem className={classnames({ active: !filter })}>
+                <NavLink to="#" onClick={(e) => this.addFilter("", "")}>
+                  All Items
+                </NavLink>
+              </NavItem>
               {this.props.courses &&
-                this.props.courses.map(itemData => {
+                this.props.courses.map((itemData) => {
+                  let match;
+                  if (filter) match = filter.value == itemData._id;
                   return (
-                    <NavItem>
-                      <NavLink to="#">
-                        <i className="simple-icon-reload" />
+                    <NavItem className={classnames({ active: match })}>
+                      <NavLink
+                        to="#"
+                        onClick={(e) => this.addFilter("course", itemData._id)}
+                      >
                         {itemData.name}
                         {/* <span className="float-right">
                           {loading && allSurveyItems.length}
@@ -49,10 +57,11 @@ class TodoApplicationMenu extends Component {
   }
 }
 
-const mapStateToProps = ({ todoApp, quizList }) => {
+const mapStateToProps = ({ todoApp }) => {
   return {
     todoApp,
-    quizList
   };
 };
-export default connect(mapStateToProps, {})(TodoApplicationMenu);
+export default connect(mapStateToProps, { getAnouncementswithFilter })(
+  TodoApplicationMenu
+);

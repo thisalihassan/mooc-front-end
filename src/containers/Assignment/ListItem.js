@@ -1,12 +1,12 @@
 import React from "react";
-import { Card, CardBody, Badge, Button } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SubmitAssignment from "./SubmitAssingment";
 import { Colxx } from "../../components/CustomBootstrap";
 import IntlMessages from "../../util/IntlMessages";
 import moment from "moment";
-import { URL } from "../../constants/defaultValues";
+
 class ListItem extends React.Component {
   constructor(props) {
     super(props);

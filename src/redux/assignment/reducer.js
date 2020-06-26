@@ -1,7 +1,7 @@
 import {
   GET_ASSIGNMENT_ERR,
   GET_ASSIGNMENT,
-  ASSINGMENT_WITH_FILTER
+  ASSINGMENT_WITH_FILTER,
 } from "../../constants/actionTypes";
 
 const INIT_STATE = {
@@ -9,7 +9,7 @@ const INIT_STATE = {
   selectedassignments: null,
   error: "",
   loading: false,
-  filter: null
+  filter: null,
 };
 
 export default (state = INIT_STATE, action) => {
@@ -19,7 +19,7 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loading: true,
         assignments: action.payload,
-        selectedassignments: action.payload
+        selectedassignments: action.payload,
       };
     case GET_ASSIGNMENT_ERR:
       return { ...state, loading: true, error: action.payload };
@@ -29,11 +29,11 @@ export default (state = INIT_STATE, action) => {
           ...state,
           loading: true,
           selectedassignments: state.assignments,
-          filter: null
+          filter: null,
         };
       } else {
         const filteredItems = state.assignments.filter(
-          item => item[action.payload.column]._id === action.payload.value
+          (item) => item[action.payload.column]._id === action.payload.value
         );
         return {
           ...state,
@@ -41,8 +41,8 @@ export default (state = INIT_STATE, action) => {
           selectedassignments: filteredItems,
           filter: {
             column: action.payload.column,
-            value: action.payload.value
-          }
+            value: action.payload.value,
+          },
         };
       }
     default:

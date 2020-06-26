@@ -14,7 +14,11 @@ import {
   CardHeader,
   Table,
   NavItem,
+  FormGroup,
+  Label,
 } from "reactstrap";
+import { FormikSwitch } from "../../components/FormikFields";
+import { Formik, Form } from "formik";
 import { NavLink, Link } from "react-router-dom";
 import { Colxx, Separator } from "../../components/CustomBootstrap";
 import ApplicationMenu from "../../components/ApplicationMenu";
@@ -54,6 +58,9 @@ class ChatApplication extends Component {
       roomCreator: "",
       firstTime: true,
       guidelines: "",
+      recording: false,
+      autozoom: false,
+      fileName: "",
     };
   }
 
@@ -67,7 +74,7 @@ class ChatApplication extends Component {
   async componentDidMount() {
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
-      const res = await axios.post(
+      let res = await axios.post(
         URL + "api/room/find/" + values.id,
         {},
         config
@@ -80,6 +87,10 @@ class ChatApplication extends Component {
         roomCreator: res.data.user,
         guidelines: res.data.guidelines,
       });
+      let id = res.data.course._id;
+      const body = JSON.stringify({ id });
+      res = await axios.post(URL + "api/Courses/getFiles", body, config);
+      this.setState({ fileName: "Lecture " + res.data.length + 1 });
       this.props.loadConversations(values.id, false);
       // this.state.socket.emit("join", { name, myroom }, error => {
       //   if (error) {
@@ -101,7 +112,7 @@ class ChatApplication extends Component {
           this.state.users.forEach((item) => {
             mid.push(item.id);
           });
-          console.log(mid);
+
           const body = JSON.stringify({ mid });
           axios
             .post(URL + "api/auth/find", body, config)
@@ -109,7 +120,6 @@ class ChatApplication extends Component {
               return res.data;
             })
             .then((data) => {
-              console.log(data);
               this.setState({ participants: data });
             });
         }
@@ -121,7 +131,6 @@ class ChatApplication extends Component {
       });
     }
 
-    console.log(this.state.users);
     if (this.props.chat.conversation !== prevProps.chat.conversation) {
       this.setState({ messages: this.props.chat.conversation });
     }
@@ -165,7 +174,7 @@ class ChatApplication extends Component {
           this.state.users.forEach((item) => {
             id.push(item.id);
           });
-          console.log(id);
+
           const body = JSON.stringify({ id });
           await axios
             .get(URL + "api/auth/find", body, config)
@@ -173,7 +182,6 @@ class ChatApplication extends Component {
               return res.data;
             })
             .then((data) => {
-              console.log(data);
               this.setState({ participants: data });
             });
         }
@@ -272,78 +280,100 @@ class ChatApplication extends Component {
     );
   }
   startVideoBroadcasting(owner, user) {
-    if (owner._id === user._id) {
-      const room = this.state.room;
-      const courseID = this.state.courseID;
-      const name = this.state.roomName;
-      const userid = this.props.user._id;
-      const tuple = { room, name, userid, courseID };
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-        videoURL:
-          BURL +
-          "?id=" +
-          this.state.room +
-          "&u=" +
-          user._id +
-          "&s=video&q=start",
-      });
+    if (!this.state.modalOpen) {
+      if (owner._id === user._id) {
+        const room = this.state.room;
+        const courseID = this.state.courseID;
+        const name = this.state.roomName;
+        const userid = this.props.user._id;
+        const zoom = this.state.zoom;
+        const tuple = { room, name, zoom, userid, courseID };
+        this.setState({
+          modalOpen: !this.state.modalOpen,
+          videoURL:
+            BURL +
+            "?id=" +
+            this.state.room +
+            "&u=" +
+            user._id +
+            "&s=video&q=start" +
+            this.state.recording
+              ? "f=" + this.state.fileName
+              : "" + this.state.autozoom
+              ? "z=zoom"
+              : "",
+        });
 
-      setTimeout(
-        function () {
-          this.state.socket.emit("VideoCall", tuple, () => console.log("done"));
-        }.bind(this),
-        2000
-      );
+        setTimeout(
+          function () {
+            this.state.socket.emit("VideoCall", tuple, () =>
+              console.log("done")
+            );
+          }.bind(this),
+          2000
+        );
+      }
+    } else {
+      alert("You are already in a call!!");
     }
   }
 
   startScreenBroadcasting(owner, user) {
-    if (owner._id === user._id) {
-      const room = this.state.room;
-      const courseID = this.state.courseID;
-      const name = this.state.roomName;
-      const userid = this.props.user._id;
-      const tuple = { room, name, userid, courseID };
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-        videoURL:
-          SURL +
-          "?id=" +
-          this.state.room +
-          "&n=" +
-          this.state.roomName +
-          "&q=start",
-      });
+    if (!this.state.modalOpen) {
+      if (owner._id === user._id) {
+        const room = this.state.room;
+        const courseID = this.state.courseID;
+        const name = this.state.roomName;
+        const userid = this.props.user._id;
+        const tuple = { room, name, userid, courseID };
+        this.setState({
+          modalOpen: !this.state.modalOpen,
+          videoURL:
+            SURL +
+            "?id=" +
+            this.state.room +
+            "&n=" +
+            this.state.roomName +
+            "&q=start",
+        });
 
-      setTimeout(
-        function () {
-          this.state.socket.emit("ScreenSharing", tuple, () =>
-            console.log("done")
-          );
-        }.bind(this),
-        2000
-      );
+        setTimeout(
+          function () {
+            this.state.socket.emit("ScreenSharing", tuple, () =>
+              console.log("done")
+            );
+          }.bind(this),
+          2000
+        );
+      }
+    } else {
+      alert("You are already in a call!!");
     }
   }
   startAudioCall(owner, user) {
-    if (owner._id === user._id) {
-      const room = this.state.room;
-      const courseID = this.state.courseID;
-      const name = this.state.roomName;
-      const userid = this.props.user._id;
-      const tuple = { room, name, userid, courseID };
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-        videoURL: AURL + "?id=" + this.state.room + "&u=start",
-      });
+    if (!this.state.modalOpen) {
+      if (owner._id === user._id) {
+        const room = this.state.room;
+        const courseID = this.state.courseID;
+        const name = this.state.roomName;
+        const userid = this.props.user._id;
+        const tuple = { room, name, userid, courseID };
+        this.setState({
+          modalOpen: !this.state.modalOpen,
+          videoURL: AURL + "?id=" + this.state.room + "&u=start",
+        });
 
-      setTimeout(
-        function () {
-          this.state.socket.emit("AudioCall", tuple, () => console.log("done"));
-        }.bind(this),
-        2000
-      );
+        setTimeout(
+          function () {
+            this.state.socket.emit("AudioCall", tuple, () =>
+              console.log("done")
+            );
+          }.bind(this),
+          2000
+        );
+      }
+    } else {
+      alert("You are already in a call!!");
     }
   }
   deletConversation(e) {
@@ -359,49 +389,67 @@ class ChatApplication extends Component {
     this.props.history.push("/app/myrooms/rooms");
   }
   toggleScreen = () => {
-    const userid = this.props.user._id;
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-      videoURL:
-        SURL +
-        "?id=" +
-        this.state.room +
-        "&n=" +
-        this.state.roomName +
-        "&q=start",
-    });
+    if (!this.state.modalOpen) {
+      const userid = this.props.user._id;
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL:
+          SURL +
+          "?id=" +
+          this.state.room +
+          "&n=" +
+          this.state.roomName +
+          "&q=start",
+      });
+    } else {
+      alert("You are already in a call!!");
+    }
+  };
+  toggleVideo = () => {
+    if (!this.state.modalOpen) {
+      const userid = this.props.user._id;
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL:
+          BURL +
+          "?id=" +
+          this.state.room +
+          "&u=" +
+          this.props.user._id +
+          "&s=video&q=join",
+      });
+    } else {
+      alert("You are already in a call!!");
+    }
   };
   toggleAudioCall = () => {
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-    });
-    this.setState({
-      videoURL: AURL + "?id=" + this.state.room + "&u=join",
-    });
+    if (!this.state.modalOpen) {
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL: AURL + "?id=" + this.state.room + "&u=join",
+      });
+    } else {
+      alert("You are already in a call!!");
+    }
   };
-  toggleModal = () => {
-    this.setState({
-      videoURL:
-        BURL +
-        "?id=" +
-        this.state.room +
-        "&u=" +
-        this.props.user._id +
-        "&s=video&q=start",
-    });
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-    });
-  };
+
   render() {
     const owner = this.state.roomCreator;
+
     const user = this.props.user;
     const { messages } = this.props.intl;
     if (owner && user)
       return (
         <Fragment>
           {this.state.modalOpen && (
-            <NewWindow url={this.state.videoURL}></NewWindow>
+            <NewWindow
+              onUnload={(e) =>
+                this.setState({
+                  modalOpen: !this.state.modalOpen,
+                })
+              }
+              url={this.state.videoURL}
+            ></NewWindow>
           )}
           <Row className="app-row">
             <Colxx xxs="6" className="VideoContainer"></Colxx>
@@ -438,7 +486,7 @@ class ChatApplication extends Component {
                       </Button>
                     )}
                     {owner && user && owner._id !== user._id && (
-                      <Button>
+                      <Button onClick={this.toggleVideo}>
                         <i className="simple-icon-camrecorder" />
                       </Button>
                     )}
@@ -562,20 +610,22 @@ class ChatApplication extends Component {
                     <IntlMessages id="room.members" />
                   </NavLink>
                 </NavItem>
-                <NavItem className="w-50 text-center">
-                  <NavLink
-                    className={classnames({
-                      active: this.state.menuActiveTab === "contacts",
-                      "nav-link": true,
-                    })}
-                    onClick={() => {
-                      this.toggleAppMenu("contacts");
-                    }}
-                    to={"/app/myrooms/roomview/?id=" + this.state.room}
-                  >
-                    <IntlMessages id="room.settings" />
-                  </NavLink>
-                </NavItem>
+                {owner._id === user._id && (
+                  <NavItem className="w-50 text-center">
+                    <NavLink
+                      className={classnames({
+                        active: this.state.menuActiveTab === "contacts",
+                        "nav-link": true,
+                      })}
+                      onClick={() => {
+                        this.toggleAppMenu("contacts");
+                      }}
+                      to={"/app/myrooms/roomview/?id=" + this.state.room}
+                    >
+                      <IntlMessages id="room.settings" />
+                    </NavLink>
+                  </NavItem>
+                )}
               </Nav>
             </CardHeader>
 
@@ -609,6 +659,40 @@ class ChatApplication extends Component {
                       <h6> Delete Conversation</h6>
                     </NavLink>
                   </div>
+                  <Formik initialValues={{}}>
+                    {({}) => (
+                      <Form className="av-tooltip tooltip-label-right">
+                        <FormGroup>
+                          <Label className="d-block">
+                            <IntlMessages id="form-components.autozoom" />
+                          </Label>
+                          <FormikSwitch
+                            name="autozoom"
+                            className="custom-switch custom-switch-primary"
+                            value={this.state.autozoom}
+                            onChange={(e) =>
+                              this.setState({ autozoom: !this.state.autozoom })
+                            }
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label className="d-block">
+                            <IntlMessages id="form-components.recording" />
+                          </Label>
+                          <FormikSwitch
+                            name="recording"
+                            className="custom-switch custom-switch-primary"
+                            value={this.state.recording}
+                            onChange={(e) =>
+                              this.setState({
+                                recording: !this.state.recording,
+                              })
+                            }
+                          />
+                        </FormGroup>
+                      </Form>
+                    )}
+                  </Formik>
                 </PerfectScrollbar>
               </TabPane>
               <TabPane tabId="members" className="chat-app-tab-pane">

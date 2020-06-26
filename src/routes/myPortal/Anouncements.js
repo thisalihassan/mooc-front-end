@@ -9,7 +9,11 @@ import TodoListItem from "../../components/ApplicationMenu/TodoListItem";
 import AddNewTodoModal from "../../containers/applicationTodo/AddNewTodoModal";
 import Pagination from "../../components/pages/Pagination";
 import TodoApplicationMenu from "../../containers/applicationTodo/TodoApplicationMenu";
-import { GetSubscription, getmyCourse } from "../../redux/actions";
+import {
+  GetSubscription,
+  getmyCourse,
+  makeAnouncement,
+} from "../../redux/actions";
 import axios from "axios";
 import queryString from "query-string";
 import { URL, config } from "../../constants/defaultValues";
@@ -28,7 +32,7 @@ class TodoApp extends Component {
       totalPage: 12,
       perPage: 6,
       course: null,
-      id: null
+      id: null,
     };
   }
 
@@ -39,11 +43,11 @@ class TodoApp extends Component {
     if (values.id) {
       await axios
         .post(URL + "api/Courses/getanouncement/" + values.id, {}, config)
-        .then(res => {
+        .then((res) => {
           this.setState({
             id: res.data.anouncement[0]._id,
             description: res.data.anouncement[0].description,
-            course: { label: res.data.course.name, value: res.data.course._id }
+            course: { label: res.data.course.name, value: res.data.course._id },
           });
           this.toggleModal();
         });
@@ -53,7 +57,7 @@ class TodoApp extends Component {
   onChangePage(page) {
     this.setState(
       {
-        currentPage: page
+        currentPage: page,
       },
       () => {
         this.dataListRender();
@@ -69,33 +73,25 @@ class TodoApp extends Component {
       const roll = this.props.user.roll;
 
       const body = JSON.stringify({ currentPage, course, perPage, roll });
-      await axios
-        .post(URL + "api/Courses/getanounce", body, config)
-        .then(res => {
-          this.setState({
-            firstRun: false,
-            anouncements: res.data.anounce,
-            totalPage: res.data.totalPage / this.state.perPage
-          });
-        });
+      this.props.makeAnouncement(body);
     }
 
     if (this.props.user.roll === "teacher") {
       const roll = this.props.user.roll;
       const body = JSON.stringify({ currentPage, perPage, roll });
-      await axios
-        .post(URL + "api/Courses/getanounce", body, config)
-        .then(res => {
-          this.setState({
-            firstRun: false,
-            anouncements: res.data.anounce,
-            totalPage: res.data.totalPage / this.state.perPage
-          });
-        });
+      this.props.makeAnouncement(body);
     }
   }
 
-  async componentDidUpdate() {
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps.todoApp.todoItems !== this.props.todoApp.todoItems) {
+      const data = this.props.todoApp.todoItems;
+      console.log(data);
+      this.setState({
+        firstRun: false,
+        totalPage: data.length / this.state.perPage,
+      });
+    }
     if (this.props.user && this.state.firstRun) {
       if (this.props.courses) {
         this.makecoursesList();
@@ -111,7 +107,7 @@ class TodoApp extends Component {
   }
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     });
   };
   reloadModel() {
@@ -146,7 +142,6 @@ class TodoApp extends Component {
                   {this.props.user && this.props.user.roll === "teacher" && (
                     <div className="float-sm-right">
                       <Button
-                       
                         size="lg"
                         float="right"
                         onClick={this.toggleModal}
@@ -162,28 +157,32 @@ class TodoApp extends Component {
             <div className="mb-2"></div>
             <Separator className="mb-5" />
             <Row>
-              {this.state.anouncements.map((item, index) => {
-                const name = item.course.name;
-                return item.anouncement.map((n, k) => {
-                  return (
-                    <TodoListItem
-                      key={`todo_item_${n._id}`}
-                      item={n}
-                      name={name}
-                      roll={this.props.user.roll}
-                      deleteClick={id => {
-                        this.deleteAnouncement(id);
-                      }}
-                    />
-                  );
-                });
-              })}
+              {this.props.todoApp.todoItems ? (
+                this.props.todoApp.todoItems.map((item, index) => {
+                  const name = item.course.name;
+                  return item.anouncement.map((n, k) => {
+                    return (
+                      <TodoListItem
+                        key={`todo_item_${n._id}`}
+                        item={n}
+                        name={name}
+                        roll={this.props.user.roll}
+                        deleteClick={(id) => {
+                          this.deleteAnouncement(id);
+                        }}
+                      />
+                    );
+                  });
+                })
+              ) : (
+                <div className="loading"></div>
+              )}
             </Row>
           </Colxx>
           <Pagination
             currentPage={this.state.currentPage}
             totalPage={this.state.totalPage}
-            onChangePage={i => this.onChangePage(i)}
+            onChangePage={(i) => this.onChangePage(i)}
           />
         </Row>
         {this.props.user && this.props.user.roll === "teacher" ? (
@@ -194,7 +193,7 @@ class TodoApp extends Component {
               id={this.state.id}
               description={this.state.description}
               course={this.state.course}
-              reloadModel={e => this.reloadModel(e)}
+              reloadModel={(e) => this.reloadModel(e)}
               toggleModal={this.toggleModal}
               modalOpen={modalOpen}
               courses={this.props.myCourses}
@@ -217,12 +216,13 @@ const mapStateToProps = ({ todoApp, auth, course, subscribtion }) => {
     user,
     courses,
     myCourses,
-    todoApp
+    todoApp,
   };
 };
 export default injectIntl(
   connect(mapStateToProps, {
     GetSubscription,
-    getmyCourse
+    makeAnouncement,
+    getmyCourse,
   })(TodoApp)
 );

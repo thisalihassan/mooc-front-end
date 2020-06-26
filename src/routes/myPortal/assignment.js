@@ -95,6 +95,13 @@ class Assignment extends Component {
     });
   };
 
+  clearAddModal(e) {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+    this.props.history.push("/app/myportal/assignment");
+  }
+
   changeOrderBy = (column) => {
     this.props.getSurveyListWithOrder(column);
   };
@@ -132,7 +139,6 @@ class Assignment extends Component {
               {this.props.user && this.props.user.roll === "teacher" && (
                 <div className="float-sm-right">
                   <Button
-                    
                     size="lg"
                     className="top-right-button mr-1"
                     onClick={this.toggleModal}
@@ -203,6 +209,7 @@ class Assignment extends Component {
                           name={name}
                           roll={this.props.user.roll}
                           reloadModel={(e) => this.reloadModel(e)}
+                          deleteClick={(e) => this.deleteAssignment(e)}
                         />
                       );
                     });
@@ -221,7 +228,7 @@ class Assignment extends Component {
               duedate={this.state.duedate}
               course={this.state.course}
               reloadModel={(e) => this.reloadModel(e)}
-              toggleModal={this.toggleModal}
+              toggleModal={(e) => this.clearAddModal(e)}
               modalOpen={modalOpen}
               courses={this.props.myCourses && this.props.myCourses}
             />
