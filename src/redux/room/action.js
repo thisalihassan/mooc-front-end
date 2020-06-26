@@ -24,20 +24,17 @@ export const createRoom = (body) => async (dispatch) => {
 export const getRooms = (body) => async (dispatch) => {
   try {
     const res = await axios.post(URL + "api/room/getmyrooms", body, config);
+    console.log(res.data);
     dispatch({
       type: GET_ROOMS,
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-    }
+    dispatch(setAlert(err, "danger"));
 
     dispatch({
       type: ROOMS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err, status: err },
     });
   }
 };

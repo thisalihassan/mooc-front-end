@@ -48,21 +48,6 @@ class Assignment extends Component {
   async componentDidMount() {
     this.props.GetSubscription();
     this.props.getmyCourse();
-    const values = queryString.parse(this.props.location.search);
-    if (values.id) {
-      await axios
-        .post(URL + "api/assignment/getassignment/" + values.id, {}, config)
-        .then((res) => {
-          this.setState({
-            id: values.id,
-            file: res.data.assignment[0].file,
-            title: res.data.assignment[0].title,
-            duedate: res.data.assignment[0].duedate,
-            course: { label: res.data.course.name, value: res.data.course._id },
-          });
-          this.toggleModal();
-        });
-    }
   }
 
   componentDidUpdate(prevState, prevProps) {
@@ -99,7 +84,13 @@ class Assignment extends Component {
     this.setState({
       modalOpen: !this.state.modalOpen,
     });
-    this.props.history.push("/app/myportal/assignment");
+    this.setState({
+      id: null,
+      file: null,
+      title: null,
+      duedate: null,
+      course: null,
+    });
   }
 
   changeOrderBy = (column) => {
@@ -112,15 +103,27 @@ class Assignment extends Component {
     }
   };
   reloadModel(e) {
-    this.props.history.push("/app/myportal/assignment");
-    window.location.reload();
+    this.makecoursesList();
+    this.props.getAssignments(this.state.listCourse, this.props.user);
   }
-
-  async deleteAssignment(id) {
+  async editAssignment(value) {
     await axios
-      .post(URL + "api/assignment/remove/" + id, {}, config)
-      .then(this.props.history.push("/app/myportal/assignment"));
-    window.location.reload();
+      .post(URL + "api/assignment/getassignment/" + value, {}, config)
+      .then((res) => {
+        this.setState({
+          id: value,
+          file: res.data.assignment[0].file,
+          title: res.data.assignment[0].title,
+          duedate: res.data.assignment[0].duedate,
+          course: { label: res.data.course.name, value: res.data.course._id },
+        });
+        this.toggleModal();
+      });
+  }
+  async deleteAssignment(id) {
+    await axios.post(URL + "api/assignment/remove/" + id, {}, config);
+    this.makecoursesList();
+    this.props.getAssignments(this.state.listCourse, this.props.user);
   }
   render() {
     const { orderColumn, orderColumns } = this.props.quizList;
@@ -208,6 +211,7 @@ class Assignment extends Component {
                           item={n}
                           name={name}
                           roll={this.props.user.roll}
+                          editAssignment={(e) => this.editAssignment(e)}
                           reloadModel={(e) => this.reloadModel(e)}
                           deleteClick={(e) => this.deleteAssignment(e)}
                         />

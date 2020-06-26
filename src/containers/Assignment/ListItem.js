@@ -17,7 +17,9 @@ class ListItem extends React.Component {
   deleteItem = (e) => {
     this.props.deleteClick(this.props.item._id);
   };
-
+  editAssignment = (e) => {
+    this.props.editAssignment(this.props.item._id);
+  };
   reloadModel = (e) => {
     this.props.reloadModel();
   };
@@ -73,9 +75,7 @@ class ListItem extends React.Component {
                   <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item
-                      href={`/app/myportal/assignment/?id=${this.props.item._id}`}
-                    >
+                    <Dropdown.Item onClick={this.editAssignment}>
                       Edit
                     </Dropdown.Item>
 
