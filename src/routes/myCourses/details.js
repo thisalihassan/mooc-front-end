@@ -79,13 +79,14 @@ export class DetailsPages extends Component {
       files: "",
       theCourses: 0,
       follower: "",
-      lectureFiles: [],
+      lectureFiles: null,
       reviews: [],
       isReviewed: false,
       checkReview: true,
       firstTime: true,
       video: "",
       vidType: "",
+      loadinLec: true,
       lecture: "",
     };
   }
@@ -194,12 +195,11 @@ export class DetailsPages extends Component {
               accordionData.push(false);
             });
           }
-
-          // var URL = window.URL || window.webkitURL;
-          // var fileURL = URL.createObjectURL(data[0].files[0]);
-          // console.log(fileURL);
-          //  this.state.video =
-          this.setState({ lectureFiles: data, accordion: accordionData });
+          this.setState({
+            lectureFiles: data,
+            accordion: accordionData,
+            loadinLec: false,
+          });
         });
       await axios
         .post(URL + "api/subscribe/getrate", body, config)
@@ -208,7 +208,7 @@ export class DetailsPages extends Component {
         });
     }
   }
-  async componentDidUpdate(prevState, prevProps) {
+  async find_if_user_subscribed() {
     const values = queryString.parse(this.props.location.search);
     let id = values.id;
     if (this.props.user)
@@ -226,6 +226,9 @@ export class DetailsPages extends Component {
           });
         this.props.getRooms(body);
       }
+  }
+  async componentDidUpdate(prevState, prevProps) {
+    this.find_if_user_subscribed();
     if (
       this.props.user &&
       this.state.checkReview &&
@@ -294,6 +297,7 @@ export class DetailsPages extends Component {
   }
 
   async uploadFiles(values) {
+    this.setState({ loadinLec: true });
     let files = new FormData();
     let files2 = [];
     for (const key of Object.keys(this.state.files)) {
@@ -312,13 +316,27 @@ export class DetailsPages extends Component {
     const lecture = values.lecture;
     const body = { files, fileNames, id, lecture };
 
-    await axios
-      .post(URL + "api/Courses/uploadFiles", body, config)
-      .then((res) => {
-        this.setState({ lecturefiles: res.data });
-      });
+    await axios.post(URL + "api/Courses/uploadFiles", body, config);
 
-    window.location.reload();
+    await axios
+      .post(URL + "api/Courses/getFiles", body, config)
+      .then((res) => {
+        return res.data;
+      })
+      .then((data) => {
+        let accordionData = [];
+        if (data) {
+          data.forEach(() => {
+            accordionData.push(false);
+          });
+        }
+
+        this.setState({
+          lectureFiles: data,
+          accordion: accordionData,
+          loadinLec: false,
+        });
+      });
   }
   getTotalRating() {
     if (this.state.reviews && this.state.reviews.CourseRate) {
@@ -653,8 +671,8 @@ export class DetailsPages extends Component {
                         <Row>
                           <Colxx sm="12">
                             <CardBody>
-                              {this.state.lectureFiles &&
-                                this.state.lectureFiles.length > 0 &&
+                              {!this.state.loadinLec ? (
+                                this.state.lectureFiles &&
                                 this.state.lectureFiles.map(
                                   (lecture, index) => {
                                     return (
@@ -819,7 +837,10 @@ export class DetailsPages extends Component {
                                       </div>
                                     );
                                   }
-                                )}
+                                )
+                              ) : (
+                                <div className="loading"></div>
+                              )}
                               {this.props.user._id ===
                                 this.state.course.user && (
                                 <Formik

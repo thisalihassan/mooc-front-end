@@ -60,7 +60,7 @@ class ChatApplication extends Component {
       guidelines: "",
       recording: false,
       autozoom: false,
-      fileName: "",
+      fileName: "lecture1",
     };
   }
 
@@ -89,8 +89,8 @@ class ChatApplication extends Component {
       });
       let id = res.data.course._id;
       const body = JSON.stringify({ id });
-      res = await axios.post(URL + "api/Courses/getFiles", body, config);
-      this.setState({ fileName: "Lecture " + res.data.length + 1 });
+      // res = await axios.post(URL + "api/Courses/getFiles", body, config);
+      // this.setState({ fileName: "Lecture " + res.data.length + 1 });
       this.props.loadConversations(values.id, false);
       // this.state.socket.emit("join", { name, myroom }, error => {
       //   if (error) {
