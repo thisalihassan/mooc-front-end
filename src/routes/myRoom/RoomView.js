@@ -288,21 +288,43 @@ class ChatApplication extends Component {
         const userid = this.props.user._id;
         const zoom = this.state.zoom;
         const tuple = { room, name, zoom, userid, courseID };
-        this.setState({
-          modalOpen: !this.state.modalOpen,
-          videoURL:
-            BURL +
-            "?id=" +
-            this.state.room +
-            "&u=" +
-            user._id +
-            "&s=video&q=start" +
-            this.state.recording
-              ? "f=" + this.state.fileName
-              : "" + this.state.autozoom
-              ? "z=zoom"
-              : "",
-        });
+
+        if (this.state.autozoom) {
+          this.setState({
+            modalOpen: !this.state.modalOpen,
+            videoURL:
+              BURL +
+              "?id=" +
+              this.state.room +
+              "&u=" +
+              user._id +
+              "&s=video&q=start&z=zoom",
+          });
+        } else if (this.state.autozoom & this.state.recording) {
+          this.setState({
+            modalOpen: !this.state.modalOpen,
+            videoURL:
+              BURL +
+              "?id=" +
+              this.state.room +
+              "&u=" +
+              user._id +
+              "&s=video&q=start" +
+              +"&z=zoom&f=" +
+              this.state.fileName,
+          });
+        } else {
+          this.setState({
+            modalOpen: !this.state.modalOpen,
+            videoURL:
+              BURL +
+              "?id=" +
+              this.state.room +
+              "&u=" +
+              user._id +
+              "&s=video&q=start",
+          });
+        }
 
         setTimeout(
           function () {
@@ -673,6 +695,7 @@ class ChatApplication extends Component {
                             onChange={(e) =>
                               this.setState({ autozoom: !this.state.autozoom })
                             }
+                            onBlur={(e) => {}}
                           />
                         </FormGroup>
                         <FormGroup>
@@ -683,6 +706,7 @@ class ChatApplication extends Component {
                             name="recording"
                             className="custom-switch custom-switch-primary"
                             value={this.state.recording}
+                            onBlur={(e) => {}}
                             onChange={(e) =>
                               this.setState({
                                 recording: !this.state.recording,

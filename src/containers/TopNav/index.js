@@ -127,20 +127,33 @@ class TopNav extends Component {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
       console.log(match);
       if (match && this.props.user._id !== mess.userid) {
-        this.setState({
-          callModel: true,
-          callerID:
-            BURL +
-            "?id=" +
-            mess.room +
-            "&u=" +
-            this.props.user._id +
-            "&s=video&q=join" +
-            mess.zoom
-              ? "z=zoom"
-              : "",
-          callerName: mess.name,
-        });
+        if (mess.zoom) {
+          this.setState({
+            callModel: true,
+            callerID:
+              BURL +
+              "?id=" +
+              mess.room +
+              "&u=" +
+              this.props.user._id +
+              "&s=video&q=join&z=zoom",
+
+            callerName: mess.name,
+          });
+        } else {
+          this.setState({
+            callModel: true,
+            callerID:
+              BURL +
+              "?id=" +
+              mess.room +
+              "&u=" +
+              this.props.user._id +
+              "&s=video&q=join",
+
+            callerName: mess.name,
+          });
+        }
         document.getElementById("call-sound").play();
       }
     });
