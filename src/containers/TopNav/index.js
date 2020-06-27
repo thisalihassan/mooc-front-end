@@ -127,6 +127,7 @@ class TopNav extends Component {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
       console.log(match);
       if (match && this.props.user._id !== mess.userid) {
+        console.log(mess);
         if (mess.zoom) {
           this.setState({
             callModel: true,

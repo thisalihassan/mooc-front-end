@@ -286,7 +286,7 @@ class ChatApplication extends Component {
         const courseID = this.state.courseID;
         const name = this.state.roomName;
         const userid = this.props.user._id;
-        const zoom = this.state.zoom;
+        const zoom = this.state.autozoom;
         const tuple = { room, name, zoom, userid, courseID };
 
         if (this.state.autozoom) {
