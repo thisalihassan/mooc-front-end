@@ -66,6 +66,7 @@ class TopNav extends Component {
       today: null,
       callerName: "",
       callerID: "",
+      counter: 0,
     };
   }
   async makecoursesList() {
@@ -86,7 +87,7 @@ class TopNav extends Component {
         .post(URL + "api/assignment/todayassignments", body, config)
         .then((res) => this.setState({ today: res.data }));
     }
-    this.props.getNotifications(this.state.listCourse, this.props.user._id);
+    this.props.getNotifications(this.state.listCourse);
   }
   componentDidMount() {
     if (!this.state.socket) {
@@ -97,9 +98,11 @@ class TopNav extends Component {
     this.props.getmyCourse();
   }
   async componentDidUpdate(prevState, prevProps) {
-    if (this.props.notify.length > 0 && this.state.loadNotification) {
+    if (this.props.notify && this.state.loadNotification) {
+      console.log(this.props.notify)
       this.setState({
         notifications: this.props.notify,
+        counter: this.props.counter,
         loadNotification: false,
       });
     }
@@ -190,10 +193,10 @@ class TopNav extends Component {
           }
           if (match && !itself) {
             document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+            }));
           }
-          this.setState((prevState) => ({
-            notifications: [mess, ...prevState.notifications],
-          }));
         }
       });
     }
@@ -716,11 +719,12 @@ const mapStateToProps = ({
 }) => {
   const { containerClassnames, menuClickCount } = menu;
   const { locale, searchBy } = settings;
-  const { notify, loading } = notifications;
+  const { notify, loading, counter } = notifications;
   const { user } = auth;
   const { courses } = subscribtion.subscribed;
   const { myCourses } = course;
   return {
+    counter,
     loading,
     notify,
     containerClassnames,

@@ -153,7 +153,7 @@ class SurveyDetailApp extends Component {
     this.setState({ runTimes: 1 });
   }
 
-  addQuestion(qestion, type, answers, myAnswer) {
+  addQuestion(id, qestion, type, answers, myAnswer) {
     const { quiz } = this.props.quizzes;
     var nextId = quiz.questions.length;
     const newQuizItem = Object.assign({}, quiz);
@@ -167,11 +167,6 @@ class SurveyDetailApp extends Component {
     this.props.saveSurvey(newQuizItem);
   }
 
-  handleSortChange(order, sortable, evt) {
-    const { quiz } = this.props.quizzes;
-    var ordered_array = mapOrder(quiz.questions, order, "id");
-    this.props.saveSurvey(ordered_array);
-  }
   find(array, title) {
     return array.find((element) => {
       return element.title === title;
@@ -336,9 +331,8 @@ class SurveyDetailApp extends Component {
                                   <QuestionBuilder
                                     order={index}
                                     myAnswer={item.myAnswer}
-                                    id={item._id}
+                                    id={index}
                                     question={item.question}
-                                    runTimes={1}
                                     roll="teacher"
                                     answerType={quiz.autocheck}
                                     answers={item.answers}
@@ -354,6 +348,7 @@ class SurveyDetailApp extends Component {
                                       myAnswer
                                     ) => {
                                       this.addQuestion(
+                                        id,
                                         qestion,
                                         type,
                                         answers,

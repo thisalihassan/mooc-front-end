@@ -40,7 +40,7 @@ export const register = ({ name, email, roll, password }) => async (
 
   try {
     const res = await axios.post(URL + "api/users", body, config);
-
+    console.log(res.data);
     dispatch({
       type: REGISTER_USER_SUCCESS,
       payload: res.data,

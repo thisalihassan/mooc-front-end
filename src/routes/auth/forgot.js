@@ -66,24 +66,24 @@ export class Basic extends Component {
         {
           valid: false,
           name: "email",
-          value: ""
+          value: "",
         },
         {
           valid: false,
           name: "passcode",
-          value: ""
+          value: "",
         },
         {
           valid: false,
           name: "password",
-          value: ""
+          value: "",
         },
         {
           valid: false,
           name: "cpassword",
-          value: ""
-        }
-      ]
+          value: "",
+        },
+      ],
     };
   }
   componentDidMount() {
@@ -92,8 +92,8 @@ export class Basic extends Component {
         { ...this.state.fields[0], form: this.form0 },
         { ...this.state.fields[1], form: this.form1 },
         { ...this.state.fields[2], form: this.form2 },
-        { ...this.state.fields[3], form: this.form3 }
-      ]
+        { ...this.state.fields[3], form: this.form3 },
+      ],
     });
   }
   componentDidUpdate() {
@@ -213,7 +213,7 @@ export class Basic extends Component {
                       <Formik
                         ref={this.form0}
                         initialValues={{
-                          email: this.state.fields[0].value
+                          email: this.state.fields[0].value,
                         }}
                         onSubmit={() => {}}
                       >
@@ -246,7 +246,7 @@ export class Basic extends Component {
                       <Formik
                         ref={this.form1}
                         initialValues={{
-                          passcode: this.state.fields[1].value
+                          passcode: this.state.fields[1].value,
                         }}
                         onSubmit={() => {}}
                       >
@@ -279,7 +279,7 @@ export class Basic extends Component {
                       <Formik
                         ref={this.form2}
                         initialValues={{
-                          password: this.state.fields[2].value
+                          password: this.state.fields[2].value,
                         }}
                         onSubmit={() => {}}
                       >
@@ -306,20 +306,20 @@ export class Basic extends Component {
                   <Step
                     id="step4"
                     name={messages["wizard.step-name-3"]}
-                    desc={messages["wizard.step-newdesc-3"]}
+                    desc={messages["wizard.step-newdesc-4"]}
                   >
                     <div className="wizard-basic-step">
                       <Formik
                         ref={this.form3}
                         initialValues={{
-                          cpassword: this.state.fields[3].value
+                          cpassword: this.state.fields[3].value,
                         }}
                         onSubmit={() => {}}
                       >
                         {({ errors, touched }) => (
                           <Form className="av-tooltip tooltip-label-right error-l-75">
                             <FormGroup>
-                              <Label>{messages["forms.password"]}</Label>
+                              <Label>{messages["forms.cpassword"]}</Label>
                               <Field
                                 className="form-control"
                                 name="cpassword"
@@ -370,7 +370,7 @@ const mapStateToProps = ({ auth }) => {
   const { isAuthenticated } = auth;
 
   return {
-    isAuthenticated
+    isAuthenticated,
   };
 };
 export default injectIntl(

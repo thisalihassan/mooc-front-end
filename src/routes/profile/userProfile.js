@@ -58,7 +58,7 @@ class ProfilePortfolio extends Component {
       this.props.history.push("/app/admin/visitors");
     }
     if (this.props.user && this.props.user._id) {
-      if (this.state.loading) {
+      if (this.state.loading && this.props.user.roll == "teacher") {
         let id = this.props.user._id;
         const body = JSON.stringify({ id });
         const res = await axios.post(
@@ -67,6 +67,15 @@ class ProfilePortfolio extends Component {
           config
         );
         this.setState({ myCourses: res.data, loading: false });
+      } else if (
+        this.state.loading &&
+        this.props.user.roll == "student" &&
+        this.props.subscribed.courses
+      ) {
+        this.setState({
+          myCourses: this.props.subscribed.courses,
+          loading: false,
+        });
       }
     }
   }

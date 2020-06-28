@@ -12,19 +12,17 @@ import queryString from "query-string";
 import PropTypes from "prop-types";
 const Conformation = ({ history, conformtion, isAuthenticated, location }) => {
   const [formData, setFormData] = useState({
-    token: null
+    token: null,
   });
   const { token } = formData;
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const values = queryString.parse(location.search);
     if (values.id) {
-      console.log(values.id);
-      console.log(token);
       conformtion(values.id, token);
     }
     this.authentication();
@@ -42,14 +40,14 @@ const Conformation = ({ history, conformtion, isAuthenticated, location }) => {
         <div className="form-wrapper">
           <Image className="Logo" src={Logo}></Image>
           <h1>WELCOME BACK!</h1>
-          <Form className="login-form" onSubmit={e => onSubmit(e)}>
+          <Form className="login-form" onSubmit={(e) => onSubmit(e)}>
             <FormGroup>
               <Label>Conformation</Label>
               <Input
                 placeholder="Token"
                 type="text"
                 name="token"
-                onChange={e => handleChange(e)}
+                onChange={(e) => handleChange(e)}
               />
             </FormGroup>
             <Button className="btn-lg btn-block">Confirm</Button>
@@ -66,7 +64,7 @@ Conformation.propTypes = {
   conformtion: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 const mapStateToProps = ({ auth }) => {
   const { isAuthenticated } = auth;
@@ -75,6 +73,6 @@ const mapStateToProps = ({ auth }) => {
 
 export default withRouter(
   connect(mapStateToProps, {
-    conformtion
+    conformtion,
   })(Conformation)
 );

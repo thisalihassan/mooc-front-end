@@ -54,7 +54,7 @@ class ThumbListPages extends Component {
       ReactGA.set({ page: location.pathname });
       ReactGA.pageview(location.pathname);
     });
-    this.props.GetSubscription();
+
     this.props.GetRecommendation();
     this.props.GetTopCourses();
   }
@@ -79,6 +79,7 @@ class ThumbListPages extends Component {
   }
 
   render() {
+    console.log(this.props.recommendation);
     const { start, end, currentPage } = this.state;
     return (
       <Fragment>
@@ -103,7 +104,7 @@ class ThumbListPages extends Component {
                       }}
                       to="#"
                     >
-                      <IntlMessages id="student.courses" />
+                      <IntlMessages id="Student.recommended" />
                     </NavLink>
                   </NavItem>
                   <NavItem>
@@ -117,54 +118,12 @@ class ThumbListPages extends Component {
                       }}
                       to="#"
                     >
-                      <IntlMessages id="Student.recommended" />
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: this.state.activeFirstTab === "3",
-                        "nav-link": true,
-                      })}
-                      onClick={() => {
-                        this.toggleTab("3");
-                      }}
-                      to="#"
-                    >
                       <IntlMessages id="student.top" />
                     </NavLink>
                   </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
-                    <Row>
-                      {!this.props.subloading ? (
-                        this.props.courses &&
-                        this.props.courses.slice(start, end).map((product) => {
-                          return (
-                            <ImageListView
-                              key={product.id}
-                              user={this.props.user}
-                              product={product}
-                              collect={collect}
-                            />
-                          );
-                        })
-                      ) : (
-                        <div className="loading"></div>
-                      )}
-
-                      {this.props.courses && (
-                        <Pagination
-                          currentPage={currentPage}
-                          totalPage={this.props.courses.length / 6}
-                          onChangePage={(i) => this.onChangePage(i)}
-                        />
-                      )}
-                      <br></br>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="2">
                     <Row>
                       {!this.props.recloading ? (
                         this.props.recommendation ? (
@@ -189,13 +148,13 @@ class ThumbListPages extends Component {
                       {this.props.recommendation && (
                         <Pagination
                           currentPage={currentPage}
-                          totalPage={this.props.topcourses.length / 6}
+                          totalPage={this.props.recommendation.length / 6}
                           onChangePage={(i) => this.onChangePage(i)}
                         />
                       )}
                     </Row>
                   </TabPane>
-                  <TabPane tabId="3">
+                  <TabPane tabId="2">
                     <Row>
                       {!this.props.toploading ? (
                         this.props.topcourses &&
@@ -235,20 +194,12 @@ class ThumbListPages extends Component {
 
 const mapStateToProps = ({ auth, subscribtion }) => {
   const { user } = auth;
-  const { courses } = subscribtion.subscribed;
-  const {
-    recommendation,
-    recloading,
-    subloading,
-    topcourses,
-    toploading,
-  } = subscribtion;
+
+  const { recommendation, recloading, topcourses, toploading } = subscribtion;
   return {
     recommendation,
-    courses,
     user,
     recloading,
-    subloading,
     topcourses,
     toploading,
   };

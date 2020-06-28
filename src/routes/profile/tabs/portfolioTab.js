@@ -42,7 +42,7 @@ class TheProfile extends React.Component {
       modal: false,
       upload: "api/auth/avatar",
       currentPage: 1,
-      totalPage: 1,
+      totalPage: Math.ceil(this.props.myCourses.length / 6),
       perPage: 6,
       start: 0,
       end: 6,
@@ -83,6 +83,7 @@ class TheProfile extends React.Component {
       imageName =
         "https://res.cloudinary.com/mooc/image/upload/v1590922028/profile/2020-05-31T10:47:02.070Z.jpg";
     }
+
     const { start, end, currentPage } = this.state;
     return (
       <Row>
@@ -123,15 +124,17 @@ class TheProfile extends React.Component {
               className="card-img-top"
             />
 
-            <CardBody>
-              <h6>
-                <IntlMessages id="pages.rating" />
-              </h6>
+            {this.props.user.roll.toLowerCase() == "teacher" && (
+              <CardBody>
+                <h6>
+                  <IntlMessages id="pages.rating" />
+                </h6>
 
-              <div className="mb-3">
-                <Rating total={5} rating={3} interactive={false} />
-              </div>
-            </CardBody>
+                <div className="mb-3">
+                  <Rating total={5} rating={3} interactive={false} />
+                </div>
+              </CardBody>
+            )}
           </Card>
         </Colxx>
 
@@ -149,26 +152,30 @@ class TheProfile extends React.Component {
                   >
                     <Card className="course" id="course">
                       <div className="position-relative">
-                        <div className="position-absolute card-top-buttons">
-                          <Dropdown>
-                            <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
+                        {this.props.user.roll.toLowerCase() == "teacher" && (
+                          <div className="position-absolute card-top-buttons">
+                            <Dropdown>
+                              <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item
-                                href={"/app/mycourses/wizard/?id=" + course._id}
-                              >
-                                Edit
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={(e) =>
-                                  this.deleteCourse(e, course._id)
-                                }
-                              >
-                                Delete
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </div>
+                              <Dropdown.Menu>
+                                <Dropdown.Item
+                                  href={
+                                    "/app/mycourses/wizard/?id=" + course._id
+                                  }
+                                >
+                                  Edit
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  onClick={(e) =>
+                                    this.deleteCourse(e, course._id)
+                                  }
+                                >
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                        )}
                         <NavLink
                           to={"/app/mycourses/courseView/?id=" + course._id}
                           className="w-40 w-sm-100"
@@ -180,13 +187,15 @@ class TheProfile extends React.Component {
                           />
                         </NavLink>
 
-                        <Badge
-                          color={course.statusColor}
-                          pill
-                          className="position-absolute badge-top-left"
-                        >
-                          {course.Approval}
-                        </Badge>
+                        {this.props.user.roll.toLowerCase() == "teacher" && (
+                          <Badge
+                            color={course.statusColor}
+                            pill
+                            className="position-absolute badge-top-left"
+                          >
+                            {course.Approval}
+                          </Badge>
+                        )}
                       </div>
                       <CardBody>
                         <NavLink
@@ -209,7 +218,7 @@ class TheProfile extends React.Component {
             {this.props.myCourses && (
               <Pagination
                 currentPage={currentPage}
-                totalPage={this.props.myCourses.length / 6}
+                totalPage={this.state.totalPage}
                 onChangePage={(i) => this.onChangePage(i)}
               />
             )}

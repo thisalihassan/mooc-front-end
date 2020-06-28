@@ -137,7 +137,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { surveyItems, orderColumn, orderColumns } = this.props.quizList;
+    const { surveyItems } = this.props.quizList;
     const { modalOpen } = this.state;
     return (
       <Fragment>

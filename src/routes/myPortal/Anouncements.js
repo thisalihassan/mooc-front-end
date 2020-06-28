@@ -29,13 +29,23 @@ class TodoApp extends Component {
       description: null,
       firstRun: true,
       currentPage: 1,
-      totalPage: 12,
+      totalPage: 1,
       perPage: 6,
+      start: 0,
+      end: 6,
       course: null,
       id: null,
     };
   }
-
+  onChangePage(page) {
+    const start = page * (page + 1);
+    const div = start / 6;
+    this.setState({
+      currentPage: page,
+      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
+      end: page == 1 ? 6 : start + 7,
+    });
+  }
   async componentDidMount() {
     this.props.GetSubscription();
     this.props.getmyCourse();
@@ -134,6 +144,7 @@ class TodoApp extends Component {
   }
 
   render() {
+    const { start, end, currentPage } = this.state;
     const { modalOpen } = this.state;
     return (
       <Fragment>
@@ -169,7 +180,7 @@ class TodoApp extends Component {
             <Separator className="mb-5" />
             <Row>
               {this.props.todoApp.todoItems ? (
-                this.props.todoApp.todoItems.map((item, index) => {
+                this.props.todoApp.todoItems.slice(start, end).map((item) => {
                   const name = item.course.name;
                   return item.anouncement.map((n, k) => {
                     return (
@@ -193,11 +204,13 @@ class TodoApp extends Component {
               )}
             </Row>
           </Colxx>
-          <Pagination
-            currentPage={this.state.currentPage}
-            totalPage={this.state.totalPage}
-            onChangePage={(i) => this.onChangePage(i)}
-          />
+          {this.props.todoApp.todoItems && (
+            <Pagination
+              currentPage={currentPage}
+              totalPage={this.props.todoApp.todoItems.length / 6}
+              onChangePage={(i) => this.onChangePage(i)}
+            />
+          )}
         </Row>
         {this.props.user && this.props.user.roll === "teacher" ? (
           <div>

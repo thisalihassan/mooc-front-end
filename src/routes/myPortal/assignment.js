@@ -161,41 +161,6 @@ class Assignment extends Component {
                 <IntlMessages id="survey.display-options" />{" "}
                 <i className="simple-icon-arrow-down align-middle" />
               </Button>
-
-              <Collapse
-                className="d-md-block"
-                isOpen={this.state.displayOptionsIsOpen}
-              >
-                <div className="d-block mb-2 d-md-inline-block">
-                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                    <DropdownToggle caret color="outline-dark" size="xs">
-                      <IntlMessages id="quizes.orderby" />
-                      {orderColumn ? orderColumn.label : ""}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {orderColumns.map((o, index) => {
-                        return (
-                          <DropdownItem
-                            key={index}
-                            onClick={() => this.changeOrderBy(o.column)}
-                          >
-                            {o.label}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                    <input
-                      type="text"
-                      name="keyword"
-                      id="search"
-                      placeholder={messages["menu.search"]}
-                      onKeyPress={(e) => this.handleKeyPress(e)}
-                    />
-                  </div>
-                </div>
-              </Collapse>
             </div>
             <Separator className="mb-5" />
             <Row>

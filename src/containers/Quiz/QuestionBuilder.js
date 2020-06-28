@@ -49,15 +49,14 @@ class SurveyQuestionBuilder extends React.Component {
   submitQuestion() {
     console.log(this.state.myAnswer);
     this.setState({ shouldHide: false });
-    for (let i = 0; i < this.props.runTimes; i++) {
-      this.props.submitQuestion(
-        this.state.id,
-        this.state.question,
-        this.state.answerType.id,
-        this.state.answers,
-        this.state.myAnswer
-      );
-    }
+    console.log(this.props.id);
+    this.props.submitQuestion(
+      this.state.id,
+      this.state.question,
+      this.state.answerType.id,
+      this.state.answers,
+      this.state.myAnswer
+    );
   }
 
   editClick = () => {
