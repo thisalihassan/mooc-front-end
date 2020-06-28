@@ -179,7 +179,7 @@ class SurveyDetailApp extends Component {
     for (let i = items.length - 1; i > 0; i--) {
       let bool = questions.find((element) => element.id === items[i].id);
       if (!bool) {
-        questions.push(items[i]);
+        questions.unshift(items[i]);
       }
     }
     const values = queryString.parse(this.props.location.search);
@@ -190,7 +190,7 @@ class SurveyDetailApp extends Component {
     const body = JSON.stringify({ quiz, course, questions, title, autocheck });
     axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
       this.checkSubmission(quiz);
-      window.location.reload();
+      document.getElementById("studentSubmit").disabled = true;
     });
   };
 
@@ -265,6 +265,7 @@ class SurveyDetailApp extends Component {
                 <div className="float-sm-right mb-2">
                   <Button
                     outline
+                    id="studentSubmit"
                     className="top-right-button top-right-button-single flex-grow-1"
                     size="lg"
                     onClick={this.studentSubmitQuiz}
