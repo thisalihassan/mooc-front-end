@@ -382,7 +382,7 @@ class ChatApplication extends Component {
         const tuple = { room, name, userid, courseID };
         this.setState({
           modalOpen: !this.state.modalOpen,
-          videoURL: AURL + "?id=" + this.state.room + "&u=start",
+          videoURL: AURL + "?roomid=" + this.state.room + "&u=start",
         });
 
         setTimeout(

@@ -99,7 +99,7 @@ class TopNav extends Component {
   }
   async componentDidUpdate(prevState, prevProps) {
     if (this.props.notify && this.state.loadNotification) {
-      console.log(this.props.notify)
+      console.log(this.props.notify);
       this.setState({
         notifications: this.props.notify,
         counter: this.props.counter,
@@ -173,7 +173,7 @@ class TopNav extends Component {
       if (match && this.props.user._id !== mess.userid) {
         this.setState({
           callModel: true,
-          callerID: AURL + "?id=" + mess.room + "&u=join",
+          callerID: AURL + "?roomid=" + mess.room + "&u=join",
           callerName: mess.name,
         });
         document.getElementById("call-sound").play();
