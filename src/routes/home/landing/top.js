@@ -116,7 +116,7 @@ export default class Top extends Component {
         </div>
         <Link to="/login">
           <button
-            className="header-icon btn btn-empty d-none d-sm-inline-block"
+            className="btn btn-empty d-none d-sm-inline-block"
             type="button"
           >
             LOGIN
@@ -124,7 +124,7 @@ export default class Top extends Component {
         </Link>
         <Link to="/register">
           <button
-            className="header-icon btn btn-empty d-none d-sm-inline-block"
+            className="btn btn-empty d-none d-sm-inline-block"
             type="button"
           >
             JOIN US
