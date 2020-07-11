@@ -161,7 +161,14 @@ class OthersProfile extends React.Component {
     socket.emit("CallRing", tuple, () =>
       this.setState({
         modalOpen: !this.state.modalOpen,
-        videoURL: AURL + "?roomid=" + myroom[0] + "" + myroom[1] + "&u=start",
+        videoURL:
+          AURL +
+          "?roomid=" +
+          myroom[0] +
+          "" +
+          myroom[1] +
+          "&u=start&n=" +
+          this.props.user.name,
       })
     );
   }

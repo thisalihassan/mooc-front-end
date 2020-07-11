@@ -117,7 +117,7 @@ class TopNav extends Component {
       if (mess.userid == this.props.user._id) {
         this.setState({
           callModel: true,
-          callerID: mess.URL,
+          callerID: mess.URL + "&n=" + this.props.user.name,
           callerName: mess.name,
         });
         document.getElementById("call-sound").play();
@@ -173,7 +173,8 @@ class TopNav extends Component {
       if (match && this.props.user._id !== mess.userid) {
         this.setState({
           callModel: true,
-          callerID: AURL + "?roomid=" + mess.room + "&u=join",
+          callerID:
+            AURL + "?roomid=" + mess.room + "&u=join&n=" + this.props.user.name,
           callerName: mess.name,
         });
         document.getElementById("call-sound").play();

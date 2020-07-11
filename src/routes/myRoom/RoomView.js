@@ -382,7 +382,12 @@ class ChatApplication extends Component {
         const tuple = { room, name, userid, courseID };
         this.setState({
           modalOpen: !this.state.modalOpen,
-          videoURL: AURL + "?roomid=" + this.state.room + "&u=start",
+          videoURL:
+            AURL +
+            "?roomid=" +
+            this.state.room +
+            "&u=start&n=" +
+            this.props.user.name,
         });
 
         setTimeout(
@@ -448,7 +453,8 @@ class ChatApplication extends Component {
     if (!this.state.modalOpen) {
       this.setState({
         modalOpen: !this.state.modalOpen,
-        videoURL: AURL + "?id=" + this.state.room + "&u=join",
+        videoURL:
+          AURL + "?id=" + this.state.room + "&u=join&n=" + this.props.user.name,
       });
     } else {
       alert("You are already in a call!!");
