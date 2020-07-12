@@ -350,58 +350,74 @@ class ChatApplication extends Component {
                 containerRef={(ref) => {}}
                 option={{ suppressScrollX: true, wheelPropagation: false }}
               >
-                {this.state.messages.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <Card
-                        className={`d-inline-block mb-3 float-${
-                          item.user !== user.name ? "left" : "right"
-                        }`}
-                      >
-                        <div className="position-absolute  pt-1 pr-2 r-0">
-                          <span className="text-extra-small text-muted">
-                            {item.timeStamp}
-                          </span>
-                        </div>
-                        <CardBody>
-                          <div className="d-flex flex-row pb-1">
-                            <div className=" d-flex flex-grow-1 min-width-zero">
-                              <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                                <div className="min-width-zero">
-                                  <p className="mb-0 truncate list-item-heading">
-                                    {item.user}
-                                  </p>
+                {reciever ? (
+                  this.state.messages.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <Card
+                          className={`d-inline-block mb-3 float-${
+                            item.user !== user.name ? "left" : "right"
+                          }`}
+                        >
+                          <div className="position-absolute  pt-1 pr-2 r-0">
+                            <span className="text-extra-small text-muted">
+                              {item.timeStamp}
+                            </span>
+                          </div>
+                          <CardBody>
+                            <div className="d-flex flex-row pb-1">
+                              <div className=" d-flex flex-grow-1 min-width-zero">
+                                <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                  <div className="min-width-zero">
+                                    <p className="mb-0 truncate list-item-heading">
+                                      {item.user}
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div
-                            className={`chat-text-${
-                              item.user === user.name ? "left" : "right"
-                            }`}
-                          >
-                            {item.text.startsWith("http") ? (
-                              <a
-                                href={item.text.split("*")[0]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                download
-                              >
-                                {item.text.split("*")[1]}
-                              </a>
-                            ) : (
-                              <p className="mb-0 text-semi-muted">
-                                {item.text}
-                              </p>
-                            )}
-                          </div>
-                        </CardBody>
-                      </Card>
-                      <div className="clearfix" />
-                    </div>
-                  );
-                })}
+                            <div
+                              className={`chat-text-${
+                                item.user === user.name ? "left" : "right"
+                              }`}
+                            >
+                              {item.text.startsWith("http") ? (
+                                <a
+                                  href={item.text.split("*")[0]}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  download
+                                >
+                                  {item.text.split("*")[1]}
+                                </a>
+                              ) : (
+                                <p className="mb-0 text-semi-muted">
+                                  {item.text}
+                                </p>
+                              )}
+                            </div>
+                          </CardBody>
+                        </Card>
+                        <div className="clearfix" />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div class=" h-100 d-flex justify-content-center align-items-center">
+                    {this.state.profiles.length > 0 ? (
+                      <h3>
+                        Please Select Someone from your contacts to Start
+                        Converstation
+                      </h3>
+                    ) : (
+                      <h3>
+                        Please send a subscribe request. You don't have any
+                        contacts.
+                      </h3>
+                    )}
+                  </div>
+                )}
               </PerfectScrollbar>
             )}
           </Colxx>
