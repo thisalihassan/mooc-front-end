@@ -282,12 +282,12 @@ class ChatApplication extends Component {
   startVideoBroadcasting(owner, user) {
     if (!this.state.modalOpen) {
       if (owner._id === user._id) {
-        const room = this.state.room;
-        const courseID = this.state.courseID;
-        const name = this.state.roomName;
-        const userid = this.props.user._id;
-        const zoom = this.state.autozoom;
-        const tuple = { room, name, zoom, userid, courseID };
+        let room = this.state.room;
+        let courseID = this.state.courseID;
+        let name = this.state.roomName;
+        let userid = this.props.user._id;
+        let zoom = this.state.autozoom;
+        let tuple = { room, name, zoom, userid, courseID };
 
         if (this.state.autozoom) {
           this.setState({
@@ -325,7 +325,6 @@ class ChatApplication extends Component {
               "&s=video&q=start",
           });
         }
-
         setTimeout(
           function () {
             this.state.socket.emit("VideoCall", tuple, () =>
@@ -378,7 +377,7 @@ class ChatApplication extends Component {
       const courseID = this.state.courseID;
       const name = this.state.roomName;
       const userid = this.props.user._id;
-      const tuple = { room, name, userid, courseID };
+      let tuple = { room, name, userid, courseID };
       this.setState({
         modalOpen: !this.state.modalOpen,
         videoURL:
@@ -394,6 +393,23 @@ class ChatApplication extends Component {
           this.state.socket.emit("AudioCall", tuple, () => console.log("done"));
         }.bind(this),
         2000
+      );
+      let timeStamp = moment(new Date()).format("D MMM YY HH:MM");
+      setTimeout(
+        function () {
+          let myroom = this.state.room;
+          let msg = AURL + "?roomid=" + this.state.room + "&u=join";
+          let check = true;
+          let id = this.props.user._id;
+
+          let tuple = { myroom, msg, check, id, timeStamp };
+          this.state.socket.emit("sendMessage", tuple, () =>
+            this.setState({
+              messageInput: "",
+            })
+          );
+        }.bind(this),
+        2500
       );
     } else {
       alert("You are already in a call!!");
@@ -427,6 +443,16 @@ class ChatApplication extends Component {
       alert("You are already in a call!!");
     }
   };
+  joinCall(msg) {
+    if (!this.state.modalOpen) {
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL: msg,
+      });
+    } else {
+      alert("You are already in a call!!");
+    }
+  }
   toggleVideo = () => {
     if (!this.state.modalOpen) {
       this.setState({
@@ -525,6 +551,14 @@ class ChatApplication extends Component {
                   option={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   {this.state.messages.map((item, index) => {
+                    if (item.text.startsWith(AURL)) {
+                      item.text =
+                        AURL +
+                        "?roomid=" +
+                        this.state.room +
+                        "&u=join&n=" +
+                        this.props.user.name;
+                    }
                     return (
                       <Fragment key={index}>
                         <Card
@@ -556,9 +590,19 @@ class ChatApplication extends Component {
                                 item.user !== user.name ? "left" : "right"
                               }`}
                             >
-                              <p className="mb-0 text-semi-muted">
-                                {item.text}
-                              </p>
+                              {item.text.startsWith("http") ? (
+                                <p
+                                  onClick={(e) => this.joinCall(item.text)}
+                                  className="mb-0 text-semi-muted"
+                                >
+                                  An Audio Call has been started click on this
+                                  message to join
+                                </p>
+                              ) : (
+                                <p className="mb-0 text-semi-muted">
+                                  {item.text}
+                                </p>
+                              )}
                             </div>
                           </CardBody>
                         </Card>

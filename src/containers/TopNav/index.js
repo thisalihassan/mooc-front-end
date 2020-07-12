@@ -169,7 +169,9 @@ class TopNav extends Component {
       }
     });
     this.state.socket.on("AudioCallRinging", async (mess) => {
-      const match = this.state.listCourse.find((u) => u === mess.courseID);
+      console.log(this.state.listCourse);
+      const match = this.state.listCourse.find((u) => u == mess.courseID);
+      console.log(mess.courseID);
       if (match && this.props.user._id !== mess.userid) {
         this.setState({
           callModel: true,

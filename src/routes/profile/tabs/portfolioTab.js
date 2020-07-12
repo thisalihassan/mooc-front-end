@@ -120,7 +120,7 @@ class TheProfile extends React.Component {
             </Modal>
             <img src={profileImage} alt="img here" className="card-img-top" />
 
-            {this.props.user.roll.toLowerCase() === "teacher" && (
+            {this.props.user && this.props.user.roll === "teacher" && (
               <CardBody>
                 <h6>
                   <IntlMessages id="pages.rating" />
