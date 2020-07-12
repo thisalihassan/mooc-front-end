@@ -10,7 +10,12 @@ import { conformtion } from "../../redux/actions";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import PropTypes from "prop-types";
-const Conformation = ({ history, conformtion, isAuthenticated, location }) => {
+const Conformation = ({
+  history,
+  conformtion,
+  registrationSucess,
+  location,
+}) => {
   const [formData, setFormData] = useState({
     token: null,
   });
@@ -25,11 +30,9 @@ const Conformation = ({ history, conformtion, isAuthenticated, location }) => {
     if (values.id) {
       conformtion(values.id, token);
     }
-    this.authentication();
   };
-  if (isAuthenticated) {
-    history.push("/");
-    window.location.reload(false);
+  if (registrationSucess) {
+    history.push("/login");
   }
   return (
     <Fragment>
@@ -62,13 +65,13 @@ const Conformation = ({ history, conformtion, isAuthenticated, location }) => {
 };
 Conformation.propTypes = {
   conformtion: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  registrationSucess: PropTypes.bool,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };
 const mapStateToProps = ({ auth }) => {
-  const { isAuthenticated } = auth;
-  return { isAuthenticated };
+  const { registrationSucess } = auth;
+  return { registrationSucess };
 };
 
 export default withRouter(

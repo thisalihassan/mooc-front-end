@@ -42,7 +42,6 @@ class TheProfile extends React.Component {
       modal: false,
       upload: "api/auth/avatar",
       currentPage: 1,
-      totalPage: Math.ceil(this.props.myCourses.length / 6),
       perPage: 6,
       start: 0,
       end: 6,
@@ -137,7 +136,7 @@ class TheProfile extends React.Component {
 
         <Colxx xxs="12" lg="8" className="mb-4 col-right">
           <Row>
-            {this.props.myCourses ? (
+            {this.props.myCourses &&
               this.props.myCourses.slice(start, end).map((course) => {
                 return (
                   <Colxx
@@ -208,14 +207,11 @@ class TheProfile extends React.Component {
                     </Card>
                   </Colxx>
                 );
-              })
-            ) : (
-              <div className="loading"></div>
-            )}
+              })}
             {this.props.myCourses && (
               <Pagination
                 currentPage={currentPage}
-                totalPage={this.state.totalPage}
+                totalPage={Math.ceil(this.props.myCourses.length / 6)}
                 onChangePage={(i) => this.onChangePage(i)}
               />
             )}

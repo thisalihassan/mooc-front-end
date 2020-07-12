@@ -31,7 +31,7 @@ export const Login = ({ history, login, isAuthenticated }) => {
   };
 
   if (isAuthenticated) {
-    history.push("/");
+    history.push("/app/");
     window.location.reload(false);
   }
   return (

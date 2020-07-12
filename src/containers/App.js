@@ -19,11 +19,7 @@ import AuthRoute from "../privateRoute";
 import Home from "../routes/home/";
 const App = ({ location, match, locale }) => {
   const currentAppLocale = AppLocale[locale];
-  if (
-    location.pathname === "/" ||
-    location.pathname === "/app" ||
-    location.pathname === "/app/"
-  ) {
+  if (location.pathname === "/app" || location.pathname === "/app/") {
     return <Redirect to={defaultStartPath} />;
   }
   return (
@@ -36,12 +32,13 @@ const App = ({ location, match, locale }) => {
           {/* <NotificationContainer /> */}
           <Alert />
           <Switch>
-            <AuthRoute path={`${match.url}app`} component={MainRoute} />
+            <Redirect exact from={`/`} to={`/mooc/home`} />
             <Route path={`/forgot`} component={Forgot} />
             <Route path={`/login`} component={Login} />
             <Route path={`/register`} component={Register} />
             <Route path={`/conformation`} component={conformation} />
             <Route path={`${match.url}mooc`} component={Home} />
+            <AuthRoute path={`${match.url}app`} component={MainRoute} />
           </Switch>
         </Fragment>
       </IntlProvider>

@@ -9,6 +9,7 @@ import {
   LOGIN_USER_FAIL,
   LOGOUT_USER,
   CLEAR_PROFILE,
+  CONFIRMATION_USER,
 } from "../../constants/actionTypes";
 import { URL, config } from "../../constants/defaultValues";
 import setAuthToken from "../../util/setAuthToken";
@@ -45,8 +46,6 @@ export const register = ({ name, email, roll, password }) => async (
       type: REGISTER_USER_SUCCESS,
       payload: res.data,
     });
-
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -97,21 +96,23 @@ export const conformtion = (id, token) => async (dispatch) => {
 
   try {
     const res = await axios.post(URL + "api/auth/confirmation", body, config);
-
-    dispatch({
-      type: LOGIN_USER_SUCCESS,
-      payload: res.data,
-    });
-    dispatch(loadUser());
+    console.log(res.data);
+    if (res.data === "done") {
+      dispatch({
+        type: CONFIRMATION_USER,
+        payload: true,
+      });
+    } else {
+      dispatch({
+        type: CONFIRMATION_USER,
+        payload: false,
+      });
+    }
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
-    dispatch({
-      type: LOGIN_USER_FAIL,
-    });
   }
 };

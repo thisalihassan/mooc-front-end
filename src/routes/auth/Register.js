@@ -41,9 +41,6 @@ export class Register extends Component {
   handleSubmit(values) {
     const { name, password, roll, email } = this.state;
     this.props.register({ name, email, roll, password });
-    if (this.props.isAuthenticated) {
-      this.props.history.push("/login");
-    }
   }
 
   validate(values) {
@@ -79,8 +76,8 @@ export class Register extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isAuthenticated) {
-      this.props.history.push("/login");
+    if (this.props.userRegistered && this.props.user) {
+      this.props.history.push("/conformation/?id=" + this.props.user);
     }
   }
   render() {
@@ -201,8 +198,8 @@ export class Register extends Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { isAuthenticated } = auth;
-  return { isAuthenticated };
+  const { userRegistered, user } = auth;
+  return { userRegistered, user };
 };
 
 export default withRouter(

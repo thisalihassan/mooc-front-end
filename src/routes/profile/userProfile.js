@@ -81,7 +81,7 @@ class ProfilePortfolio extends Component {
   }
   render() {
     const user = this.props.user;
-
+    console.log(this.state.loading);
     const { profile } = this.props.profile;
 
     return (
@@ -154,7 +154,7 @@ class ProfilePortfolio extends Component {
 
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                {profile && !this.state.loading ? (
+                {profile ? (
                   <PortfolioTab
                     skills={profile.skills}
                     description={profile.description}
