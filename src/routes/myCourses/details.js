@@ -747,6 +747,7 @@ export class DetailsPages extends Component {
                                                               href={item}
                                                               target="_blank"
                                                               download
+                                                              rel="noopener noreferrer"
                                                             >
                                                               {
                                                                 lecture
@@ -765,6 +766,7 @@ export class DetailsPages extends Component {
                                                                 href={item}
                                                                 target="_blank"
                                                                 download
+                                                                rel="noopener noreferrer"
                                                               >
                                                                 {
                                                                   lecture
@@ -909,6 +911,7 @@ export class DetailsPages extends Component {
                             <div className="text-center">
                               <img
                                 src={this.props.userProfile.user.avatar}
+                                alt="user profile"
                                 data-src="holder.js/300x300"
                                 className="img-thumbnail img-responsive"
                               ></img>

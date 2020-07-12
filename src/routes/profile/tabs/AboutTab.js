@@ -721,7 +721,7 @@ class Profile extends React.Component {
                                   </tr>
                                 ))
                               ) : (
-                                <h2></h2>
+                                <div></div>
                               )}
                             </tbody>
                           </Table>
@@ -785,7 +785,7 @@ class Profile extends React.Component {
                                   </tr>
                                 ))
                               ) : (
-                                <h2></h2>
+                                <div></div>
                               )}
                             </tbody>
                           </Table>

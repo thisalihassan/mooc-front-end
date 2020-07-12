@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavItem, Badge } from "reactstrap";
+import { NavItem } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
@@ -38,7 +38,7 @@ export class SurveyApplicationMenu extends Component {
               {this.props.courses &&
                 this.props.courses.map((itemData) => {
                   let match;
-                  if (filter) match = filter.value == itemData._id;
+                  if (filter) match = filter.value === itemData._id;
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink

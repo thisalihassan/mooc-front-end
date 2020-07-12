@@ -1,5 +1,4 @@
 /* SETTINGS */
-export const CHANGE_LOCALE = "CHANGE_LOCALE";
 export const SEARCH = "SEARCH";
 export const SEARCH_BY = "SEARCH_BY";
 export const SEARCH_KEYWORD = "SEARCH_KEYWORD";

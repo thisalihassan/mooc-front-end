@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
 import classnames from "classnames";
-import { mapOrder } from "../../util/Utils";
 import { Colxx } from "../../components/CustomBootstrap";
 import QuestionBuilder from "../../containers/Quiz/QuestionBuilder";
 import ThumbnailImage from "../../components/cards/ThumbnailImage";
@@ -260,7 +259,7 @@ class SurveyDetailApp extends Component {
             {this.props.user &&
               this.props.quizzes &&
               this.props.quizzes.quiz &&
-              this.props.quizzes.quiz.user._id != this.props.user._id &&
+              this.props.quizzes.quiz.user._id !== this.props.user._id &&
               !this.state.isSubmitted && (
                 <div className="float-sm-right mb-2">
                   <Button

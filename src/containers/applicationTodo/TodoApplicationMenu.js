@@ -34,7 +34,7 @@ class TodoApplicationMenu extends Component {
               {this.props.courses &&
                 this.props.courses.map((itemData) => {
                   let match;
-                  if (filter) match = filter.value == itemData._id;
+                  if (filter) match = filter.value === itemData._id;
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink

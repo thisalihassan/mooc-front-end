@@ -71,7 +71,7 @@ class ChatApplication extends Component {
       let m = 0;
       for (let i = 0; i < sizeF; i += 1) {
         for (let j = 0; j < sizeFrs; j += 1) {
-          if (followigs[i]._id == followers[j]._id) {
+          if (followigs[i]._id === followers[j]._id) {
             users[m] = followigs[i];
             m += 1;
           }
@@ -108,12 +108,12 @@ class ChatApplication extends Component {
       this._scrollBarRef._ps.element.scrollTop = this._scrollBarRef._ps.contentHeight;
     }
     if (this.props.user) {
-      if (this.state.name == "") {
+      if (this.state.name === "") {
         this.setState({ name: this.props.user.name });
       }
     }
 
-    if (this.state.name !== "" && this.state.room != "") {
+    if (this.state.name !== "" && this.state.room !== "") {
       if (this.state.socket == null) {
         this.setState({ loading: true });
         this.props.loadConversations(this.state.room);
@@ -385,6 +385,7 @@ class ChatApplication extends Component {
                               <a
                                 href={item.text.split("*")[0]}
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 download
                               >
                                 {item.text.split("*")[1]}

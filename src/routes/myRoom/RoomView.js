@@ -87,8 +87,8 @@ class ChatApplication extends Component {
         roomCreator: res.data.user,
         guidelines: res.data.guidelines,
       });
-      let id = res.data.course._id;
-      const body = JSON.stringify({ id });
+      // let id = res.data.course._id;
+      // const body = JSON.stringify({ id });
       // res = await axios.post(URL + "api/Courses/getFiles", body, config);
       // this.setState({ fileName: "Lecture " + res.data.length + 1 });
       this.props.loadConversations(values.id, false);
@@ -374,31 +374,27 @@ class ChatApplication extends Component {
   }
   startAudioCall(owner, user) {
     if (!this.state.modalOpen) {
-      if (owner._id === user._id) {
-        const room = this.state.room;
-        const courseID = this.state.courseID;
-        const name = this.state.roomName;
-        const userid = this.props.user._id;
-        const tuple = { room, name, userid, courseID };
-        this.setState({
-          modalOpen: !this.state.modalOpen,
-          videoURL:
-            AURL +
-            "?roomid=" +
-            this.state.room +
-            "&u=start&n=" +
-            this.props.user.name,
-        });
+      const room = this.state.room;
+      const courseID = this.state.courseID;
+      const name = this.state.roomName;
+      const userid = this.props.user._id;
+      const tuple = { room, name, userid, courseID };
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+        videoURL:
+          AURL +
+          "?roomid=" +
+          this.state.room +
+          "&u=start&n=" +
+          this.props.user.name,
+      });
 
-        setTimeout(
-          function () {
-            this.state.socket.emit("AudioCall", tuple, () =>
-              console.log("done")
-            );
-          }.bind(this),
-          2000
-        );
-      }
+      setTimeout(
+        function () {
+          this.state.socket.emit("AudioCall", tuple, () => console.log("done"));
+        }.bind(this),
+        2000
+      );
     } else {
       alert("You are already in a call!!");
     }
@@ -413,11 +409,10 @@ class ChatApplication extends Component {
     const id = this.props.user._id;
     const tuple = { myroom, id, name };
     this.state.socket.emit("disconnectuser", tuple, () => console.log("Leave"));
-    this.props.history.push("/app/myrooms/rooms");
+    this.props.history.push("/app/myrooms/rooms/");
   }
   toggleScreen = () => {
     if (!this.state.modalOpen) {
-      const userid = this.props.user._id;
       this.setState({
         modalOpen: !this.state.modalOpen,
         videoURL:
@@ -434,7 +429,6 @@ class ChatApplication extends Component {
   };
   toggleVideo = () => {
     if (!this.state.modalOpen) {
-      const userid = this.props.user._id;
       this.setState({
         modalOpen: !this.state.modalOpen,
         videoURL:
@@ -444,17 +438,6 @@ class ChatApplication extends Component {
           "&u=" +
           this.props.user._id +
           "&s=video&q=join",
-      });
-    } else {
-      alert("You are already in a call!!");
-    }
-  };
-  toggleAudioCall = () => {
-    if (!this.state.modalOpen) {
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-        videoURL:
-          AURL + "?id=" + this.state.room + "&u=join&n=" + this.props.user.name,
       });
     } else {
       alert("You are already in a call!!");
@@ -494,16 +477,9 @@ class ChatApplication extends Component {
                     </div>
                   </td>
                   <td id="a">
-                    {owner._id === user._id && (
-                      <Button onClick={() => this.startAudioCall(owner, user)}>
-                        <i className="simple-icon-phone" />
-                      </Button>
-                    )}
-                    {owner && user && owner._id !== user._id && (
-                      <Button onClick={this.toggleAudioCall}>
-                        <i className="simple-icon-phone" />
-                      </Button>
-                    )}
+                    <Button onClick={() => this.startAudioCall(owner, user)}>
+                      <i className="simple-icon-phone" />
+                    </Button>
                   </td>
                   <td id="b">
                     {owner._id === user._id && (
@@ -688,7 +664,7 @@ class ChatApplication extends Component {
                     </NavLink>
                   </div>
                   <Formik initialValues={{}}>
-                    {({}) => (
+                    {() => (
                       <Form className="av-tooltip tooltip-label-right">
                         <FormGroup>
                           <Label className="d-block">

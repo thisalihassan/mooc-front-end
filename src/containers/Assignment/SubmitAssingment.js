@@ -7,7 +7,6 @@ import {
   ModalHeader,
   ModalBody,
   FormGroup,
-  Label,
 } from "reactstrap";
 import { Formik, Form } from "formik";
 import IntlMessages from "../../util/IntlMessages";
@@ -49,7 +48,7 @@ class AddNewSurveyModal extends Component {
     await this.uploadLecture();
     const file = this.state.file;
     let body = JSON.stringify({ file });
-    let res = await axios.post(
+    await axios.post(
       URL + "api/assignment/submitassignment/" + this.props.id,
       body,
       config

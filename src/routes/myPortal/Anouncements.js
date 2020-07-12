@@ -37,15 +37,7 @@ class TodoApp extends Component {
       id: null,
     };
   }
-  onChangePage(page) {
-    const start = page * (page + 1);
-    const div = start / 6;
-    this.setState({
-      currentPage: page,
-      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
-      end: page == 1 ? 6 : start + 7,
-    });
-  }
+
   async componentDidMount() {
     this.props.GetSubscription();
     this.props.getmyCourse();
@@ -55,9 +47,14 @@ class TodoApp extends Component {
   }
 
   onChangePage(page) {
+    const start = page * (page + 1);
+    const div = start / 6;
     this.setState(
       {
         currentPage: page,
+        start:
+          page === 1 ? 0 : start - (start / 6 === 1 ? 0 : Math.round(div) - 1),
+        end: page === 1 ? 6 : start + 7,
       },
       () => {
         this.dataListRender();

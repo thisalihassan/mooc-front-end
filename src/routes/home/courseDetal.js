@@ -4,7 +4,6 @@ import "./nav.css";
 import {
   Row,
   Card,
-  CardTitle,
   CardBody,
   Nav,
   NavItem,
@@ -243,6 +242,7 @@ export class DetailsPages extends Component {
                             <br></br>
                             <div className="text-center">
                               <img
+                                alt="user avatar"
                                 src={this.props.userProfile.user.avatar}
                                 data-src="holder.js/300x300"
                                 className="img-thumbnail img-responsive"

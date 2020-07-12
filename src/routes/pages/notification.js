@@ -7,7 +7,7 @@ import { Separator, Colxx } from "../../components/CustomBootstrap";
 import {
   GetSubscription,
   getmyCourse,
-  getNotifications
+  getNotifications,
 } from "../../redux/actions";
 import moment from "moment";
 class NotificationPage extends Component {
@@ -17,7 +17,7 @@ class NotificationPage extends Component {
       notifications: [],
       firstTime: true,
       listCourse: [],
-      loadNotification: true
+      loadNotification: true,
     };
   }
   makecoursesList() {
@@ -44,10 +44,10 @@ class NotificationPage extends Component {
     if (this.props.notify.length > 0 && this.state.loadNotification) {
       this.setState({
         notifications: this.props.notify,
-        loadNotification: false
+        loadNotification: false,
       });
     }
-    if (this.props.user && this.state.listCourse.length == 0) {
+    if (this.props.user && this.state.listCourse.length === 0) {
       this.makecoursesList();
     }
   }
@@ -83,7 +83,7 @@ class NotificationPage extends Component {
               let match = true;
               let itself = false;
               if (item.course) {
-                match = this.state.listCourse.find(u => u === item.course);
+                match = this.state.listCourse.find((u) => u === item.course);
               }
               if (item.user) {
                 itself = item.user === this.props.user._id;
@@ -137,7 +137,7 @@ const mapStateToProps = ({ auth, subscribtion, course, notifications }) => {
     notify,
     courses,
     myCourses,
-    user
+    user,
   };
 };
 export default injectIntl(

@@ -186,8 +186,9 @@ class OthersProfile extends React.Component {
     const div = start / 6;
     this.setState({
       currentPage: page,
-      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
-      end: page == 1 ? 6 : start + 7,
+      start:
+        page === 1 ? 0 : start - (start / 6 === 1 ? 0 : Math.round(div) - 1),
+      end: page === 1 ? 6 : start + 7,
     });
   }
   render() {
@@ -211,6 +212,7 @@ class OthersProfile extends React.Component {
                   <br></br>
                   <div className="text-center">
                     <img
+                      alt="user avatar"
                       src={this.props.userProfile.user.avatar}
                       data-src="holder.js/300x300"
                       class="img-thumbnail img-responsive"
@@ -226,17 +228,19 @@ class OthersProfile extends React.Component {
                     {this.props.user._id !== this.props.userProfile.user._id &&
                       this.props.user.roll.toLowerCase() !== "admin" && (
                         <div>
-                          <Button
-                            id="g"
-                            onClick={() =>
-                              this.startAudioCall(
-                                this.props.userProfile.user._id,
-                                this.props.user._id
-                              )
-                            }
-                          >
-                            <i id="othr" className="simple-icon-phone" />
-                          </Button>
+                          {this.state.showMSg && (
+                            <Button
+                              id="g"
+                              onClick={() =>
+                                this.startAudioCall(
+                                  this.props.userProfile.user._id,
+                                  this.props.user._id
+                                )
+                              }
+                            >
+                              <i id="othr" className="simple-icon-phone" />
+                            </Button>
+                          )}
                           {this.state.showMSg && (
                             <a
                               href={

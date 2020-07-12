@@ -6,9 +6,7 @@ import { ContextMenuTrigger } from "react-contextmenu";
 import { Colxx } from "../CustomBootstrap";
 import moment from "moment";
 class DataListView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+ 
   deleteItem = e => {
     this.props.deleteClick(this.props.product._id);
   };

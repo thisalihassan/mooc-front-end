@@ -20,6 +20,7 @@ export const makeAnouncement = (body) => async (dispatch) => {
     });
   } catch (err) {
     const errors = err.response.data.errors;
+    console.log(errors);
     dispatch({
       type: TODO_GET_LIST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

@@ -4,7 +4,7 @@ import "./App.css";
 import Log from "./login.svg";
 import { Formik, Form } from "formik";
 import { Image } from "react-bootstrap";
-import { Input, Button, NavItem } from "reactstrap";
+import { Input, Button } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import { register } from "../../redux/actions";

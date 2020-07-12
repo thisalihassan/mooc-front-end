@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavItem, Badge } from "reactstrap";
+import { NavItem } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
@@ -31,19 +31,19 @@ export class MyApplicationMenu extends Component {
             </p>
             <ul className="list-unstyled mb-5">
               <NavItem className={classnames({ active: !filter })}>
-                <NavLink to="#" onClick={e => this.addFilter("", "")}>
+                <NavLink to="#" onClick={(e) => this.addFilter("", "")}>
                   All Items
                 </NavLink>
               </NavItem>
               {this.props.courses &&
-                this.props.courses.map(itemData => {
+                this.props.courses.map((itemData) => {
                   let match;
-                  if (filter) match = filter.value == itemData._id;
+                  if (filter) match = filter.value === itemData._id;
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink
                         to="#"
-                        onClick={e => this.addFilter("course", itemData._id)}
+                        onClick={(e) => this.addFilter("course", itemData._id)}
                       >
                         {itemData.name}
                         {/* <span className="float-right">
@@ -62,9 +62,9 @@ export class MyApplicationMenu extends Component {
 }
 const mapStateToProps = ({ assignment }) => {
   return {
-    assignment
+    assignment,
   };
 };
 export default connect(mapStateToProps, {
-  getAssignmentswithFilter
+  getAssignmentswithFilter,
 })(MyApplicationMenu);

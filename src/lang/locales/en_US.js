@@ -16,7 +16,7 @@ export default {
   "user.reset-password-button": "RESET",
 
   /* 03.Menu */
-  "survey.add-new-title": "Upload",
+
   "menu.assignment": "Assignemnt",
   "assignment.add-new": "Add Assignment",
   "menu.app": "Home",
@@ -87,7 +87,6 @@ export default {
   "forms.importance": "Why Should A Student Take This Course?",
   "dropdowns.dropdown": "Category",
   "dropdowns.header": "Category1",
-  "dropdowns.action": "Category2",
   "dropdowns.another-action": "Category3",
   "forms.category": "Category",
   "forms.iimportance": "Importance of this course",
@@ -98,7 +97,6 @@ export default {
   "wizard-basic-step": "Prerequisite",
   "forms.email": "Prerequisite",
   "forms.iemail": "Prerequisite",
-  "forms.password": "Course Outcomes",
   "wizard.step-name-3": "Step 3",
   "wizard.step-desc-3": "Outcomes",
   "wizard.step-name-4": "Step 4",
@@ -171,7 +169,7 @@ export default {
   "admin.top": "Visitors Analytics",
   "dashboards.sales": "Visitors This Week",
   "admin.manageaccount": "Manage Accounts",
-  "pages.followers": "Followers",
+
   "course.lecture": "Lecture Description",
   "edit.lecture": "Edit Lecture",
   "room.guidelines": "Add Room Gudelines",

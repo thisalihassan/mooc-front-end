@@ -1,19 +1,17 @@
 import {
   GET_ROOMS,
-  ROOM_CREATED,
   GET_MY_ROOMS,
-  ROOMS_ERROR
+  ROOMS_ERROR,
 } from "../../constants/actionTypes";
 
 const initialState = {
   rooms: [],
   room: null,
-  loading: true,
   error: {},
-  loading: true
+  loading: true,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -21,13 +19,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         room: payload,
-        loading: false
+        loading: false,
       };
     case GET_ROOMS:
       return {
         ...state,
         rooms: payload,
-        loading: false
+        loading: false,
       };
 
     case ROOMS_ERROR:
@@ -35,11 +33,11 @@ export default function(state = initialState, action) {
         ...state,
         rooms: [],
         loading: true,
-        error: payload
+        error: payload,
       };
     default:
       return {
-        ...state
+        ...state,
       };
   }
 }

@@ -11,12 +11,7 @@ import {
 import { Formik, Form } from "formik";
 import IntlMessages from "../../util/IntlMessages";
 import axios from "axios";
-import {
-  URL,
-  config,
-  fileMaxSize,
-  fileTypes,
-} from "../../constants/defaultValues";
+import { URL, fileMaxSize, fileTypes } from "../../constants/defaultValues";
 import { setAlert } from "../../redux/actions";
 class AttachmentModel extends Component {
   constructor(props) {

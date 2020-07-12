@@ -54,7 +54,7 @@ class SurveyDetailApp extends Component {
 
   render() {
     const { quiz, loading } = this.props.quizzes;
-    let roll;
+    let roll = "";
     if (this.props.user) roll = this.props.user.roll.toLowerCase();
     if (this.props.roll === "student") roll = this.props.roll;
     return (

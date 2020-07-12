@@ -132,7 +132,7 @@ export class AddCourse extends Component {
             preReq: data.preReq,
             outcome: data.outcome,
             category: options.filter((value) => {
-              return value.label == data.category;
+              return value.label === data.category;
             }),
             courseContent: data.courseContent,
           });
@@ -141,7 +141,7 @@ export class AddCourse extends Component {
   }
   async onClickNext(goToNext, steps, step) {
     step.isDone = true;
-    if (steps.indexOf(step) == 2) {
+    if (steps.indexOf(step) === 2) {
       this.setState({ upload: true });
     }
     if (steps.length - 2 <= steps.indexOf(step)) {

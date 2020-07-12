@@ -109,11 +109,7 @@ export const createProfile = (body, edit = false) => async (dispatch) => {
 };
 export const changePassword = (formData) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      URL + "api/auth/changePassword",
-      formData,
-      config
-    );
+    await axios.post(URL + "api/auth/changePassword", formData, config);
     dispatch(setAlert("Profile Updated", "success"));
   } catch (err) {
     const errors = err.response.data.errors;

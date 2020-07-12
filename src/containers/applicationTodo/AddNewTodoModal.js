@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  CustomInput,
   Button,
   Modal,
   ModalHeader,

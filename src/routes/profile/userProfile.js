@@ -58,7 +58,7 @@ class ProfilePortfolio extends Component {
       this.props.history.push("/app/admin/visitors");
     }
     if (this.props.user && this.props.user._id) {
-      if (this.state.loading && this.props.user.roll == "teacher") {
+      if (this.state.loading && this.props.user.roll === "teacher") {
         let id = this.props.user._id;
         const body = JSON.stringify({ id });
         const res = await axios.post(
@@ -69,7 +69,7 @@ class ProfilePortfolio extends Component {
         this.setState({ myCourses: res.data, loading: false });
       } else if (
         this.state.loading &&
-        this.props.user.roll == "student" &&
+        this.props.user.roll === "student" &&
         this.props.subscribed.courses
       ) {
         this.setState({
@@ -143,7 +143,7 @@ class ProfilePortfolio extends Component {
                   }}
                   to="#"
                 >
-                  {user && user.roll.toLowerCase() == "teacher" ? (
+                  {user && user.roll.toLowerCase() === "teacher" ? (
                     <IntlMessages id="pages.followers" />
                   ) : (
                     <IntlMessages id="pages.following" />
@@ -176,7 +176,7 @@ class ProfilePortfolio extends Component {
               <TabPane tabId="3">{<AccountDelete />}</TabPane>
               <TabPane tabId="4">
                 <Row>
-                  {user && user.roll == "student"
+                  {user && user.roll === "student"
                     ? this.props.subscribed.following &&
                       this.props.subscribed.following.map((itemData) => {
                         return (

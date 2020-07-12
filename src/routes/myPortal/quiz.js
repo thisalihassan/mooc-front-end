@@ -1,15 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import {
-  Row,
-  Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  Collapse,
-} from "reactstrap";
+import { Row, Button, Collapse } from "reactstrap";
 
 import IntlMessages from "../../util/IntlMessages";
 import { Colxx, Separator } from "../../components/CustomBootstrap";
@@ -51,7 +43,7 @@ class Quiz extends Component {
     this.props.getmyCourse();
   }
   componentDidUpdate(prevState, prevProps) {
-    if (this.props.user && this.state.listCourse.length == 0) {
+    if (this.props.user && this.state.listCourse.length === 0) {
       this.makecoursesList();
       this.props.addQuizToList(
         this.state.listCourse,

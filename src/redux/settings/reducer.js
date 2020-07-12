@@ -4,12 +4,7 @@ import {
   searchBy,
 } from "../../constants/defaultValues";
 
-import {
-  CHANGE_LOCALE,
-  SEARCH,
-  SEARCH_BY,
-  SEARCH_KEYWORD,
-} from "../../constants/actionTypes";
+import { SEARCH, SEARCH_BY, SEARCH_KEYWORD } from "../../constants/actionTypes";
 
 const INIT_STATE = {
   searchBy:

@@ -35,6 +35,7 @@ class ListItem extends React.Component {
               <a
                 href={this.props.item.file}
                 target="_blank"
+                rel="noopener noreferrer"
                 download
                 className="mb-1 text-small w-15 w-xs-100"
               >

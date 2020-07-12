@@ -33,7 +33,6 @@ class Assignment extends Component {
   }
   render() {
     const { submitassignment, course } = this.state;
-    const { messages } = this.props.intl;
     return (
       <Fragment>
         <Row className="app-row survey-app">

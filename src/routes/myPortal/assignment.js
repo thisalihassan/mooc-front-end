@@ -1,15 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import {
-  Row,
-  Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  Collapse,
-} from "reactstrap";
+import { Row, Button } from "reactstrap";
 
 import IntlMessages from "../../util/IntlMessages";
 import { Colxx, Separator } from "../../components/CustomBootstrap";
@@ -50,7 +42,7 @@ class Assignment extends Component {
   }
 
   componentDidUpdate(prevState, prevProps) {
-    if (this.props.user && this.state.listCourse.length == 0) {
+    if (this.props.user && this.state.listCourse.length === 0) {
       this.makecoursesList();
       this.props.getAssignments(this.state.listCourse, this.props.user);
     }
@@ -125,9 +117,8 @@ class Assignment extends Component {
     this.props.getAssignments(this.state.listCourse, this.props.user);
   }
   render() {
-    const { orderColumn, orderColumns } = this.props.quizList;
     const { selectedassignments } = this.props.assignment;
-    const { messages } = this.props.intl;
+
     const { modalOpen } = this.state;
     return (
       <Fragment>
@@ -167,21 +158,19 @@ class Assignment extends Component {
               {selectedassignments &&
                 selectedassignments.map((item, index) => {
                   const name = item.course.name;
-                  {
-                    return item.assignment.map((n, k) => {
-                      return (
-                        <ListItem
-                          key={`todo_item_${n._id}`}
-                          item={n}
-                          name={name}
-                          roll={this.props.user.roll}
-                          editAssignment={(e) => this.editAssignment(e)}
-                          reloadModel={(e) => this.reloadModel(e)}
-                          deleteClick={(e) => this.deleteAssignment(e)}
-                        />
-                      );
-                    });
-                  }
+                  return item.assignment.map((n, k) => {
+                    return (
+                      <ListItem
+                        key={`todo_item_${n._id}`}
+                        item={n}
+                        name={name}
+                        roll={this.props.user.roll}
+                        editAssignment={(e) => this.editAssignment(e)}
+                        reloadModel={(e) => this.reloadModel(e)}
+                        deleteClick={(e) => this.deleteAssignment(e)}
+                      />
+                    );
+                  });
                 })}
             </Row>
           </Colxx>

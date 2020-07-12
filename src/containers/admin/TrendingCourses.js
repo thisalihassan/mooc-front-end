@@ -28,8 +28,9 @@ class TredingCourses extends Component {
     const div = start / 6;
     this.setState({
       currentPage: page,
-      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
-      end: page == 1 ? 6 : start + 7,
+      start:
+        page === 1 ? 0 : start - (start / 6 === 1 ? 0 : Math.round(div) - 1),
+      end: page === 1 ? 6 : start + 7,
     });
   }
   render() {

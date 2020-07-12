@@ -106,7 +106,7 @@ class TopNav extends Component {
         loadNotification: false,
       });
     }
-    if (this.props.user && this.state.listCourse.length == 0) {
+    if (this.props.user && this.state.listCourse.length === 0) {
       if (this.state.firstTime) {
         await this.makecoursesList();
         this.setState({ firstTime: false });
@@ -114,7 +114,7 @@ class TopNav extends Component {
     }
 
     this.state.socket.on("CallRinging", (mess) => {
-      if (mess.userid == this.props.user._id) {
+      if (mess.userid === this.props.user._id) {
         this.setState({
           callModel: true,
           callerID: mess.URL + "&n=" + this.props.user.name,
@@ -636,39 +636,38 @@ class TopNav extends Component {
               {this.state.today &&
                 this.state.today.map((item, index) => {
                   const name = item.course.name;
-                  {
-                    return item.assignment.map((mitem, k) => {
-                      return (
-                        <Card>
-                          <CardBody className=" d-flex flex-md-row justify-content-between  ">
-                            <Link
-                              to="/app/myportal/assignment"
-                              className="list-item-heading mb-0 truncate w-70 w-xs-100  mb-1 mt-1"
-                            >
-                              <span className="align-middle d-inline-block">
-                                {mitem.title}
-                              </span>
-                            </Link>
+                  return item.assignment.map((mitem, k) => {
+                    return (
+                      <Card>
+                        <CardBody className=" d-flex flex-md-row justify-content-between  ">
+                          <Link
+                            to="/app/myportal/assignment"
+                            className="list-item-heading mb-0 truncate w-70 w-xs-100  mb-1 mt-1"
+                          >
+                            <span className="align-middle d-inline-block">
+                              {mitem.title}
+                            </span>
+                          </Link>
 
-                            <p className="mb-1 text-muted text-small w-16 w-xs-100">
-                              {name}
-                            </p>
-                            <p className="mb-1 text-muted text-small w-16 w-xs-100">
-                              {moment(mitem.duedate).format("LL")}
-                            </p>
-                            <a
-                              href={`${URL}downloadfile/${mitem.file}`}
-                              target="_blank"
-                              download
-                              className="mb-1 text-small w-17 w-xs-100"
-                            >
-                              Download
-                            </a>
-                          </CardBody>
-                        </Card>
-                      );
-                    });
-                  }
+                          <p className="mb-1 text-muted text-small w-16 w-xs-100">
+                            {name}
+                          </p>
+                          <p className="mb-1 text-muted text-small w-16 w-xs-100">
+                            {moment(mitem.duedate).format("LL")}
+                          </p>
+                          <a
+                            href={`${URL}downloadfile/${mitem.file}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download
+                            className="mb-1 text-small w-17 w-xs-100"
+                          >
+                            Download
+                          </a>
+                        </CardBody>
+                      </Card>
+                    );
+                  });
                 })}
             </ModalBody>
             <ModalFooter></ModalFooter>
@@ -684,7 +683,10 @@ class TopNav extends Component {
                   id="call-sound"
                   src="https://res.cloudinary.com/mooc/video/upload/v1591019505/assests/skype-incoming-call_f59uo2.mp3"
                 />
-                <img src="https://res.cloudinary.com/mooc/image/upload/v1591019665/assests/CompetentWindingFrigatebird-small_qdoqsi.gif" />
+                <img
+                  src="https://res.cloudinary.com/mooc/image/upload/v1591019665/assests/CompetentWindingFrigatebird-small_qdoqsi.gif"
+                  alt="callimg"
+                />
               </div>
             </ModalBody>
             <ModalFooter>

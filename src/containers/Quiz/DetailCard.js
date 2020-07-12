@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardBody, Badge } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Colxx } from "../../components/CustomBootstrap";
 import ReactCountdownClock from "react-countdown-clock";
 class DetailCard extends Component {

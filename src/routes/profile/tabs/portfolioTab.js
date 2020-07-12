@@ -71,8 +71,9 @@ class TheProfile extends React.Component {
     const div = start / 6;
     this.setState({
       currentPage: page,
-      start: page == 1 ? 0 : start - (start / 6 == 1 ? 0 : Math.round(div) - 1),
-      end: page == 1 ? 6 : start + 7,
+      start:
+        page === 1 ? 0 : start - (start / 6 === 1 ? 0 : Math.round(div) - 1),
+      end: page === 1 ? 6 : start + 7,
     });
   }
   render() {
@@ -118,13 +119,9 @@ class TheProfile extends React.Component {
                 </Button>
               </ModalFooter>
             </Modal>
-            <img
-              src={profileImage}
-              alt="display picture"
-              className="card-img-top"
-            />
+            <img src={profileImage} alt="img here" className="card-img-top" />
 
-            {this.props.user.roll.toLowerCase() == "teacher" && (
+            {this.props.user.roll.toLowerCase() === "teacher" && (
               <CardBody>
                 <h6>
                   <IntlMessages id="pages.rating" />
@@ -152,7 +149,7 @@ class TheProfile extends React.Component {
                   >
                     <Card className="course" id="course" key={course._id + "1"}>
                       <div className="position-relative">
-                        {this.props.user.roll.toLowerCase() == "teacher" && (
+                        {this.props.user.roll.toLowerCase() === "teacher" && (
                           <div className="position-absolute card-top-buttons">
                             <Dropdown>
                               <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
@@ -187,7 +184,7 @@ class TheProfile extends React.Component {
                           />
                         </NavLink>
 
-                        {this.props.user.roll.toLowerCase() == "teacher" && (
+                        {this.props.user.roll.toLowerCase() === "teacher" && (
                           <Badge
                             color={course.statusColor}
                             pill

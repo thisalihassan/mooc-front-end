@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Badge } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import moment from "moment";

@@ -256,6 +256,7 @@ class Sidebar extends Component {
               <img
                 width="50"
                 height="50"
+                alt="pofile"
                 className="rounded-circle"
                 src={profileImage}
               />
@@ -281,7 +282,7 @@ class Sidebar extends Component {
             </NavLink>
           </NavItem>
         )}
-        {roll == "student" && (
+        {roll === "student" && (
           <NavItem
             className={classnames({
               active:

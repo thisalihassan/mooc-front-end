@@ -3,10 +3,6 @@ import { NavLink } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import Rating from "../Rating";
 class Review extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     let thumb = this.props.data.student.avatar;
 
