@@ -9,6 +9,7 @@ import {
   Input,
   Badge,
   CustomInput,
+  Tooltip,
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "../../components/CustomSelectInput";
@@ -17,12 +18,9 @@ import { connect } from "react-redux";
 
 import { mapOrder } from "../../util/Utils";
 import { saveSurvey, saveQuiz } from "../../redux/actions";
-const answerTypes = [
-  { label: "Text Area", value: "1", id: 1 },
-  { label: "Radiobutton", value: "2", id: 2 },
-];
+const answerTypes = [{ label: "Text Area", value: "1", id: 1 }];
 const autocheck = { label: "Radiobutton", value: "2", id: 2 };
-class SurveyQuestionBuilder extends React.Component {
+class QuestionBuilder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,8 +32,44 @@ class SurveyQuestionBuilder extends React.Component {
       answers: this.props.answers || [],
       shouldHide: true,
       myAnswer: this.props.myAnswer || "",
+      tooltipOpen1: false,
+      tooltipOpen2: false,
+      tooltipOpen3: false,
+      tooltipOpen4: false,
+      tooltipOpen5: false,
+      tooltipOpen6: false,
     };
   }
+  ToolTiptoggle = () => {
+    this.setState((prevState) => ({
+      tooltipOpen1: !prevState.tooltipOpen1,
+    }));
+  };
+  ToolTiptoggle2 = () => {
+    this.setState((prevState) => ({
+      tooltipOpen2: !prevState.tooltipOpen2,
+    }));
+  };
+  ToolTiptoggle3 = () => {
+    this.setState((prevState) => ({
+      tooltipOpen3: !prevState.tooltipOpen3,
+    }));
+  };
+  ToolTiptoggle4 = () => {
+    this.setState((prevState) => ({
+      tooltipOpen4: !prevState.tooltipOpen4,
+    }));
+  };
+  ToolTiptoggle5 = () => {
+    this.setState((prevState) => ({
+      tooltipOpen5: !prevState.tooltipOpen5,
+    }));
+  };
+  ToolTiptoggle6 = () => {
+    this.setState((prevState) => ({
+      tooltipOpen6: !prevState.tooltipOpen6,
+    }));
+  };
   deleteClick = () => {
     this.props.deleteClick(this.state.id);
   };
@@ -173,62 +207,117 @@ class SurveyQuestionBuilder extends React.Component {
             {roll === "teacher" && (
               <Button
                 outline
+                id="Tooltip-1"
                 color={"theme-3"}
                 className="icon-button ml-1 edit-button"
                 onClick={this.editClick}
               >
+                <Tooltip
+                  placement="Top"
+                  isOpen={this.state.tooltipOpen}
+                  target={"Tooltip-1"}
+                  toggle={this.ToolTiptoggle}
+                >
+                  Edit Question
+                </Tooltip>
                 <i id="in" className="simple-icon-pencil" />
               </Button>
             )}
             {roll === "teacher" && (
               <Button
                 outline
+                id="Tooltip-2"
                 color={"theme-3"}
                 className="icon-button ml-1 view-button no-border"
                 onClick={this.viewClick}
               >
+                <Tooltip
+                  placement="Top"
+                  isOpen={this.state.tooltipOpen2}
+                  target="Tooltip-2"
+                  toggle={this.ToolTiptoggle2}
+                >
+                  View Question
+                </Tooltip>
                 <i className="simple-icon-eye" />
               </Button>
             )}
             <Button
               outline
+              id="Tooltip-3"
               color={"theme-3"}
               className={`icon-button ml-1 rotate-icon-click ${
                 this.state.collapse ? "rotate" : ""
               }`}
               onClick={this.toggleClick}
             >
+              <Tooltip
+                placement="Top"
+                isOpen={this.state.tooltipOpen3}
+                target={"Tooltip-3"}
+                toggle={this.ToolTiptoggle3}
+              >
+                Collapse
+              </Tooltip>
               <i className="simple-icon-arrow-down" />
             </Button>
 
             {roll === "teacher" && (
               <Button
                 outline
+                id="Tooltip-4"
                 color={"theme-3"}
                 className="icon-button ml-1"
                 onClick={this.deleteClick}
               >
+                <Tooltip
+                  placement="Top"
+                  isOpen={this.state.tooltipOpen4}
+                  target="Tooltip-4"
+                  toggle={this.ToolTiptoggle4}
+                >
+                  Delete Question
+                </Tooltip>
                 <i className="simple-icon-ban" />
               </Button>
             )}
             {roll === "teacher" && (
               <Button
                 outline
+                id="Tooltip-5"
                 color={"theme-3"}
                 style={this.state.shouldHide ? {} : { display: "none" }}
                 className={"icon-button ml-1"}
                 onClick={() => this.submitQuestion()}
               >
+                {" "}
+                <Tooltip
+                  placement="Top"
+                  isOpen={this.state.tooltipOpen5}
+                  target="Tooltip-5"
+                  toggle={this.ToolTiptoggle5}
+                >
+                  Submit Question
+                </Tooltip>
                 <i className="simple-icon-check" />
               </Button>
             )}
             {roll === "student" && (
               <Button
                 outline
+                id="Tooltip-6"
                 color={"theme-3"}
                 className="icon-button ml-1"
                 onClick={() => this.submitQuestion()}
               >
+                <Tooltip
+                  placement="Top"
+                  isOpen={this.state.tooltipOpen6}
+                  target="Tooltip-6"
+                  toggle={this.ToolTiptoggle6}
+                >
+                  Submit Question
+                </Tooltip>
                 <i className="simple-icon-check" />
               </Button>
             )}
@@ -339,4 +428,4 @@ const mapStateToProps = ({ quiz }) => {
 export default connect(mapStateToProps, {
   saveSurvey,
   saveQuiz,
-})(SurveyQuestionBuilder);
+})(QuestionBuilder);

@@ -73,9 +73,10 @@ class SurveyDetailApp extends Component {
                 size="lg"
                 onClick={(e) => this.setMarks(e)}
               >
-                > Mark Quiz
+                Mark Quiz
               </Button>
             </div>
+
             <div className="mb-2">
               <input
                 type="Number"
@@ -86,6 +87,7 @@ class SurveyDetailApp extends Component {
                 }}
               />
             </div>
+
             {loading ? (
               <Fragment>
                 <Row>

@@ -20,7 +20,6 @@ class DetailCard extends Component {
             <CardBody>
               <p className="text-muted text-small mb-2">Quiz</p>
               <p className="mb-3">{this.props.quiz.title}</p>
-
               <p className="text-muted text-small mb-2">Time</p>
               <p className="mb-3">
                 <ReactCountdownClock
@@ -31,12 +30,20 @@ class DetailCard extends Component {
                   onComplete={this.deleteClick}
                 />
               </p>
+              <p className="text-muted text-small mb-2">Instructions</p>
+              <p className="mb-3">
+                Closing Quiz Tab or minimizing the window will auto submit the
+                Quiz
+              </p>
+              <p className="mb-3">
+                Please click on <i className="simple-icon-check" /> after
+                complete your Question or Change your answer
+              </p>
             </CardBody>
           ) : (
             <CardBody>
               <p className="text-muted text-small mb-2">Name</p>
               <p className="mb-3">{"Quiz by " + this.props.quiz.user.name}</p>
-
               <p className="text-muted text-small mb-2">Course</p>
               <p className="mb-3">{this.props.quiz.course.name}</p>
               <p className="text-muted text-small mb-2">Marks</p>
@@ -47,6 +54,15 @@ class DetailCard extends Component {
               ) : (
                 <p className="mb-3">out of {this.props.quiz.marks}</p>
               )}
+              <p className="text-muted text-small mb-2">Instructions</p>
+              <p className="mb-3">
+                Closing Quiz Tab or minimizing the window will auto submit the
+                Quiz
+              </p>
+              <p className="mb-3">
+                Please click on <i className="simple-icon-check" /> after you
+                complete the Question
+              </p>
             </CardBody>
           )}
         </Card>
