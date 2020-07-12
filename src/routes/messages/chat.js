@@ -66,7 +66,8 @@ class ChatApplication extends Component {
       let followigs = this.props.following;
       let sizeF = followigs.length;
       let followers = this.props.followers;
-      let sizeFrs = followigs.length;
+
+      let sizeFrs = followers.length;
       let m = 0;
       for (let i = 0; i < sizeF; i += 1) {
         for (let j = 0; j < sizeFrs; j += 1) {

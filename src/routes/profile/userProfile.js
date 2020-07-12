@@ -154,19 +154,15 @@ class ProfilePortfolio extends Component {
 
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                {profile ? (
-                  !this.state.loading ? (
-                    <PortfolioTab
-                      skills={profile.skills}
-                      description={profile.description}
-                      user={user}
-                      major={profile.major}
-                      education={profile.education}
-                      myCourses={this.state.myCourses}
-                    />
-                  ) : (
-                    <div className="loading"></div>
-                  )
+                {profile && !this.state.loading ? (
+                  <PortfolioTab
+                    skills={profile.skills}
+                    description={profile.description}
+                    user={user}
+                    major={profile.major}
+                    education={profile.education}
+                    myCourses={this.state.myCourses}
+                  />
                 ) : (
                   <div className="loading"></div>
                 )}

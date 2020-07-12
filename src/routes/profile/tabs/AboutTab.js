@@ -61,6 +61,7 @@ class Profile extends React.Component {
       position: "",
       eduId: "",
       wid: "",
+      loading: true,
     };
     this.validate = this.validate.bind(this);
     this.validateWork = this.validateWork.bind(this);
@@ -569,6 +570,7 @@ class Profile extends React.Component {
         skills: profile.skills,
         description: profile.description,
         infoUpdate: false,
+        loading: false,
       });
     }
     return (
@@ -581,11 +583,7 @@ class Profile extends React.Component {
                 <Row className="align-items-center"></Row>
               </CardHeader>
               <CardBody>
-                {profile &&
-                this.state.major &&
-                this.state.skills &&
-                this.state.description &&
-                user ? (
+                {profile && !this.state.loading && user ? (
                   <Form>
                     <div className="pl-lg-4">
                       <h3>User Information</h3>

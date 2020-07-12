@@ -127,9 +127,18 @@ class OthersProfile extends React.Component {
   async subscribeTeacher(e) {
     e.preventDefault();
     const id = this.props.userProfile.user._id;
-    const body = JSON.stringify({ id });
+    let body = JSON.stringify({ id });
     await axios.post(URL + "api/subscribe/follow", body, config);
-
+    const message = this.props.user.name + " has started following you";
+    const following = this.props.userProfile.user._id;
+    const follower = this.props.user._id;
+    body = JSON.stringify({ following, follower, message });
+    socket.emit("new_notification", {
+      body: body,
+      message: message,
+      user: following,
+      follower: follower,
+    });
     this.props.GetSubscription();
     window.location.reload();
   }
@@ -427,7 +436,9 @@ class OthersProfile extends React.Component {
                           {this.state.theCourses.length > 0 && (
                             <Pagination
                               currentPage={currentPage}
-                              totalPage={this.state.theCourses.length / 6}
+                              totalPage={Math.ceil(
+                                this.state.theCourses.length / 6
+                              )}
                               onChangePage={(i) => this.onChangePage(i)}
                             />
                           )}

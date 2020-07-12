@@ -150,7 +150,7 @@ class TheProfile extends React.Component {
                     className="mb-4"
                     key={course._id}
                   >
-                    <Card className="course" id="course">
+                    <Card className="course" id="course" key={course._id + "1"}>
                       <div className="position-relative">
                         {this.props.user.roll.toLowerCase() == "teacher" && (
                           <div className="position-absolute card-top-buttons">

@@ -183,6 +183,7 @@ class TopNav extends Component {
     if (this.state.notifications !== prevState.notifications) {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
+        console.log(mess);
         if (mess !== this.state.notifications[0]) {
           let match = true;
           let itself = false;
@@ -193,6 +194,11 @@ class TopNav extends Component {
             itself = mess.user === this.props.user._id;
           }
           if (match && !itself) {
+            document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+            }));
+          } else if (mess.follower) {
             document.getElementById("notification-sound").play();
             this.setState((prevState) => ({
               notifications: [mess, ...prevState.notifications],
@@ -511,7 +517,7 @@ class TopNav extends Component {
                           itself = n.user === this.props.user._id;
                         }
 
-                        if (match && !itself) {
+                        if ((match && !itself) || n.follower) {
                           return (
                             <div
                               key={index}
@@ -530,6 +536,16 @@ class TopNav extends Component {
                                 )}
                                 {n.assignment && (
                                   <a href="/app/myportal/assignment">
+                                    {this.setNotifications(n.message, n.date)}
+                                  </a>
+                                )}
+                                {n.follower && (
+                                  <a
+                                    href={
+                                      "/app/profile/userprofile/?profile=" +
+                                      n.follower
+                                    }
+                                  >
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 )}
