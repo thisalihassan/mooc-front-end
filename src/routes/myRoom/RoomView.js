@@ -437,7 +437,7 @@ class ChatApplication extends Component {
           this.state.room +
           "&n=" +
           this.state.roomName +
-          "&q=start",
+          "&q=join",
       });
     } else {
       alert("You are already in a call!!");
