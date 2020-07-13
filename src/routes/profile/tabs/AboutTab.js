@@ -174,7 +174,13 @@ class Profile extends React.Component {
       await this.props.addEducation(body);
     }
 
-    this.setState({ fieldofstudy: "", current: "", from: "", to: "" });
+    this.setState({
+      eduId: "",
+      fieldofstudy: "",
+      current: "",
+      from: "",
+      to: "",
+    });
     this.props.getCurrentProfile();
   }
   async submitWork(e) {
@@ -191,7 +197,7 @@ class Profile extends React.Component {
       const body = { company, from, position, to };
       await this.props.addWork(body);
     }
-    this.setState({ company: "", position: "", wfrom: "", wto: "" });
+    this.setState({ wid: "", company: "", position: "", wfrom: "", wto: "" });
     this.props.getCurrentProfile();
   }
   handleTagChange = (skills) => {

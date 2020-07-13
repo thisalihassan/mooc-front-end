@@ -457,7 +457,12 @@ class OthersProfile extends React.Component {
                           <br></br>
                           <br></br>
                           <h2>About Me</h2>
-                          <p>{this.props.userProfile.description}</p>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: this.props.userProfile.description,
+                            }}
+                          ></div>
+
                           <br></br>
                           <br></br>
                           <h2>Skills</h2>
