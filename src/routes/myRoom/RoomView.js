@@ -219,9 +219,11 @@ class ChatApplication extends Component {
     // };
     if (this.state.socket) {
       this.state.socket.on("modal", async ({ value }) => {
-        this.setState({
-          modalOpen: false,
-        });
+        if (this.state.modalOpen) {
+          this.setState({
+            modalOpen: false,
+          });
+        }
       });
     }
   }
