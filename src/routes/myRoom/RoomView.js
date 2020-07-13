@@ -735,7 +735,11 @@ class ChatApplication extends Component {
                             className="custom-switch custom-switch-primary"
                             value={this.state.autozoom}
                             onChange={(e) =>
-                              this.setState({ autozoom: !this.state.autozoom })
+                              this.setState({
+                                autozoom: this.state.autozoom
+                                  ? !this.state.recording
+                                  : this.state.autozoom,
+                              })
                             }
                             onBlur={(e) => {}}
                           />
