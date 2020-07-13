@@ -361,6 +361,8 @@ class ChatApplication extends Component {
             SURL +
             "?id=" +
             this.state.room +
+            "&u=" +
+            this.props.user._id +
             "&n=" +
             this.state.roomName +
             "&q=start",
@@ -443,6 +445,8 @@ class ChatApplication extends Component {
           SURL +
           "?id=" +
           this.state.room +
+          "&u=" +
+          this.props.user._id +
           "&n=" +
           this.state.roomName +
           "&q=join",
