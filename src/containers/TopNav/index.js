@@ -191,9 +191,9 @@ class TopNav extends Component {
     this.state.socket.on(
       "calloff",
       async ({ course, user, id, ownerclose }) => {
-        const match = this.state.listCourse.find((u) => u === course);
-        const match2 = this.props.user._id == user;
         if (this.state.callStarted) {
+          const match = this.state.listCourse.find((u) => u === course);
+          const match2 = this.props.user._id == user;
           if (match2 || (ownerclose && match)) {
             this.setState({
               callModel: false,
