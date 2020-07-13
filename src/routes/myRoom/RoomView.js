@@ -494,7 +494,28 @@ class ChatApplication extends Component {
       alert("You are already in a call!!");
     }
   };
-
+  reverseCondition() {
+    if (this.state.autozoom) {
+      this.setState({
+        recording: false,
+      });
+    } else {
+      this.setState({
+        recording: !this.state.recording,
+      });
+    }
+  }
+  reverseCondition2() {
+    if (this.state.recording) {
+      this.setState({
+        autozoom: false,
+      });
+    } else {
+      this.setState({
+        autozoom: !this.state.autozoom,
+      });
+    }
+  }
   render() {
     const owner = this.state.roomCreator;
 
@@ -725,7 +746,8 @@ class ChatApplication extends Component {
                   </div>
                   <Formik initialValues={{}}>
                     {() => (
-                      <Form className="av-tooltip tooltip-label-right">
+                      <Form className="pt-2 pr-4 pl-4 pb-2">
+                        <p>Note: Only one can be turned on</p>
                         <FormGroup>
                           <Label className="d-block">
                             <IntlMessages id="form-components.autozoom" />
@@ -734,13 +756,7 @@ class ChatApplication extends Component {
                             name="autozoom"
                             className="custom-switch custom-switch-primary"
                             value={this.state.autozoom}
-                            onChange={(e) =>
-                              this.setState({
-                                autozoom: this.state.autozoom
-                                  ? !this.state.recording
-                                  : this.state.autozoom,
-                              })
-                            }
+                            onChange={(e) => this.reverseCondition2(e)}
                             onBlur={(e) => {}}
                           />
                         </FormGroup>
@@ -753,11 +769,7 @@ class ChatApplication extends Component {
                             className="custom-switch custom-switch-primary"
                             value={this.state.recording}
                             onBlur={(e) => {}}
-                            onChange={(e) =>
-                              this.setState({
-                                recording: !this.state.recording,
-                              })
-                            }
+                            onChange={(e) => this.reverseCondition(e)}
                           />
                         </FormGroup>
                       </Form>
