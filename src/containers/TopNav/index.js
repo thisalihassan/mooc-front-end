@@ -143,7 +143,8 @@ class TopNav extends Component {
                 mess.room +
                 "&u=" +
                 this.props.user._id +
-                "&s=video&q=join&z=zoom",
+                "&s=video&q=join&z=zoom&n=" +
+                mess.name,
 
               callerName: mess.name,
             });
@@ -156,7 +157,8 @@ class TopNav extends Component {
                 mess.room +
                 "&u=" +
                 this.props.user._id +
-                "&s=video&q=join",
+                "&s=video&q=join&n=" +
+                mess.name,
               callerName: mess.name,
             });
           }
@@ -699,7 +701,7 @@ class TopNav extends Component {
                             {moment(mitem.duedate).format("LL")}
                           </p>
                           <a
-                            href={`${URL}downloadfile/${mitem.file}`}
+                            href={mitem.file}
                             target="_blank"
                             rel="noopener noreferrer"
                             download

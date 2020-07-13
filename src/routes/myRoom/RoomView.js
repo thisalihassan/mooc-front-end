@@ -315,9 +315,10 @@ class ChatApplication extends Component {
               this.state.room +
               "&u=" +
               user._id +
-              "&s=video&q=start&z=zoom",
+              "&s=video&q=start&z=zoom&n=" +
+              name,
           });
-        } else if (this.state.autozoom & this.state.recording) {
+        } else if (this.state.recording) {
           this.setState({
             modalOpen: !this.state.modalOpen,
             videoURL:
@@ -328,7 +329,9 @@ class ChatApplication extends Component {
               user._id +
               "&s=video&q=start" +
               +"&z=zoom&f=" +
-              this.state.fileName,
+              this.state.fileName +
+              "&n=" +
+              name,
           });
         } else {
           this.setState({
@@ -339,7 +342,8 @@ class ChatApplication extends Component {
               this.state.room +
               "&u=" +
               user._id +
-              "&s=video&q=start",
+              "&s=video&q=start&n=" +
+              name,
           });
         }
         setTimeout(
