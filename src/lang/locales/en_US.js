@@ -198,4 +198,5 @@ export default {
   "forms.password": "Enter new password",
   "wizard.step-newdesc-4": "Confirm Password",
   "forms.cpassword": "Reenter your password",
+  "forms.outcome": "Outcome",
 };

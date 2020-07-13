@@ -276,7 +276,14 @@ class ChatApplication extends Component {
     socket.emit("CallRing", tuple, () =>
       this.setState({
         callModal: !this.state.callModal,
-        videoURL: AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=start",
+        videoURL:
+          AURL +
+          "?id=" +
+          myroom[0] +
+          "" +
+          myroom[1] +
+          "&u=start+n=" +
+          this.props.user.name,
       })
     );
   }

@@ -289,7 +289,7 @@ export class AddCourse extends Component {
                       <FormGroup>
                         <row>
                           <Label>
-                            <IntlMessages id="forms.password" />
+                            <IntlMessages id="forms.outcome" />
                           </Label>
                         </row>
                         <row>
