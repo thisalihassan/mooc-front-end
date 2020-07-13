@@ -176,19 +176,21 @@ class TopNav extends Component {
         document.getElementById("call-sound").play();
       }
     });
-    this.state.socket.on("calloff", async ({ course, user, id }) => {
-      const match = this.state.listCourse.find((u) => u === course);
-      console.log(match);
-      const match2 = this.props.user._id == user;
-      console.log(match2);
-      if (match || match2) {
-        if (this.state.callModel) {
+    this.state.socket.on(
+      "calloff",
+      async ({ course, user, id, ownerclose }) => {
+        const match = this.state.listCourse.find((u) => u === course);
+        console.log("listcourse " + match);
+        console.log("ownerclose " + ownerclose);
+        const match2 = this.props.user._id == user;
+        if (match2 || (ownerclose && match)) {
           this.setState({
-            callModel: false,
+            callModel: this.state.callModel ? false : false,
+            callStarted: this.state.callStarted ? false : false,
           });
         }
       }
-    });
+    );
     this.state.socket.on("AudioCallRinging", async (mess) => {
       console.log(this.state.listCourse);
       const match = this.state.listCourse.find((u) => u == mess.courseID);
