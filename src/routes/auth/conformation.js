@@ -6,13 +6,16 @@ import Log from "./log.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Image } from "react-bootstrap";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { conformtion } from "../../redux/actions";
+import { conformtion, resendconformtion } from "../../redux/actions";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import PropTypes from "prop-types";
+import { URL, config } from "../../constants/defaultValues";
+import axios from "axios";
 const Conformation = ({
   history,
   conformtion,
+  resendconformtion,
   registrationSucess,
   location,
 }) => {
@@ -29,6 +32,14 @@ const Conformation = ({
     const values = queryString.parse(location.search);
     if (values.id) {
       conformtion(values.id, token);
+    }
+  };
+  const resendConfirmationCode = async (e) => {
+    e.preventDefault();
+    const values = queryString.parse(location.search);
+    if (values.id) {
+      const id = values.id;
+      resendconformtion(id);
     }
   };
   if (registrationSucess) {
@@ -54,9 +65,13 @@ const Conformation = ({
               />
             </FormGroup>
             <Button className="btn-lg btn-block">Confirm</Button>
-            <div className="text-center pt-3">
-              or continue with your social account
-            </div>
+            <br></br>
+            <Button
+              onClick={(e) => resendConfirmationCode(e)}
+              className="btn btn-sm btn-block"
+            >
+              Resend Confirmation
+            </Button>
           </Form>
         </div>
       </div>
@@ -64,6 +79,7 @@ const Conformation = ({
   );
 };
 Conformation.propTypes = {
+  resendconformtion: PropTypes.func.isRequired,
   conformtion: PropTypes.func.isRequired,
   registrationSucess: PropTypes.bool,
   history: PropTypes.object.isRequired,
@@ -77,5 +93,6 @@ const mapStateToProps = ({ auth }) => {
 export default withRouter(
   connect(mapStateToProps, {
     conformtion,
+    resendconformtion,
   })(Conformation)
 );

@@ -117,3 +117,20 @@ export const conformtion = (id, token) => async (dispatch) => {
     }
   }
 };
+
+// conformtion
+export const resendconformtion = (id) => async (dispatch) => {
+  const body = JSON.stringify({ id });
+
+  try {
+    const res = await axios.post(URL + "api/auth/resend", body, config);
+    console.log(res.data);
+    dispatch(setAlert("Verification code has been resend", "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+};
