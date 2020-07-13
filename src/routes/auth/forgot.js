@@ -142,7 +142,7 @@ export class Basic extends Component {
     setTimeout(() => {
       this.setState({ loading: false });
     }, 3000);
-    this.props.history.push("/");
+    this.props.history.push("/login");
   }
 
   async onClickNext(goToNext, steps, step) {

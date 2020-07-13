@@ -10,8 +10,7 @@ import { conformtion, resendconformtion } from "../../redux/actions";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import PropTypes from "prop-types";
-import { URL, config } from "../../constants/defaultValues";
-import axios from "axios";
+
 const Conformation = ({
   history,
   conformtion,

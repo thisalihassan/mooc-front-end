@@ -182,8 +182,7 @@ export class AddCourse extends Component {
           <Wizard>
             <TopNavigation
               className="justify-content-center"
-              disableNav={false}
-              topNavClick={this.topNavClick}
+              disableNav={true}
             />
             <Steps>
               <Step id="step1" name="Step 1" desc="Basic Information">

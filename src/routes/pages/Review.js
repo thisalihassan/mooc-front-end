@@ -14,13 +14,13 @@ import { Colxx } from "../../components/CustomBootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Rating from "../../components/Rating";
+import { setAlert } from "../../redux/actions";
 import { quillFormats, quillModules } from "../../components/editors";
 class Basic extends Component {
   constructor(props) {
     super(props);
     this.onClickNext = this.onClickNext.bind(this);
     this.onClickPrev = this.onClickPrev.bind(this);
-    this.topNavClick = this.topNavClick.bind(this);
     this.state = {
       bottomNavHidden: false,
       topNavDisabled: false,
@@ -28,27 +28,29 @@ class Basic extends Component {
       teacherrating: 0,
       courseReview: "",
       teacherReview: "",
-      course: ""
+      course: "",
     };
   }
 
-  topNavClick(stepItem, push) {
-    if (this.state.topNavDisabled) {
-      return;
-    }
-    push(stepItem.id);
-  }
-
   onClickNext(goToNext, steps, step) {
-    step.isDone = true;
-    if (steps.length - 2 <= steps.indexOf(step)) {
-      this.setState({ bottomNavHidden: true, topNavDisabled: true });
-      this.submitReview();
+    let go = true;
+    if (steps.length - 2 === 1) {
+      if (this.state.courserating === 0 || this.state.teacherrating === 0) {
+        go = false;
+        this.props.setAlert("Please rate both student and teacher", "danger");
+      }
     }
-    if (steps.length - 1 <= steps.indexOf(step)) {
-      return;
+    if (go) {
+      step.isDone = true;
+      if (steps.length - 2 <= steps.indexOf(step)) {
+        this.setState({ bottomNavHidden: true, topNavDisabled: true });
+        this.submitReview();
+      }
+      if (steps.length - 1 <= steps.indexOf(step)) {
+        return;
+      }
+      goToNext();
     }
-    goToNext();
   }
 
   onClickPrev(goToPrev, steps, step) {
@@ -75,7 +77,7 @@ class Basic extends Component {
       CourseRate,
       TeacherRate,
       course,
-      teacher
+      teacher,
     });
     await axios.post(URL + "api/subscribe/rate", body, config);
   }
@@ -83,13 +85,13 @@ class Basic extends Component {
   componentDidMount() {
     this.setState({
       course: this.props.match.params.cid,
-      teacher: this.props.match.params.tid
+      teacher: this.props.match.params.tid,
     });
   }
-  handleCourse = courseReview => {
+  handleCourse = (courseReview) => {
     this.setState({ courseReview });
   };
-  handleTeacher = teacherReview => {
+  handleTeacher = (teacherReview) => {
     this.setState({ teacherReview });
   };
   render() {
@@ -100,8 +102,7 @@ class Basic extends Component {
           <Wizard>
             <TopNavigation
               className="justify-content-center"
-              disableNav={false}
-              topNavClick={this.topNavClick}
+              disableNav={true}
             />
             <Steps>
               <Step
@@ -119,7 +120,7 @@ class Basic extends Component {
                         <Rating
                           total={5}
                           rating={this.state.courserating}
-                          onRate={rating => {
+                          onRate={(rating) => {
                             this.setState({ courserating: rating.rating });
                           }}
                         />
@@ -135,7 +136,7 @@ class Basic extends Component {
                         <Rating
                           total={5}
                           rating={this.state.teacherrating}
-                          onRate={rating => {
+                          onRate={(rating) => {
                             this.setState({ teacherrating: rating.rating });
                           }}
                         />
@@ -216,7 +217,9 @@ class Basic extends Component {
 const mapStateToProps = ({ auth }) => {
   const { user } = auth;
   return {
-    user
+    user,
   };
 };
-export default injectIntl(withRouter(connect(mapStateToProps, {})(Basic)));
+export default injectIntl(
+  withRouter(connect(mapStateToProps, { setAlert })(Basic))
+);
