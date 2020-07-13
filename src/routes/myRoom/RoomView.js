@@ -394,7 +394,7 @@ class ChatApplication extends Component {
   }
   startAudioCall(owner, user) {
     if (!this.state.modalOpen) {
-      const room = this.state.room;
+      const room = this.props.user._id;
       const courseID = this.state.courseID;
       const name = this.state.roomName;
       const userid = this.props.user._id;
@@ -404,7 +404,7 @@ class ChatApplication extends Component {
         videoURL:
           AURL +
           "?roomid=" +
-          this.state.room +
+          this.props.user._id +
           "&u=start&n=" +
           this.props.user.name,
       });
@@ -419,7 +419,7 @@ class ChatApplication extends Component {
       setTimeout(
         function () {
           let myroom = this.state.room;
-          let msg = AURL + "?roomid=" + this.state.room + "&u=join";
+          let msg = AURL + "?roomid=" + this.props.user._id + "&u=join";
           let check = true;
           let id = this.props.user._id;
 
@@ -567,13 +567,11 @@ class ChatApplication extends Component {
                   option={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   {this.state.messages.map((item, index) => {
-                    if (item.text.startsWith(AURL)) {
-                      item.text =
-                        AURL +
-                        "?roomid=" +
-                        this.state.room +
-                        "&u=join&n=" +
-                        this.props.user.name;
+                    if (
+                      item.text.startsWith(AURL) &&
+                      !item.text.includes("&n=" + this.props.user.name)
+                    ) {
+                      item.text = item.text + "&n=" + this.props.user.name;
                     }
                     return (
                       <Fragment key={index}>
