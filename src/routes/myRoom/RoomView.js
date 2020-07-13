@@ -218,11 +218,13 @@ class ChatApplication extends Component {
     //   this.state.socket.off();
     // };
     if (this.state.socket) {
-      this.state.socket.on("modal", async ({ value }) => {
-        if (this.state.modalOpen) {
-          this.setState({
-            modalOpen: false,
-          });
+      this.state.socket.on("calloff", async ({ course, user, id }) => {
+        if (this.state.room === id) {
+          if (this.state.modalOpen) {
+            this.setState({
+              modalOpen: false,
+            });
+          }
         }
       });
     }
@@ -491,14 +493,7 @@ class ChatApplication extends Component {
       return (
         <Fragment>
           {this.state.modalOpen && (
-            <NewWindow
-              onUnload={(e) =>
-                this.setState({
-                  modalOpen: !this.state.modalOpen,
-                })
-              }
-              url={this.state.videoURL}
-            ></NewWindow>
+            <NewWindow url={this.state.videoURL}></NewWindow>
           )}
           <Row className="app-row">
             <Colxx xxs="6" className="VideoContainer"></Colxx>

@@ -176,12 +176,17 @@ class TopNav extends Component {
         document.getElementById("call-sound").play();
       }
     });
-    this.state.socket.on("calloff", async ({ value }) => {
-      // const match = this.state.listCourse.find((u) => u === mess.courseID);
-      if (this.state.callModel) {
-        this.setState({
-          callModel: false,
-        });
+    this.state.socket.on("calloff", async ({ course, user, id }) => {
+      const match = this.state.listCourse.find((u) => u === course);
+      console.log(match);
+      const match2 = this.props.user._id == user;
+      console.log(match2);
+      if (match || match2) {
+        if (this.state.callModel) {
+          this.setState({
+            callModel: false,
+          });
+        }
       }
     });
     this.state.socket.on("AudioCallRinging", async (mess) => {
@@ -729,14 +734,7 @@ class TopNav extends Component {
             </ModalFooter>
           </Modal>
           {this.state.callStarted && (
-            <NewWindow
-              onUnload={(e) =>
-                this.setState({
-                  callStarted: !this.state.callStarted,
-                })
-              }
-              url={this.state.callerID}
-            ></NewWindow>
+            <NewWindow url={this.state.callerID}></NewWindow>
           )}
         </nav>
       );
