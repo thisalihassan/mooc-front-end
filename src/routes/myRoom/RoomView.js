@@ -202,25 +202,31 @@ class ChatApplication extends Component {
             messages: [...prevState.messages, mess],
           }));
       });
+    }
+    // this.state.socket.on("roomData", ({ users }) => {
+    //   this.setState({
+    //     users: users
+    //   });
+    // });
 
-      // this.state.socket.on("roomData", ({ users }) => {
-      //   this.setState({
-      //     users: users
-      //   });
-      // });
-
-      // return () => {
-      //   this.state.socket.emit("disconnect", this.state.room, error => {
-      //     if (error) {
-      //       alert(error);
-      //     }
-      //   });
-      //   this.state.socket.off();
-      // };
+    // return () => {
+    //   this.state.socket.emit("disconnect", this.state.room, error => {
+    //     if (error) {
+    //       alert(error);
+    //     }
+    //   });
+    //   this.state.socket.off();
+    // };
+    if (this.state.socket) {
+      this.state.socket.on("modal", async ({ value }) => {
+        this.setState({
+          modalOpen: false,
+        });
+      });
     }
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     if (this.props.user && this.state.socket) {
       const myroom = this.state.room;
       const name = this.props.user.name;
