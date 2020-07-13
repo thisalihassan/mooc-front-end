@@ -221,12 +221,10 @@ class ChatApplication extends Component {
       this.state.socket.on(
         "calloff",
         async ({ course, user, id, ownerclose }) => {
-          console.log(this.state.modalOpen);
           const match = this.state.room == id;
           const match2 = this.props.user._id == user;
           if (match) {
             if (match2 || ownerclose) {
-              console.log(ownerclose);
               if (this.state.modalOpen) {
                 this.setState({
                   modalOpen: false,

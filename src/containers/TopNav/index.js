@@ -99,7 +99,6 @@ class TopNav extends Component {
   }
   async componentDidUpdate(prevState, prevProps) {
     if (this.props.notify && this.state.loadNotification) {
-      console.log(this.props.notify);
       this.setState({
         notifications: this.props.notify,
         counter: this.props.counter,
@@ -114,101 +113,120 @@ class TopNav extends Component {
     }
 
     this.state.socket.on("CallRinging", (mess) => {
-      if (mess.userid === this.props.user._id) {
-        this.setState({
-          callModel: true,
-          callerID: mess.URL + "&n=" + this.props.user.name,
-          callerName: mess.name,
-        });
-        document.getElementById("call-sound").play();
+      const match = mess.userid === this.props.user._id;
+      if (match) {
+        if (this.state.callStarted) {
+          alert("You have another call from " + mess.name);
+        } else {
+          this.setState({
+            callModel: true,
+            callerID: mess.URL + "&n=" + this.props.user.name,
+            callerName: mess.name,
+          });
+          document.getElementById("call-sound").play();
+        }
       }
     });
     this.state.socket.on("VideoCallRinging", async (mess) => {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
 
       if (match && this.props.user._id !== mess.userid) {
-        if (mess.zoom) {
-          this.setState({
-            callModel: true,
-            callerID:
-              BURL +
-              "?id=" +
-              mess.room +
-              "&u=" +
-              this.props.user._id +
-              "&s=video&q=join&z=zoom",
-
-            callerName: mess.name,
-          });
+        if (this.state.callStarted) {
+          alert("You have another call from room " + mess.name);
         } else {
-          this.setState({
-            callModel: true,
-            callerID:
-              BURL +
-              "?id=" +
-              mess.room +
-              "&u=" +
-              this.props.user._id +
-              "&s=video&q=join",
+          if (mess.zoom) {
+            this.setState({
+              callModel: true,
+              callerID:
+                BURL +
+                "?id=" +
+                mess.room +
+                "&u=" +
+                this.props.user._id +
+                "&s=video&q=join&z=zoom",
 
-            callerName: mess.name,
-          });
+              callerName: mess.name,
+            });
+          } else {
+            this.setState({
+              callModel: true,
+              callerID:
+                BURL +
+                "?id=" +
+                mess.room +
+                "&u=" +
+                this.props.user._id +
+                "&s=video&q=join",
+              callerName: mess.name,
+            });
+          }
         }
+
         document.getElementById("call-sound").play();
       }
     });
     this.state.socket.on("ScreenShareCall", async (mess) => {
       const match = this.state.listCourse.find((u) => u === mess.courseID);
       if (match && this.props.user._id !== mess.userid) {
-        this.setState({
-          callModel: true,
-          callerID:
-            SURL +
-            "?id=" +
-            mess.room +
-            "&u=" +
-            this.props.user._id +
-            "&n=" +
-            mess.name +
-            "&q=join",
-          callerName: mess.name,
-        });
-        document.getElementById("call-sound").play();
+        if (this.state.callStarted) {
+          alert("You have another call from room " + mess.name);
+        } else {
+          this.setState({
+            callModel: true,
+            callerID:
+              SURL +
+              "?id=" +
+              mess.room +
+              "&u=" +
+              this.props.user._id +
+              "&n=" +
+              mess.name +
+              "&q=join",
+            callerName: mess.name,
+          });
+          document.getElementById("call-sound").play();
+        }
       }
     });
     this.state.socket.on(
       "calloff",
       async ({ course, user, id, ownerclose }) => {
         const match = this.state.listCourse.find((u) => u === course);
-        console.log("listcourse " + match);
-        console.log("ownerclose " + ownerclose);
         const match2 = this.props.user._id == user;
-        if (match2 || (ownerclose && match)) {
-          this.setState({
-            callModel: this.state.callModel ? false : false,
-            callStarted: this.state.callStarted ? false : false,
-          });
+        if (this.state.callStarted) {
+          if (match2 || (ownerclose && match)) {
+            this.setState({
+              callModel: false,
+              callStarted: false,
+            });
+          }
         }
       }
     );
     this.state.socket.on("AudioCallRinging", async (mess) => {
-      console.log(this.state.listCourse);
       const match = this.state.listCourse.find((u) => u == mess.courseID);
-      console.log(mess.courseID);
+
       if (match && this.props.user._id !== mess.userid) {
-        this.setState({
-          callModel: true,
-          callerID:
-            AURL + "?roomid=" + mess.room + "&u=join&n=" + this.props.user.name,
-          callerName: mess.name,
-        });
-        document.getElementById("call-sound").play();
+        if (this.state.callStarted) {
+          alert("You have another call from room " + mess.name);
+        } else {
+          this.setState({
+            callModel: true,
+            callerID:
+              AURL +
+              "?roomid=" +
+              mess.room +
+              "&u=join&n=" +
+              this.props.user.name,
+            callerName: mess.name,
+          });
+          document.getElementById("call-sound").play();
+        }
       }
     });
     if (this.state.notifications !== prevState.notifications) {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
-        console.log(mess);
         if (mess !== this.state.notifications[0]) {
           let match = true;
           let itself = false;
