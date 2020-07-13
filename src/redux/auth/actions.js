@@ -103,6 +103,7 @@ export const conformtion = (id, token) => async (dispatch) => {
         payload: true,
       });
     } else {
+      dispatch(setAlert("Conformation passcode error", "danger"));
       dispatch({
         type: CONFIRMATION_USER,
         payload: false,
@@ -110,7 +111,7 @@ export const conformtion = (id, token) => async (dispatch) => {
     }
   } catch (err) {
     const errors = err.response.data.errors;
-
+    dispatch(setAlert("Conformation passcode error", "danger"));
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
