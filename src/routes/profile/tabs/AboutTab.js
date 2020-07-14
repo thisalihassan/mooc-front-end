@@ -252,9 +252,9 @@ class Profile extends React.Component {
       }
     }
     if (this.state.to) {
-      let today = new Date().getTime();
+      let from = new Date(this.state.from).getTime();
       let idate = new Date(this.state.to).getTime();
-      if (today - idate >= 0) {
+      if (from - idate >= 0) {
         errors.to = "Please Select a proper date";
       }
     }
@@ -299,9 +299,9 @@ class Profile extends React.Component {
       }
     }
     if (this.state.wto) {
-      let today = new Date().getTime();
+      let from = new Date(this.state.wfrom).getTime();
       let idate = new Date(this.state.wto).getTime();
-      if (today - idate >= 0) {
+      if (from - idate >= 0) {
         errors.wto = "Please Select a proper date";
       }
     }
