@@ -24,6 +24,9 @@ import {
   getApprovedCourse,
   getPendingCourse,
 } from "../../redux/actions";
+import axios from "axios";
+
+import { URL, config } from "../../constants/defaultValues";
 import { NavLink } from "react-router-dom";
 class ProfilePortfolio extends Component {
   constructor(props) {
@@ -81,15 +84,17 @@ class ProfilePortfolio extends Component {
       ],
     };
   }
-  AcceptCourse(e, id) {
+  async AcceptCourse(e, id) {
     e.preventDefault();
-    this.props.AcceptCourse(id);
-    window.location.reload();
+    await axios.get(URL + "api/Courses/acceptcourse/" + id, {}, config);
+    this.props.getApprovedCourse();
+    this.props.getPendingCourse();
   }
-  RejectCourse(e, id) {
+  async RejectCourse(e, id) {
     e.preventDefault();
-    this.props.DeleteCourse(id);
-    window.location.reload();
+    await axios.delete(URL + "api/Courses/delete/" + id, {}, config);
+    this.props.getApprovedCourse();
+    this.props.getPendingCourse();
   }
 
   toggleTab(tab) {

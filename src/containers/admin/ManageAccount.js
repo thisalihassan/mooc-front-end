@@ -6,7 +6,9 @@ import { Row, Card, CardHeader, CardTitle, Button } from "reactstrap";
 import { Colxx } from "../../components/CustomBootstrap";
 import IntlMessages from "../../util/IntlMessages";
 import { injectIntl } from "react-intl";
+import axios from "axios";
 
+import { URL, config } from "../../constants/defaultValues";
 import { getReportedAccounts, AcceptProfile } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 class ProfilePortfolio extends Component {
@@ -65,11 +67,12 @@ class ProfilePortfolio extends Component {
       ],
     };
   }
-  ApproveAccount(e, id) {
+  async ApproveAccount(e, id) {
     e.preventDefault();
     console.log(id);
-    this.props.AcceptProfile(id);
-    window.location.reload();
+    const body = JSON.stringify({ id });
+    await axios.post(URL + "api/profile/approveProfile", body, config);
+    this.props.getReportedAccounts();
   }
   DeleteAccount(e, id) {
     e.preventDefault();
