@@ -68,6 +68,16 @@ class OthersProfile extends React.Component {
       id = values.profile;
       this.props.getProfileById(id);
       const body = JSON.stringify({ id });
+      axios
+        .post(URL + "api/profile/findmyreport", body, config)
+        .then((res) => {
+          return res.data;
+        })
+        .then((data) => {
+          this.setState({
+            isRported: data,
+          });
+        });
       const res = await axios.post(
         URL + "api/Courses/getcourses",
         body,
@@ -109,17 +119,6 @@ class OthersProfile extends React.Component {
           this.setState({ showMSg: log && match });
           this.setState({ subscribed: log });
           this.setState({ runTime: false });
-          const body = JSON.stringify({ id });
-          axios
-            .post(URL + "api/profile/findmyreport", body, config)
-            .then((res) => {
-              return res.data;
-            })
-            .then((data) => {
-              this.setState({
-                isRported: data,
-              });
-            });
         }
       }
     }
