@@ -118,15 +118,11 @@ class QuestionBuilder extends React.Component {
     });
   };
   addAnswer = () => {
-    var nextId = 0;
-    if (this.state.answers.length > 0) {
-      var orderedAnswers = this.state.answers.slice().sort((a, b) => {
-        return a.id < b.id;
-      });
-      nextId = orderedAnswers[0].id + 1;
-    }
     this.setState({
-      answers: [...this.state.answers, { id: nextId, label: "" }],
+      answers: [
+        ...this.state.answers,
+        { id: this.state.answers.length, label: "" },
+      ],
     });
   };
 
@@ -265,25 +261,6 @@ class QuestionBuilder extends React.Component {
             {roll === "teacher" && (
               <Button
                 outline
-                id="Tooltip-4"
-                color={"theme-3"}
-                className="icon-button ml-1"
-                onClick={this.deleteClick}
-              >
-                <Tooltip
-                  placement="top"
-                  isOpen={this.state.tooltipOpen4}
-                  target="Tooltip-4"
-                  toggle={this.ToolTiptoggle4}
-                >
-                  Delete Question
-                </Tooltip>
-                <i className="simple-icon-ban" />
-              </Button>
-            )}
-            {roll === "teacher" && (
-              <Button
-                outline
                 id="Tooltip-5"
                 color={"theme-3"}
                 style={this.state.shouldHide ? {} : { display: "none" }}
@@ -381,18 +358,6 @@ class QuestionBuilder extends React.Component {
                             this.updateAnswer(item.id, event);
                           }}
                         />
-                        <div className="input-icons">
-                          <Badge className="handle" color="empty" pill>
-                            <i className="simple-icon-cursor-move" />
-                          </Badge>
-                          <Badge
-                            color="empty"
-                            pill
-                            onClick={() => this.removeAnswer(item.id)}
-                          >
-                            <i className="simple-icon-close" />
-                          </Badge>
-                        </div>
                       </FormGroup>
                     );
                   })}

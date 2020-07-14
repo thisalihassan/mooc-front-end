@@ -157,7 +157,7 @@ class SurveyDetailApp extends Component {
     const { quiz } = this.props.quizzes;
     var nextId = quiz.questions.length;
     const newQuizItem = Object.assign({}, quiz);
-    if (id >= 0) {
+    if (id > 0) {
       this.setState((prevState) => ({
         Questions: [
           ...prevState.Questions,
@@ -347,9 +347,9 @@ class SurveyDetailApp extends Component {
                               return (
                                 <li data-id={index} key={index}>
                                   <QuestionBuilder
-                                    order={index}
+                                    order={index + 1}
                                     myAnswer={item.myAnswer}
-                                    id={index}
+                                    id={index + 1}
                                     question={item.question}
                                     roll="teacher"
                                     answerType={quiz.autocheck}
@@ -385,7 +385,7 @@ class SurveyDetailApp extends Component {
                               return (
                                 <li data-id={item.id} key={index}>
                                   <QuestionBuilder
-                                    order={index}
+                                    order={index + 1}
                                     myAnswer={
                                       this.props.quizzes &&
                                       this.props.quizzes.quiz &&
@@ -393,7 +393,7 @@ class SurveyDetailApp extends Component {
                                         this.props.user._id &&
                                       item.myAnswer
                                     }
-                                    id={index}
+                                    id={index + 1}
                                     question={item.question}
                                     answers={item.answers}
                                     expanded={!item.question && true}
