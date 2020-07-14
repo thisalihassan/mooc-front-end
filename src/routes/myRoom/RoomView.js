@@ -87,10 +87,8 @@ class ChatApplication extends Component {
         roomCreator: res.data.user,
         guidelines: res.data.guidelines,
       });
-      // let id = res.data.course._id;
-      // const body = JSON.stringify({ id });
-      // res = await axios.post(URL + "api/Courses/getFiles", body, config);
-      // this.setState({ fileName: "Lecture " + res.data.length + 1 });
+      let id = res.data.course._id;
+      this.getFiles(id);
       this.props.loadConversations(values.id);
       // this.state.socket.emit("join", { name, myroom }, error => {
       //   if (error) {
@@ -100,7 +98,11 @@ class ChatApplication extends Component {
     }
     // this.props.getConversations(currentUserId);
   }
-
+  async getFiles(id) {
+    const body = JSON.stringify({ id });
+    res = await axios.post(URL + "api/Courses/getFiles", body, config);
+    this.setState({ fileName: "Lecture " + res.data.length + 1 });
+  }
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.socket) {
       if (this.state.users !== prevState.users) {
@@ -332,8 +334,7 @@ class ChatApplication extends Component {
               this.state.room +
               "&u=" +
               user._id +
-              "&s=video&q=start" +
-              +"&z=zoom&f=" +
+              "&s=video&q=start&f=" +
               this.state.fileName +
               "&n=" +
               name,
@@ -359,6 +360,7 @@ class ChatApplication extends Component {
           }.bind(this),
           2000
         );
+        this.getFiles(courseID);
       }
     } else {
       alert("You are already in a call!!");

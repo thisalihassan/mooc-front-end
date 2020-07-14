@@ -134,7 +134,7 @@ class TopNav extends Component {
         if (this.state.callStarted) {
           alert("You have another call from room " + mess.name);
         } else {
-          if (mess.zoom) {
+          if (mess.zoom === "zoom") {
             this.setState({
               callModel: true,
               callerID:
