@@ -192,7 +192,7 @@ class SurveyDetailApp extends Component {
     const items = this.state.myQuestions;
 
     let questions = [];
-    for (let i = items.length - 1; i > 0; i--) {
+    for (let i = 0; i < items.length; i++) {
       let bool = questions.find((element) => element.id === items[i].id);
       if (!bool) {
         questions.unshift(items[i]);
