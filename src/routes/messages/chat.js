@@ -40,6 +40,7 @@ class ChatApplication extends Component {
       reciever: "",
       changeUser: true,
       modalOpen: false,
+      deleteConverstation: false,
     };
   }
 
@@ -103,6 +104,15 @@ class ChatApplication extends Component {
       this.setState({
         messages: this.props.chat.conversation,
         firstMessage: false,
+      });
+    }
+    if (
+      this.props.chat.loadingConversations &&
+      this.state.deleteConverstation
+    ) {
+      this.setState({
+        messages: [],
+        deleteConverstation: false,
       });
     }
     if (this._scrollBarRef) {
@@ -292,13 +302,14 @@ class ChatApplication extends Component {
     let room = this.state.room;
     room = room[0] + room[1];
     const body = JSON.stringify({ room });
-    const res = await axios.post(
-      "http://localhost:5000/api/message/delete",
-      body,
-      config
+    await axios.post(URL + "api/message/delete", body, config);
+    this.props.loadConversations(room);
+    setTimeout(
+      function () {
+        this.setState({ deleteConverstation: true });
+      }.bind(this),
+      2000
     );
-
-    window.location.reload();
   }
   render() {
     const reciever = this.state.reciever;
