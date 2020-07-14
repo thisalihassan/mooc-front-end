@@ -7,11 +7,11 @@ import { ImagefileTypes } from "../constants/defaultValues";
 var ReactDOMServer = require("react-dom/server");
 
 var dropzoneComponentConfig = {
-  acceptedFiles: "image/png,image/gif,image/jpg,image/jpeg",
+  acceptedFiles: "image/png,image/jpg,image/jpeg",
   postUrl: URL + "upload",
 };
 var dropzoneConfig = {
-  acceptedFiles: "image/png,image/gif,image/jpg,image/jpeg",
+  acceptedFiles: "image/png,image/jpg,image/jpeg",
   thumbnailHeight: 160,
   maxFilesize: 2,
   previewTemplate: ReactDOMServer.renderToStaticMarkup(
@@ -20,7 +20,7 @@ var dropzoneConfig = {
         <div className="p-0 w-30 position-relative">
           <div className="dz-error-mark">
             <span>
-              hereee
+              File error
               <i />
             </span>
           </div>
