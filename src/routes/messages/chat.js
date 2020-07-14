@@ -202,7 +202,7 @@ class ChatApplication extends Component {
       const msg = this.state.messageInput;
       const check = false;
       const id = this.props.user._id;
-      const timeStamp = moment().format("D MMM YY HH:MM");
+      const timeStamp = moment().format("D MMM YY hh:mm a");
       const tuple = { myroom, msg, check, id, timeStamp };
       this.state.socket.emit("sendMessage", tuple, () =>
         this.setState({
@@ -218,7 +218,7 @@ class ChatApplication extends Component {
         const msg = this.state.messageInput;
         const check = false;
         const id = this.props.user._id;
-        const timeStamp = moment().format("D MMM YY HH:MM");
+        const timeStamp = moment().format("D MMM YY hh:mm a");
         const tuple = { myroom, msg, check, id, timeStamp };
         this.state.socket.emit("sendMessage", tuple, () =>
           this.setState({
@@ -238,7 +238,7 @@ class ChatApplication extends Component {
     var msg = e.url + "*" + e.filename;
     const check = false;
     const id = this.props.user._id;
-    const timeStamp = moment().format("D MMM YY HH:MM");
+    const timeStamp = moment().format("D MMM YY hh:mm a");
     const tuple = { myroom, msg, check, id, timeStamp };
     this.state.socket.emit("sendMessage", tuple, () =>
       this.setState({
