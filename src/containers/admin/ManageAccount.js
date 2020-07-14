@@ -74,11 +74,12 @@ class ProfilePortfolio extends Component {
     await axios.post(URL + "api/profile/approveProfile", body, config);
     this.props.getReportedAccounts();
   }
-  DeleteAccount(e, id) {
+  async DeleteAccount(e, id) {
     e.preventDefault();
     console.log(id);
-    // this.props.AcceptProfile(id);
-    // window.location.reload();
+    const body = JSON.stringify({ id });
+    await axios.post(URL + "api/profile/admindelete", body, config);
+    this.props.getReportedAccounts();
   }
 
   componentDidMount() {
