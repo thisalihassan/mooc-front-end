@@ -18,7 +18,8 @@ import {
 import io from "socket.io-client";
 import queryString from "query-string";
 import { socket } from "../../containers/TopNav";
-import { URL, AURL } from "./../../constants/defaultValues";
+import axios from "axios";
+import { URL, AURL, config } from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -87,7 +88,8 @@ class ChatApplication extends Component {
         const profile = this.state.profiles.find((x) => x._id === values.t);
         const myData = [this.props.user._id, profile._id];
         this.setState({ loading: true });
-        this.props.loadConversations(myData.sort());
+        let mmoom = myData.sort()[0] + "" + myData.sort()[1];
+        this.props.loadConversations(mmoom);
         this.setState({ loading: false });
 
         this.setState({
@@ -286,8 +288,12 @@ class ChatApplication extends Component {
       })
     );
   }
-  deletConversation() {
-    this.props.deleteConversation(this.state.room);
+  async deletConversation() {
+    let room = this.state.room;
+
+    const body = JSON.stringify({ room });
+    const res = await axios.post(URL + "api/message/delete", body, config);
+
     window.location.reload();
   }
   render() {

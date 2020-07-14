@@ -221,6 +221,10 @@ class SurveyDetailApp extends Component {
         questions.push(items[i]);
       }
     }
+    let bool = questions.find((element) => element.id === items[0].id);
+    if (!bool) {
+      questions.push(items[0]);
+    }
     const id = this.state.quiz;
     let body = JSON.stringify({ questions, id });
     const res = await axios.post(URL + "api/quiz/uploadquiz", body, config);

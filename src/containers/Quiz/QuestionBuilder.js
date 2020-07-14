@@ -193,7 +193,7 @@ class QuestionBuilder extends React.Component {
           <div className="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <div className="list-item-heading mb-0 truncate w-80 mb-1 mt-1">
               <span className="heading-number d-inline-block">
-                {this.props.order + 1}
+                {this.props.order}
               </span>
               {this.state.question}
             </div>

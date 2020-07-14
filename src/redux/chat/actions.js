@@ -5,11 +5,9 @@ import {
 } from "../../constants/actionTypes";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
-export const loadConversations = (myroom, check = true) => async (dispatch) => {
+export const loadConversations = (myroom) => async (dispatch) => {
   let room = myroom;
-  if (check) {
-    room = myroom[0] + "" + myroom[1];
-  }
+
   const body = JSON.stringify({ room });
   try {
     const res = await axios.post(
@@ -21,13 +19,9 @@ export const loadConversations = (myroom, check = true) => async (dispatch) => {
   } catch (error) {}
 };
 
-export const deleteConversation = (myroom, check = true) => async (
-  dispatch
-) => {
+export const deleteConversation = (myroom) => async (dispatch) => {
   let room = myroom;
-  if (check) {
-    room = myroom[0] + "" + myroom[1];
-  }
+
   const body = JSON.stringify({ room });
   try {
     await axios.post(URL + "api/message/delete", body, config);

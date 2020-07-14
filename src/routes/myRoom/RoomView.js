@@ -91,7 +91,7 @@ class ChatApplication extends Component {
       // const body = JSON.stringify({ id });
       // res = await axios.post(URL + "api/Courses/getFiles", body, config);
       // this.setState({ fileName: "Lecture " + res.data.length + 1 });
-      this.props.loadConversations(values.id, false);
+      this.props.loadConversations(values.id);
       // this.state.socket.emit("join", { name, myroom }, error => {
       //   if (error) {
       //     alert(error);
@@ -444,7 +444,7 @@ class ChatApplication extends Component {
     }
   }
   deletConversation(e) {
-    this.props.deleteConversation(this.state.room, false);
+    this.props.deleteConversation(this.state.room);
     window.location.reload();
   }
   leaveRoom(e) {
