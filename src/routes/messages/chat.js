@@ -293,7 +293,7 @@ class ChatApplication extends Component {
           myroom[0] +
           "" +
           myroom[1] +
-          "&u=start+n=" +
+          "&u=start&n=" +
           this.props.user.name,
       })
     );
