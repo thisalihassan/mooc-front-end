@@ -101,7 +101,11 @@ class ChatApplication extends Component {
   async getFiles(id) {
     const body = JSON.stringify({ id });
     let res = await axios.post(URL + "api/Courses/getFiles", body, config);
-    this.setState({ fileName: "Lecture " + res.data.length + 1 });
+    if (res.data) {
+      this.setState({ fileName: "Lecture " + res.data.length + 1 });
+    } else {
+      this.setState({ fileName: "Lecture " + 1 });
+    }
   }
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.socket) {
