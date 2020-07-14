@@ -83,7 +83,7 @@ class ChatApplication extends Component {
       });
     }
     const values = queryString.parse(this.props.location.search);
-    if (this.state.profiles.length > 0)
+    if (this.state.profiles.length > 0 && this.props.user)
       if (values.t && this.state.changeUser) {
         const profile = this.state.profiles.find((x) => x._id === values.t);
         const myData = [this.props.user._id, profile._id];
@@ -290,9 +290,13 @@ class ChatApplication extends Component {
   }
   async deletConversation() {
     let room = this.state.room;
-
+    room = room[0] + room[1];
     const body = JSON.stringify({ room });
-    const res = await axios.post(URL + "api/message/delete", body, config);
+    const res = await axios.post(
+      "http://localhost:5000/api/message/delete",
+      body,
+      config
+    );
 
     window.location.reload();
   }
