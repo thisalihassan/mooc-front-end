@@ -756,7 +756,14 @@ class TopNav extends Component {
             </ModalFooter>
           </Modal>
           {this.state.callStarted && (
-            <NewWindow url={this.state.callerID}></NewWindow>
+            <NewWindow
+              onUnload={(e) =>
+                this.setState({
+                  callStarted: false,
+                })
+              }
+              url={this.state.callerID}
+            ></NewWindow>
           )}
         </nav>
       );

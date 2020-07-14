@@ -299,7 +299,14 @@ class ChatApplication extends Component {
       <Fragment>
         <Row className="app-row">
           {this.state.callModal && (
-            <NewWindow url={this.state.videoURL}></NewWindow>
+            <NewWindow
+              onUnload={(e) =>
+                this.setState({
+                  callModal: false,
+                })
+              }
+              url={this.state.videoURL}
+            ></NewWindow>
           )}
           <Colxx xxs="12" className="chat-app">
             {reciever && (

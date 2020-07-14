@@ -303,7 +303,12 @@ class ChatApplication extends Component {
         let courseID = this.state.courseID;
         let name = this.state.roomName;
         let userid = this.props.user._id;
-        let zoom = this.state.autozoom;
+        let zoom = false;
+        if (this.state.autozoom) {
+          zoom = "zoom";
+        } else if (this.state.recording) {
+          zoom = "recording";
+        }
         let tuple = { room, name, zoom, userid, courseID };
 
         if (this.state.autozoom) {
@@ -525,7 +530,14 @@ class ChatApplication extends Component {
       return (
         <Fragment>
           {this.state.modalOpen && (
-            <NewWindow url={this.state.videoURL}></NewWindow>
+            <NewWindow
+              onUnload={(e) =>
+                this.setState({
+                  modalOpen: false,
+                })
+              }
+              url={this.state.videoURL}
+            ></NewWindow>
           )}
           <Row className="app-row">
             <Colxx xxs="6" className="VideoContainer"></Colxx>
