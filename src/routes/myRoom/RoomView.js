@@ -445,6 +445,7 @@ class ChatApplication extends Component {
   }
   deletConversation(e) {
     this.props.deleteConversation(this.state.room, false);
+    window.location.reload();
   }
   leaveRoom(e) {
     const myroom = this.state.room;
