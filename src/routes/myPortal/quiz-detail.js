@@ -51,6 +51,7 @@ class SurveyDetailApp extends Component {
       firstTime: true,
       totalQuestions: [],
       myQuestions: [],
+      Questions: [],
       runTimes: 2,
       quiz: "",
       course: "",
@@ -156,12 +157,28 @@ class SurveyDetailApp extends Component {
     const { quiz } = this.props.quizzes;
     var nextId = quiz.questions.length;
     const newQuizItem = Object.assign({}, quiz);
+    if (id >= 0) {
+      this.setState((prevState) => ({
+        Questions: [
+          ...prevState.Questions,
+          {
+            id: id,
+            question: qestion,
+            answerType: type,
+            answers: answers,
+            myAnswer: myAnswer,
+          },
+        ],
+      }));
+    }
+
+    console.log(this.state.Questions);
     newQuizItem.questions.push({
       id: nextId,
-      question: qestion,
+      question: "",
       answerType: type,
-      answers: answers,
-      myAnswer: myAnswer,
+      answers: "",
+      myAnswer: "",
     });
     this.props.saveSurvey(newQuizItem);
   }
@@ -195,7 +212,8 @@ class SurveyDetailApp extends Component {
 
   async submitQuiz(e) {
     e.preventDefault();
-    const items = this.props.quizzes.quiz.questions;
+    const items = this.state.Questions;
+    console.log(this.state.Questions);
     let questions = [];
     for (let i = items.length - 1; i > 0; i--) {
       let bool = questions.find((element) => element.id === items[i].id);
@@ -327,7 +345,7 @@ class SurveyDetailApp extends Component {
                           <ul className="list-unstyled mb-4">
                             {quiz.questions.map((item, index) => {
                               return (
-                                <li data-id={item._id} key={item._id}>
+                                <li data-id={index} key={index}>
                                   <QuestionBuilder
                                     order={index}
                                     myAnswer={item.myAnswer}
@@ -365,7 +383,7 @@ class SurveyDetailApp extends Component {
                           <ul className="list-unstyled mb-4">
                             {this.state.totalQuestions.map((item, index) => {
                               return (
-                                <li data-id={item.id} key={item.id}>
+                                <li data-id={item.id} key={index}>
                                   <QuestionBuilder
                                     order={index}
                                     myAnswer={
@@ -375,8 +393,7 @@ class SurveyDetailApp extends Component {
                                         this.props.user._id &&
                                       item.myAnswer
                                     }
-                                    order={index}
-                                    id={item._id}
+                                    id={index}
                                     question={item.question}
                                     answers={item.answers}
                                     expanded={!item.question && true}

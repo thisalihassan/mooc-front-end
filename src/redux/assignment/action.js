@@ -1,16 +1,16 @@
 import {
   GET_ASSIGNMENT_ERR,
   GET_ASSIGNMENT,
-  ASSINGMENT_WITH_FILTER
+  ASSINGMENT_WITH_FILTER,
 } from "../../constants/actionTypes";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 
-export const getAssignments = (course, user) => async dispatch => {
+export const getAssignments = (course, user) => async (dispatch) => {
   const { _id, roll } = user;
   const body = JSON.stringify({ course, roll });
   try {
-    const items = await axios.post(
+    let items = await axios.post(
       URL + "api/assignment/getassignments",
       body,
       config
@@ -31,7 +31,7 @@ export const getAssignments = (course, user) => async dispatch => {
         const myass = {};
         for (let j = 0; j < items.data[i].assignment.length; j++) {
           const mthc = myassignment.find(
-            x => x === items.data[i].assignment[j]._id
+            (x) => x === items.data[i].assignment[j]._id
           );
 
           if (!mthc) {
@@ -52,5 +52,5 @@ export const getAssignments = (course, user) => async dispatch => {
 
 export const getAssignmentswithFilter = (column, value) => ({
   type: ASSINGMENT_WITH_FILTER,
-  payload: { column, value }
+  payload: { column, value },
 });

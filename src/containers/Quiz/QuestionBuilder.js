@@ -213,7 +213,7 @@ class QuestionBuilder extends React.Component {
                 onClick={this.editClick}
               >
                 <Tooltip
-                  placement="Top"
+                  placement="top"
                   isOpen={this.state.tooltipOpen}
                   target={"Tooltip-1"}
                   toggle={this.ToolTiptoggle}
@@ -232,7 +232,7 @@ class QuestionBuilder extends React.Component {
                 onClick={this.viewClick}
               >
                 <Tooltip
-                  placement="Top"
+                  placement="top"
                   isOpen={this.state.tooltipOpen2}
                   target="Tooltip-2"
                   toggle={this.ToolTiptoggle2}
@@ -252,7 +252,7 @@ class QuestionBuilder extends React.Component {
               onClick={this.toggleClick}
             >
               <Tooltip
-                placement="Top"
+                placement="top"
                 isOpen={this.state.tooltipOpen3}
                 target={"Tooltip-3"}
                 toggle={this.ToolTiptoggle3}
@@ -271,7 +271,7 @@ class QuestionBuilder extends React.Component {
                 onClick={this.deleteClick}
               >
                 <Tooltip
-                  placement="Top"
+                  placement="top"
                   isOpen={this.state.tooltipOpen4}
                   target="Tooltip-4"
                   toggle={this.ToolTiptoggle4}
@@ -292,7 +292,7 @@ class QuestionBuilder extends React.Component {
               >
                 {" "}
                 <Tooltip
-                  placement="Top"
+                  placement="top"
                   isOpen={this.state.tooltipOpen5}
                   target="Tooltip-5"
                   toggle={this.ToolTiptoggle5}
@@ -311,7 +311,7 @@ class QuestionBuilder extends React.Component {
                 onClick={() => this.submitQuestion()}
               >
                 <Tooltip
-                  placement="Top"
+                  placement="top"
                   isOpen={this.state.tooltipOpen6}
                   target="Tooltip-6"
                   toggle={this.ToolTiptoggle6}
