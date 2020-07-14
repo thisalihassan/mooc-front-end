@@ -80,7 +80,6 @@ class ThumbListPages extends Component {
   }
 
   render() {
-    console.log(this.props.recommendation);
     const { start, end, currentPage } = this.state;
     return (
       <Fragment>

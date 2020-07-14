@@ -41,7 +41,6 @@ export const register = ({ name, email, roll, password }) => async (
 
   try {
     const res = await axios.post(URL + "api/users", body, config);
-    console.log(res.data);
     dispatch({
       type: REGISTER_USER_SUCCESS,
       payload: res.data,
@@ -96,7 +95,6 @@ export const conformtion = (id, token) => async (dispatch) => {
 
   try {
     const res = await axios.post(URL + "api/auth/confirmation", body, config);
-    console.log(res.data);
     if (res.data === "done") {
       dispatch({
         type: CONFIRMATION_USER,
@@ -123,8 +121,8 @@ export const resendconformtion = (id) => async (dispatch) => {
   const body = JSON.stringify({ id });
 
   try {
-    const res = await axios.post(URL + "api/auth/resend", body, config);
-    console.log(res.data);
+    await axios.post(URL + "api/auth/resend", body, config);
+
     dispatch(setAlert("Verification code has been resend", "success"));
   } catch (err) {
     const errors = err.response.data.errors;

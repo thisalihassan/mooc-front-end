@@ -81,7 +81,6 @@ class ProfilePortfolio extends Component {
   }
   render() {
     const user = this.props.user;
-    console.log(this.state.loading);
     const { profile } = this.props.profile;
 
     return (

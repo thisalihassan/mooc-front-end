@@ -43,7 +43,6 @@ class SurveyDetailApp extends Component {
     e.preventDefault();
     const marks = this.state.marks;
     const body = JSON.stringify({ marks });
-    console.log(this.props.quizzes.quiz._id);
     await axios.post(
       URL + "api/quiz/setMarks/" + this.props.quizzes.quiz._id,
       body,

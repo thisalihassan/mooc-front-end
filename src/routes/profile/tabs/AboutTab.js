@@ -135,7 +135,6 @@ class Profile extends React.Component {
           return res.data;
         })
         .then((data) => {
-          console.log(data);
           this.setState({
             company: data.work[0].company,
             wfrom: data.work[0].from,

@@ -37,7 +37,7 @@ class AttachmentModel extends Component {
     };
 
     const res = await axios.post(URL + "lecturefiles", file, configg);
-    console.log(res.data);
+
     this.setState({ upload: false });
     const filename = this.state.file.name;
     const url = res.data[0];

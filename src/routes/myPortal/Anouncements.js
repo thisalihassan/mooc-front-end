@@ -83,7 +83,6 @@ class TodoApp extends Component {
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.todoApp.todoItems !== this.props.todoApp.todoItems) {
       const data = this.props.todoApp.todoItems;
-      console.log(data);
       this.setState({
         firstRun: false,
         totalPage: data.length / this.state.perPage,

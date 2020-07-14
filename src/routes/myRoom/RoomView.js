@@ -444,16 +444,16 @@ class ChatApplication extends Component {
     }
   }
   deletConversation(e) {
-    this.props.deleteConversation(this.state.room);
-    window.location.reload();
+    this.props.deleteConversation(this.state.room, false);
   }
   leaveRoom(e) {
     const myroom = this.state.room;
     const name = this.props.user.name;
     const id = this.props.user._id;
     const tuple = { myroom, id, name };
-    this.state.socket.emit("disconnectuser", tuple, () => console.log("Leave"));
-    this.props.history.push("/app/myrooms/rooms/");
+    this.state.socket.emit("disconnectuser", tuple, () =>
+      this.props.history.push("/app/")
+    );
   }
   toggleScreen = () => {
     if (!this.state.modalOpen) {

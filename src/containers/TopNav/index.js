@@ -516,7 +516,7 @@ class TopNav extends Component {
             </UncontrolledDropdown>
           </div>
 
-          <a className="navbar-logo" href="/">
+          <a className="navbar-logo" href="/app/">
             <Image className="Logo" src={Logo}></Image>
             {/* <span className="logo d-none d-xs-block" />
             <span className="logo-mobile d-block d-xs-none" /> */}

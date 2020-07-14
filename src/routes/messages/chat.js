@@ -56,7 +56,6 @@ class ChatApplication extends Component {
     this.props.GetSubscription();
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log();
     if (
       !this.state.setProfiles &&
       this.props.followers &&

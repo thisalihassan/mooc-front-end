@@ -75,7 +75,6 @@ export class AddCourse extends Component {
         },
       };
       const res = await axios.post(URL + "coursepic", file, configg);
-      console.log(res.data);
       this.setState({ upload: false, pic: res.data });
     } catch (error) {}
   }
@@ -122,7 +121,6 @@ export class AddCourse extends Component {
           return res.data;
         })
         .then((data) => {
-          console.log(data.category);
           this.setState({
             id: id,
             name: data.name,

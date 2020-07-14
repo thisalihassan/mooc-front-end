@@ -46,7 +46,6 @@ export class Register extends Component {
   validate(values) {
     const { name, password, roll, cpassword } = this.state;
     let errors = {};
-    console.log(this.state);
     if (!name) {
       errors.name = "Please enter a title";
     }

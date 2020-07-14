@@ -24,7 +24,6 @@ export const createRoom = (body) => async (dispatch) => {
 export const getRooms = (body) => async (dispatch) => {
   try {
     const res = await axios.post(URL + "api/room/getmyrooms", body, config);
-    console.log(res.data);
     dispatch({
       type: GET_ROOMS,
       payload: res.data,

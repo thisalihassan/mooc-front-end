@@ -55,7 +55,6 @@ class SearchPages extends Component {
   }
   async dataListRender(search) {
     const searchItem = search;
-    console.log(search);
     const perPage = this.state.perPage;
     const currentPage = this.state.currentPage;
     const body = JSON.stringify({ currentPage, searchItem, perPage });
@@ -64,7 +63,6 @@ class SearchPages extends Component {
     await axios
       .post(URL + searchURL, body, config)
       .then((res) => {
-        console.log(res.data);
         return res.data;
       })
       .then((data) => {

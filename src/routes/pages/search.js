@@ -57,9 +57,7 @@ class SearchPages extends Component {
   }
   async dataListRender(search) {
     const name = this.props.searchBy;
-    console.log(name);
     const searchItem = search;
-    console.log(search);
     const perPage = this.state.perPage;
     const currentPage = this.state.currentPage;
     const body = JSON.stringify({ currentPage, searchItem, perPage });

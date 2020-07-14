@@ -1,11 +1,11 @@
 import {
   CHAT_GET_CONVERSATIONS,
   CHAT_DELETE_CONVERSATION,
-  CHAT_CHANGE_CONVERSATION
+  CHAT_CHANGE_CONVERSATION,
 } from "../../constants/actionTypes";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
-export const loadConversations = (myroom, check = true) => async dispatch => {
+export const loadConversations = (myroom, check = true) => async (dispatch) => {
   let room = myroom;
   if (check) {
     room = myroom[0] + "" + myroom[1];
@@ -21,7 +21,9 @@ export const loadConversations = (myroom, check = true) => async dispatch => {
   } catch (error) {}
 };
 
-export const deleteConversation = (myroom, check = true) => async dispatch => {
+export const deleteConversation = (myroom, check = true) => async (
+  dispatch
+) => {
   let room = myroom;
   if (check) {
     room = myroom[0] + "" + myroom[1];
@@ -30,7 +32,9 @@ export const deleteConversation = (myroom, check = true) => async dispatch => {
   try {
     await axios.post(URL + "api/message/delete", body, config);
     dispatch({ type: CHAT_DELETE_CONVERSATION });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 // export const getContacts = () => ({
 //   type: CHAT_GET_CONTACTS
@@ -88,9 +92,9 @@ export const deleteConversation = (myroom, check = true) => async dispatch => {
 //   payload: keyword
 // });
 
-export const changeConversation = userId => dispatch => {
+export const changeConversation = (userId) => (dispatch) => {
   dispatch({
     type: CHAT_CHANGE_CONVERSATION,
-    payload: userId
+    payload: userId,
   });
 };

@@ -81,7 +81,6 @@ class mainLanding extends Component {
     this.getCourses(this.state.activeTab);
   }
   getCourses(activeTab) {
-    console.log(options[parseInt(activeTab)]);
     const category = options[parseInt(activeTab)];
     const body = JSON.stringify({ category });
     axios
