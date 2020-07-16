@@ -256,7 +256,7 @@ class QuestionBuilder extends React.Component {
                 target={"Tooltip-3"}
                 toggle={this.ToolTiptoggle3}
               >
-                Collapse
+                Collapse/View
               </Tooltip>
               <i className="simple-icon-arrow-down" />
             </Button>
@@ -264,14 +264,16 @@ class QuestionBuilder extends React.Component {
             {roll === "teacher" && (
               <Button
                 outline
-                style={{ background: "white" }}
                 id="Tooltip-5"
                 color={"theme-3"}
-                style={this.state.shouldHide ? {} : { display: "none" }}
+                style={
+                  this.state.shouldHide
+                    ? { background: "white" }
+                    : { background: "white", display: "none" }
+                }
                 className={"icon-button ml-1"}
                 onClick={() => this.submitQuestion()}
               >
-                {" "}
                 <Tooltip
                   placement="top"
                   isOpen={this.state.tooltipOpen5}
