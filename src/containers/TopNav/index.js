@@ -194,7 +194,7 @@ class TopNav extends Component {
       async ({ course, user, id, ownerclose }) => {
         if (this.state.callStarted || this.state.callModel) {
           const match = this.state.listCourse.find((u) => u === course);
-          const match2 = this.props.user._id == user;
+          const match2 = this.props.user._id === user;
           if (match2 || (ownerclose && match)) {
             this.setState({
               callModel: false,
@@ -205,7 +205,7 @@ class TopNav extends Component {
       }
     );
     this.state.socket.on("AudioCallRinging", async (mess) => {
-      const match = this.state.listCourse.find((u) => u == mess.courseID);
+      const match = this.state.listCourse.find((u) => u === mess.courseID);
 
       if (match && this.props.user._id !== mess.userid) {
         if (this.state.callStarted) {
