@@ -195,7 +195,14 @@ class OthersProfile extends React.Component {
     return (
       <Row>
         {this.state.modalOpen && (
-          <NewWindow url={this.state.videoURL}></NewWindow>
+          <NewWindow
+            onUnload={(e) =>
+              this.setState({
+                modalOpen: false,
+              })
+            }
+            url={this.state.videoURL}
+          ></NewWindow>
         )}
         <Colxx xxs="1"></Colxx>
         {this.props.user && this.props.userProfile ? (
