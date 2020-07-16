@@ -34,13 +34,11 @@ class ChatApplication extends Component {
       users: "",
       setProfiles: false,
       profiles: [],
-      loading: false,
       firstTime: true,
       firstMessage: false,
       reciever: "",
       changeUser: true,
       modalOpen: false,
-      deleteConverstation: false,
     };
   }
 
@@ -57,7 +55,7 @@ class ChatApplication extends Component {
   async componentDidMount() {
     this.props.GetSubscription();
   }
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (
       !this.state.setProfiles &&
       this.props.followers &&
@@ -88,10 +86,9 @@ class ChatApplication extends Component {
       if (values.t && this.state.changeUser) {
         const profile = this.state.profiles.find((x) => x._id === values.t);
         const myData = [this.props.user._id, profile._id];
-        this.setState({ loading: true });
+
         let mmoom = myData.sort()[0] + "" + myData.sort()[1];
-        this.props.loadConversations(mmoom);
-        this.setState({ loading: false });
+        await this.props.loadConversations(mmoom);
 
         this.setState({
           reciever: profile,
@@ -106,15 +103,7 @@ class ChatApplication extends Component {
         firstMessage: false,
       });
     }
-    if (
-      this.props.chat.loadingConversations &&
-      this.state.deleteConverstation
-    ) {
-      this.setState({
-        messages: [],
-        deleteConverstation: false,
-      });
-    }
+
     if (this._scrollBarRef) {
       this._scrollBarRef._ps.element.scrollTop = this._scrollBarRef._ps.contentHeight;
     }
@@ -126,9 +115,9 @@ class ChatApplication extends Component {
 
     if (this.state.name !== "" && this.state.room !== "") {
       if (this.state.socket == null) {
-        this.setState({ loading: true });
-        this.props.loadConversations(this.state.room);
-        this.setState({ loading: false });
+        // this.setState({ loading: true });
+        // await this.props.loadConversations(this.state.room);
+        // this.setState({ loading: false });
 
         this.joinRoom(this.state.room);
       }
@@ -263,10 +252,10 @@ class ChatApplication extends Component {
       modalOpen: !this.state.modalOpen,
     });
   };
-  handleContactClick(userId) {
-    this.setState({ loading: true });
-    this.props.loadConversations(this.state.room);
-    this.setState({ loading: false });
+  async handleContactClick(userId) {
+    // this.setState({ loading: true });
+    // await this.props.loadConversations(this.state.room);
+
     this.setState({
       firstMessage: true,
       reciever: this.state.profiles[userId],
@@ -303,13 +292,7 @@ class ChatApplication extends Component {
     room = room[0] + room[1];
     const body = JSON.stringify({ room });
     await axios.post(URL + "api/message/delete", body, config);
-    this.props.loadConversations(room);
-    setTimeout(
-      function () {
-        this.setState({ deleteConverstation: true });
-      }.bind(this),
-      2000
-    );
+    await this.props.loadConversations(room);
   }
   render() {
     const reciever = this.state.reciever;
@@ -374,7 +357,7 @@ class ChatApplication extends Component {
               </div>
             )}
             <div className="separator mb-5" />
-            {this.state.loading ? (
+            {this.state.changeUser ? (
               <div className="loading"></div>
             ) : (
               <PerfectScrollbar
