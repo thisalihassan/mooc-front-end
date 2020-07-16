@@ -40,7 +40,7 @@ if (typeof document.hidden !== "undefined") {
   visibilityChange = "webkitvisibilitychange";
 }
 
-class SurveyDetailApp extends Component {
+class QuizViewDetails extends Component {
   constructor(props) {
     super(props);
     this.toggleTab = this.toggleTab.bind(this);
@@ -538,5 +538,5 @@ export default withRouter(
     findSolvedQuiz,
     deleteQuizQuestion,
     saveSurvey,
-  })(SurveyDetailApp)
+  })(QuizViewDetails)
 );
