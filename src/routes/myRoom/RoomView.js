@@ -519,7 +519,7 @@ class ChatApplication extends Component {
   }
   render() {
     const owner = this.state.roomCreator;
-
+    console.log(owner);
     const user = this.props.user;
     const { messages } = this.props.intl;
     if (owner && user)
@@ -814,7 +814,7 @@ class ChatApplication extends Component {
                                           <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
                                               <p className="mb-0 truncate">
-                                                {owner._id === user._id
+                                                {owner._id === item._id
                                                   ? item.name + " (Teacher)"
                                                   : item.name}
                                               </p>
