@@ -203,6 +203,7 @@ class QuestionBuilder extends React.Component {
             {roll === "teacher" && (
               <Button
                 outline
+                style={{ background: "white" }}
                 id="Tooltip-1"
                 color={"theme-3"}
                 className="icon-button ml-1 edit-button"
@@ -221,6 +222,7 @@ class QuestionBuilder extends React.Component {
             )}
             {roll === "teacher" && (
               <Button
+                style={{ background: "white" }}
                 outline
                 id="Tooltip-2"
                 color={"theme-3"}
@@ -239,6 +241,7 @@ class QuestionBuilder extends React.Component {
               </Button>
             )}
             <Button
+              style={{ background: "white" }}
               outline
               id="Tooltip-3"
               color={"theme-3"}
@@ -261,6 +264,7 @@ class QuestionBuilder extends React.Component {
             {roll === "teacher" && (
               <Button
                 outline
+                style={{ background: "white" }}
                 id="Tooltip-5"
                 color={"theme-3"}
                 style={this.state.shouldHide ? {} : { display: "none" }}
@@ -282,6 +286,7 @@ class QuestionBuilder extends React.Component {
             {roll === "student" && (
               <Button
                 outline
+                style={{ background: "white" }}
                 id="Tooltip-6"
                 color={"theme-3"}
                 className="icon-button ml-1"

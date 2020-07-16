@@ -264,7 +264,6 @@ class QuizViewDetails extends Component {
     const { quiz, loading } = this.props.quizzes;
     let roll;
     if (this.props.user) roll = this.props.user.roll.toLowerCase();
-
     return (
       <Fragment>
         <Row className="app-row survey-app">

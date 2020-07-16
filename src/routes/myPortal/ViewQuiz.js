@@ -31,7 +31,11 @@ class SurveyDetailApp extends Component {
   componentDidMount() {
     this.props.getQuizDetail(this.props.match.params.id);
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.quiz !== prevProps.quiz) {
+      this.setState({ marks: this.props.quiz.marks });
+    }
+  }
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -44,7 +48,7 @@ class SurveyDetailApp extends Component {
     const marks = this.state.marks;
     const body = JSON.stringify({ marks });
     await axios.post(
-      URL + "api/quiz/setMarks/" + this.props.quizzes.quiz._id,
+      URL + "api/quiz/setMarks/" + this.props.quiz._id,
       body,
       config
     );
@@ -52,7 +56,6 @@ class SurveyDetailApp extends Component {
   }
 
   render() {
-    const { quiz, loading } = this.props.quizzes;
     let roll = "";
     if (this.props.user) roll = this.props.user.roll.toLowerCase();
     if (this.props.roll === "student") roll = this.props.roll;
@@ -62,46 +65,50 @@ class SurveyDetailApp extends Component {
           <Colxx xxs="12">
             <h1>
               <span className="align-middle d-inline-block pt-1">
-                {quiz && quiz.course.name}
+                {this.props.quiz && this.props.quiz.course.name}
               </span>
             </h1>
-            <div className="float-sm-right mb-2">
-              <Button
-                outline
-                className="top-right-button top-right-button-single flex-grow-1"
-                size="lg"
-                onClick={(e) => this.setMarks(e)}
-              >
-                Mark Quiz
-              </Button>
+            <div>
+              <Row>
+                <Button
+                  outline
+                  className="top-right-button top-right-button-single "
+                  size="lg"
+                  onClick={(e) => this.setMarks(e)}
+                >
+                  Mark Quiz
+                </Button>
+              </Row>
+              <Row>
+                <input
+                  type="Number"
+                  value={this.state.marks}
+                  min="0"
+                  onChange={(val) => {
+                    this.setState({ marks: val.target.value });
+                  }}
+                />
+              </Row>
             </div>
 
-            <div className="mb-2">
-              <input
-                type="Number"
-                value={this.state.marks}
-                min="0"
-                onChange={(val) => {
-                  this.setState({ marks: val.target.value });
-                }}
-              />
-            </div>
-
-            {loading ? (
+            {this.props.loading ? (
               <Fragment>
                 <Row>
                   {this.props.user && (
-                    <QuizDetailCard quiz={quiz} user={this.props.user} />
+                    <QuizDetailCard
+                      quiz={this.props.quiz}
+                      user={this.props.user}
+                    />
                   )}
 
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
-                      {quiz &&
-                        quiz.questions.map((item, index) => {
+                      {this.props.quiz &&
+                        this.props.quiz.questions.map((item, index) => {
                           return (
                             <li data-id={item.id} key={item.id}>
                               <QuestionBuilder
-                                order={index}
+                                order={index + 1}
                                 {...item}
                                 roll="student"
                                 answers={item.answers}
@@ -127,11 +134,14 @@ class SurveyDetailApp extends Component {
 }
 
 const mapStateToProps = ({ quizzes, quizList, auth }) => {
+  const { quiz, loading } = quizzes;
   const { user } = auth;
   const { allSurveyItems } = quizList;
   return {
     allSurveyItems,
     quizzes,
+    quiz,
+    loading,
     user,
   };
 };

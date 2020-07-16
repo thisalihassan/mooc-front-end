@@ -129,7 +129,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { surveyItems } = this.props.quizList;
+    const { surveyItems, loading } = this.props.quizList;
     const { modalOpen } = this.state;
     return (
       <Fragment>
@@ -191,7 +191,7 @@ class Quiz extends Component {
             </div>
             <Separator className="mb-5" />
             <Row>
-              {surveyItems ? (
+              {loading ? (
                 surveyItems.map((item, index) => {
                   return (
                     <ListItem
