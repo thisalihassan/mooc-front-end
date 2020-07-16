@@ -217,7 +217,11 @@ class QuestionBuilder extends React.Component {
                 >
                   Edit Question
                 </Tooltip>
-                <i id="in" className="simple-icon-pencil" />
+                <i
+                  id="in"
+                  className="simple-icon-pencil"
+                  style={{ color: "red" }}
+                />
               </Button>
             )}
             {roll === "teacher" && (
@@ -237,7 +241,7 @@ class QuestionBuilder extends React.Component {
                 >
                   View Question
                 </Tooltip>
-                <i className="simple-icon-eye" />
+                <i className="simple-icon-eye" style={{ color: "red" }} />
               </Button>
             )}
             <Button
@@ -258,20 +262,19 @@ class QuestionBuilder extends React.Component {
               >
                 Collapse/View
               </Tooltip>
-              <i className="simple-icon-arrow-down" />
+              <i className="simple-icon-arrow-down" style={{ color: "red" }} />
             </Button>
 
             {roll === "teacher" && (
               <Button
-                outline
                 id="Tooltip-5"
                 color={"theme-3"}
                 style={
                   this.state.shouldHide
                     ? { background: "white" }
-                    : { background: "white", display: "none" }
+                    : { display: "none" }
                 }
-                className={"icon-button ml-1"}
+                className={"icon ml-1"}
                 onClick={() => this.submitQuestion()}
               >
                 <Tooltip
@@ -282,16 +285,18 @@ class QuestionBuilder extends React.Component {
                 >
                   Submit Question
                 </Tooltip>
-                <i className="simple-icon-check" />
+                <i
+                  className="simple-icon-check"
+                  style={{ color: "red", fontSize: "30px" }}
+                />
               </Button>
             )}
             {roll === "student" && (
               <Button
-                outline
                 style={{ background: "white" }}
                 id="Tooltip-6"
                 color={"theme-3"}
-                className="icon-button ml-1"
+                className="icon ml-1"
                 onClick={() => this.submitQuestion()}
               >
                 <Tooltip
@@ -302,7 +307,10 @@ class QuestionBuilder extends React.Component {
                 >
                   Submit Question
                 </Tooltip>
-                <i className="simple-icon-check" />
+                <i
+                  className="simple-icon-check"
+                  style={{ color: "red", fontSize: "30px" }}
+                />
               </Button>
             )}
           </div>
