@@ -41,6 +41,7 @@ class ChatApplication extends Component {
   constructor(props) {
     super(props);
     this.toggleAppMenu = this.toggleAppMenu.bind(this);
+    this.leaveUser = this.leaveUser.bind(this);
     this.state = {
       menuActiveTab: "members",
       messageInput: "",
@@ -71,6 +72,7 @@ class ChatApplication extends Component {
     }
   }
   async componentDidMount() {
+    window.addEventListener("beforeunload", this.leaveUser);
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
       let res = await axios.post(
@@ -228,8 +230,7 @@ class ChatApplication extends Component {
       );
     }
   }
-
-  componentWillUnmount() {
+  leaveUser() {
     if (this.props.user && this.state.socket) {
       const myroom = this.state.room;
       const name = this.props.user.name;
@@ -239,6 +240,10 @@ class ChatApplication extends Component {
         console.log("Leave")
       );
     }
+  }
+  componentWillUnmount() {
+    this.leaveUser();
+    window.removeEventListener("beforeunload", this.leaveUser);
   }
 
   sendMessage(event) {
@@ -590,7 +595,7 @@ class ChatApplication extends Component {
                     this._scrollBarRef = ref;
                   }}
                   containerRef={(ref) => {}}
-                  option={{ suppressScrollX: true, wheelPropagation: false }}
+                  options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   {this.state.messages.map((item, index) => {
                     if (
@@ -618,7 +623,9 @@ class ChatApplication extends Component {
                                 <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                   <div className="min-width-zero">
                                     <p className="mb-0 truncate list-item-heading">
-                                      {item.user}
+                                      {owner.name === item.user
+                                        ? item.user + " (Teacher)"
+                                        : item.user}
                                     </p>
                                   </div>
                                 </div>
@@ -723,7 +730,7 @@ class ChatApplication extends Component {
             >
               <TabPane tabId="contacts" className="chat-app-tab-pane">
                 <PerfectScrollbar
-                  option={{ suppressScrollX: true, wheelPropagation: false }}
+                  options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   <div className="pt-2 pr-4 pl-4 pb-2">
                     <h3>Guidelines</h3>
@@ -782,7 +789,7 @@ class ChatApplication extends Component {
               </TabPane>
               <TabPane tabId="members" className="chat-app-tab-pane">
                 <PerfectScrollbar
-                  option={{ suppressScrollX: true, wheelPropagation: false }}
+                  options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   <Table borderless>
                     <tr>
@@ -855,7 +862,11 @@ class ChatApplication extends Component {
         </Fragment>
       );
     else {
-      return <Fragment className="loading"></Fragment>;
+      return (
+        <Fragment>
+          <div className="loading"></div>
+        </Fragment>
+      );
     }
   }
 }
