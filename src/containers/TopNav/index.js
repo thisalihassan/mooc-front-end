@@ -421,6 +421,9 @@ class TopNav extends Component {
     document.getElementById("call-sound").pause();
     this.setState({ callModel: !this.state.callModel });
   };
+  pushToHelp = () => {
+    this.props.history.push("/app/help");
+  };
   render() {
     const { containerClassnames, menuClickCount, user } = this.props;
     const { messages } = this.props.intl;
@@ -632,8 +635,10 @@ class TopNav extends Component {
                       Switch
                     </DropdownItem>
                   )}
-
-                  <DropdownItem>Support</DropdownItem>
+                  {/* onClick={() => this.pushToHelp()} */}
+                  <DropdownItem>
+                    <NavLink to="/app/help">Help</NavLink>
+                  </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem onClick={() => this.handleLogout()}>
                     Sign out

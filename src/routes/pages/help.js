@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import { Collapse } from "reactstrap";
 import IntlMessages from "../../util/IntlMessages";
 import {
@@ -9,11 +10,12 @@ import {
   InputGroup,
   InputGroupAddon,
   Input,
-  Button
+  Button,
 } from "reactstrap";
 import { URL, config } from "../../constants/defaultValues";
 import axios from "axios";
 import { Colxx } from "../../components/CustomBootstrap";
+import { setAlert } from "../../redux/actions";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -22,49 +24,61 @@ class ChatApplication extends Component {
       collapse: false,
       accordion: [],
       question: "",
-      complaints: []
+      complaints: [],
     };
   }
 
-  toggleAccordion = tab => {
+  toggleAccordion = (tab) => {
     const prevState = this.state.accordion;
     const state = prevState.map((x, index) => (tab === index ? !x : false));
     this.setState({
-      accordion: state
+      accordion: state,
     });
   };
 
   async makeComplaint(e) {
     e.preventDefault();
-    const question = this.state.question;
-    const body = JSON.stringify({ question });
-    await axios.post(URL + "api/complaint/sendcomplaints", body, config);
-    await axios
-      .post(URL + "api/complaint/getActive", {}, config)
-      .then(res => {
-        return res.data;
-      })
-      .then(data => {
-        let accordionData = [];
-        data.forEach(() => {
-          accordionData.push(false);
-        });
+    const check = this.state.question.split(" ").join("");
+    if (check) {
+      const question = this.state.question;
+      const body = JSON.stringify({ question });
+      await axios.post(URL + "api/complaint/sendcomplaints", body, config);
+      this.props.setAlert(
+        "Thank you for submitting your query. We will send a reply soon. Please check back again",
+        "success"
+      );
+      await axios
+        .post(URL + "api/complaint/getActive", {}, config)
+        .then((res) => {
+          return res.data;
+        })
+        .then((data) => {
+          let accordionData = [];
+          data.forEach(() => {
+            accordionData.push(false);
+          });
 
-        this.setState({
-          complaints: data,
-          accordion: accordionData,
-          question: ""
+          this.setState({
+            complaints: data,
+            accordion: accordionData,
+            question: "",
+          });
         });
-      });
+    } else {
+      this.props.setAlert(
+        "Please type in your query before submitting",
+        "danger"
+      );
+    }
   }
 
   componentDidMount() {
     axios
       .post(URL + "api/complaint/getActive", {}, config)
-      .then(res => {
+      .then((res) => {
         return res.data;
       })
-      .then(data => {
+      .then((data) => {
         let accordionData = [];
         data.forEach(() => {
           accordionData.push(false);
@@ -88,7 +102,7 @@ class ChatApplication extends Component {
                 name="name"
                 placeholder="complaint"
                 value={this.state.question}
-                onChange={e => {
+                onChange={(e) => {
                   this.setState({ question: e.target.value });
                 }}
               />
@@ -99,7 +113,7 @@ class ChatApplication extends Component {
                 <Button
                   outline
                   color="secondary"
-                  onClick={e => this.makeComplaint(e)}
+                  onClick={(e) => this.makeComplaint(e)}
                 >
                   <IntlMessages id="input-groups.button" />
                 </Button>
@@ -143,4 +157,4 @@ class ChatApplication extends Component {
     );
   }
 }
-export default ChatApplication;
+export default connect(null, { setAlert })(ChatApplication);

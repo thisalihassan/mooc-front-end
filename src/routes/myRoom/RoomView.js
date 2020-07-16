@@ -86,8 +86,6 @@ class ChatApplication extends Component {
         roomCreator: res.data.user,
         guidelines: res.data.guidelines,
       });
-      let id = res.data.course._id;
-
       this.props.loadConversations(values.id);
       // this.state.socket.emit("join", { name, myroom }, error => {
       //   if (error) {
@@ -103,10 +101,8 @@ class ChatApplication extends Component {
       if (this.state.users !== prevState.users) {
         this.state.socket.on("roomData", ({ users }) => {
           this.setState({ users: users });
-        });
-        if (this.state.users) {
           let mid = [];
-          this.state.users.forEach((item) => {
+          users.forEach((item) => {
             mid.push(item.id);
           });
 
@@ -119,7 +115,7 @@ class ChatApplication extends Component {
             .then((data) => {
               this.setState({ participants: data });
             });
-        }
+        });
       }
       this.state.socket.on("userNavigate", ({ user }) => {
         if (user === this.props.user._id) {
@@ -163,16 +159,14 @@ class ChatApplication extends Component {
         this.setState({
           firstTime: false,
         });
-        this.state.socket.on("roomData", ({ users }) => {
+        this.state.socket.on("roomData", async ({ users }) => {
+          let mid = [];
           this.setState({ users: users });
-        });
-        if (this.state.users) {
-          let id = [];
-          this.state.users.forEach((item) => {
-            id.push(item.id);
+          users.forEach((item) => {
+            mid.push(item.id);
           });
 
-          const body = JSON.stringify({ id });
+          const body = JSON.stringify({ mid });
           await axios
             .get(URL + "api/auth/find", body, config)
             .then((res) => {
@@ -181,7 +175,8 @@ class ChatApplication extends Component {
             .then((data) => {
               this.setState({ participants: data });
             });
-        }
+        });
+
         let mess = this.state.messageInput;
         this.state.socket.on("message", (mess) => {
           this.setState((prevState) => ({
@@ -398,16 +393,17 @@ class ChatApplication extends Component {
       const room = this.props.user._id;
       const courseID = this.state.courseID;
       const name = this.state.roomName;
+      let userName = this.props.user.name;
+      if (owner._id === user._id) {
+        userName = this.props.user.name + "(Teacher)";
+      }
+
       const userid = this.props.user._id;
       let tuple = { room, name, userid, courseID };
       this.setState({
         modalOpen: !this.state.modalOpen,
         videoURL:
-          AURL +
-          "?roomid=" +
-          this.props.user._id +
-          "&u=start&n=" +
-          this.props.user.name,
+          AURL + "?roomid=" + this.props.user._id + "&u=start&n=" + userName,
       });
 
       setTimeout(
@@ -811,7 +807,9 @@ class ChatApplication extends Component {
                                           <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
                                               <p className="mb-0 truncate">
-                                                {item.name}
+                                                {owner._id === user._id
+                                                  ? item.name + " (Teacher)"
+                                                  : item.name}
                                               </p>
                                             </div>
                                           </div>
@@ -835,7 +833,7 @@ class ChatApplication extends Component {
                                                 }
                                                 className="mb-0 truncate"
                                               >
-                                                kick
+                                                Remove
                                               </Link>
                                             </div>
                                           </div>

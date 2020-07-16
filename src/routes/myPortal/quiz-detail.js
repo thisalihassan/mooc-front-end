@@ -189,6 +189,7 @@ class SurveyDetailApp extends Component {
     });
   }
   studentSubmitQuiz = async () => {
+    document.getElementById("studentSubmit").disabled = true;
     const items = this.state.myQuestions;
 
     let questions = [];
@@ -206,7 +207,7 @@ class SurveyDetailApp extends Component {
     const body = JSON.stringify({ quiz, course, questions, title, autocheck });
     axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
       this.checkSubmission(quiz);
-      document.getElementById("studentSubmit").disabled = true;
+      this.props.history.push("/app/profile/profile");
     });
   };
 
