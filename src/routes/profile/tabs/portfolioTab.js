@@ -112,11 +112,6 @@ class TheProfile extends React.Component {
               <ModalBody>
                 <DropzoneExample />
               </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.toggle}>
-                  Cancel
-                </Button>
-              </ModalFooter>
             </Modal>
             <img src={profileImage} alt="img here" className="card-img-top" />
 
