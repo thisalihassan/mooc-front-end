@@ -97,6 +97,11 @@ class ChatApplication extends Component {
           firstMessage: true,
         });
       }
+    if (!values.t && this.state.changeUser) {
+      this.setState({
+        changeUser: false,
+      });
+    }
     if (this.props.chat.conversation !== prevProps.chat.conversation) {
       this.setState({
         messages: this.props.chat.conversation,
