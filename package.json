@@ -16,8 +16,6 @@
     ],
     "dependencies": {
         "@glidejs/glide": "^3.4.1",
-        "@material-ui/core": "^4.10.1",
-        "@material-ui/styles": "^4.10.0",
         "axios": "^0.19.0",
         "bootstrap": "^4.3.1",
         "chart.js": "^2.9.3",
@@ -27,7 +25,7 @@
         "history": "^4.10.1",
         "html-react-parser": "^0.10.5",
         "jquery": "^3.4.1",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "moment": "^2.24.0",
         "rc-switch": "^1.9.0",
         "react": "^16.13.1",
