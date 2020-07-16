@@ -468,17 +468,14 @@ class QuizViewDetails extends Component {
                               <div className="d-flex flex-grow-1 min-width-zero">
                                 <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                                   <Link
-                                    to={`/app/myportal/viewquiz/${item._id}`}
+                                    to={`/app/profile/userprofile/?profile=${item.user._id}`}
                                     target="_blank"
                                     className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
                                   >
                                     <ThumbnailImage
                                       rounded
                                       small
-                                      src={
-                                        "../../assets/images/" +
-                                        item.user.avatar
-                                      }
+                                      src={item.user.avatar}
                                       alt="profile"
                                       className="m-4"
                                     />
