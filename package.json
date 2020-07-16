@@ -62,7 +62,6 @@
         "redux-devtools-extension": "^2.13.8",
         "redux-test-utils": "^0.3.0",
         "redux-thunk": "^2.3.0",
-        "semantic-ui-react": "^0.88.1",
         "socket.io": "^2.3.0",
         "sortablejs": "^1.10.1",
         "uuid": "^3.3.3",
