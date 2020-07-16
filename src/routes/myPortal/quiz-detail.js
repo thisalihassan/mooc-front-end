@@ -175,7 +175,6 @@ class QuizViewDetails extends Component {
       }));
     }
 
-    console.log(this.state.Questions);
     newQuizItem.questions.push({
       id: nextId,
       question: "",
@@ -196,7 +195,7 @@ class QuizViewDetails extends Component {
     let getsubmitbutton = document.getElementById("studentSubmit");
     if (getsubmitbutton && quizzes) {
       getsubmitbutton.disabled = true;
-
+      console.log("is hee");
       const items = this.state.myQuestions;
 
       let questions = [];
@@ -211,7 +210,7 @@ class QuizViewDetails extends Component {
       const course = values.cid;
       const title = values.title;
       const autocheck = quizzes.quiz.autocheck;
-      const body = JSON.stringify({
+      let body = JSON.stringify({
         quiz,
         course,
         questions,
@@ -219,7 +218,6 @@ class QuizViewDetails extends Component {
         autocheck,
       });
       axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
-        this.checkSubmission(quiz);
         this.props.history.push("/app/profile/profile");
       });
     }
@@ -228,7 +226,6 @@ class QuizViewDetails extends Component {
   async submitQuiz(e) {
     e.preventDefault();
     const items = this.state.Questions;
-    console.log(this.state.Questions);
     let questions = [];
     for (let i = items.length - 1; i > 0; i--) {
       let bool = questions.find((element) => element.id === items[i].id);
