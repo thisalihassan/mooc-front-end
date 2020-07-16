@@ -162,9 +162,8 @@ class TopNav extends Component {
               callerName: mess.name,
             });
           }
+          document.getElementById("call-sound").play();
         }
-
-        document.getElementById("call-sound").play();
       }
     });
     this.state.socket.on("ScreenShareCall", async (mess) => {
@@ -193,7 +192,7 @@ class TopNav extends Component {
     this.state.socket.on(
       "calloff",
       async ({ course, user, id, ownerclose }) => {
-        if (this.state.callStarted) {
+        if (this.state.callStarted || this.state.callModel) {
           const match = this.state.listCourse.find((u) => u === course);
           const match2 = this.props.user._id == user;
           if (match2 || (ownerclose && match)) {
