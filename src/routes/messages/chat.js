@@ -282,14 +282,14 @@ class ChatApplication extends Component {
     const myroom = myData.sort();
     const name = this.props.user.name;
     const userid = owner;
-    const URL = AURL + "?id=" + myroom[0] + "" + myroom[1] + "&u=join";
+    const URL = AURL + "?roomid=" + myroom[0] + "" + myroom[1] + "&u=join";
     const tuple = { userid, name, URL };
     socket.emit("CallRing", tuple, () =>
       this.setState({
         callModal: !this.state.callModal,
         videoURL:
           AURL +
-          "?id=" +
+          "?roomid=" +
           myroom[0] +
           "" +
           myroom[1] +
