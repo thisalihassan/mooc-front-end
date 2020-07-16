@@ -66,7 +66,9 @@ class AddNewSurveyModal extends Component {
     }
     if (this.state.file) {
       const format = this.state.file.name.split(".");
-      const match = fileTypes.find((i) => i === format[1]);
+      const match = fileTypes.find(
+        (i) => i === format[format.length - 1].toLowerCase()
+      );
       if (!match) {
         errors.file = "Please select a valid file format for assignment";
       } else if (this.state.file.size > fileMaxSize) {
