@@ -38,7 +38,7 @@ class ListItem extends React.Component {
               {this.props.roll === "teacher" ? (
                 <Link
                   to={`/app/myportal/viewassignment/${this.props.item._id}`}
-                  className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
+                  className="list-item-heading mb-0 w-40 w-xs-100  mb-1 mt-1"
                 >
                   <span className="align-middle d-inline-block">
                     {this.props.item.title}
