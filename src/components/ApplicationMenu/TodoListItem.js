@@ -20,13 +20,13 @@ class ListItem extends React.Component {
     const item = this.props.item;
     return (
       <Colxx xxs="12">
-        <Card className="card d-flex mb-3" id="rest">
+        <Card className="card d-flex flex-row mb-3" id="rest">
           <div className="d-flex flex-grow-1 min-width-zero">
             <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
               <NavLink
                 to="#"
                 id={`toggler${item._id}`}
-                className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
+                className="list-item-heading mb-0  w-40 w-xs-100  mb-1 mt-1"
               >
                 <span className="align-middle d-inline-block">
                   {this.props.name}
