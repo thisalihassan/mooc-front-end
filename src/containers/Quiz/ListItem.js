@@ -25,7 +25,7 @@ class ListItem extends React.Component {
               <NavLink
                 target="_blank"
                 to={`/app/myportal/openquiz/?id=${this.props.item._id}&cid=${this.props.item.course._id}&title=${this.props.item.title}`}
-                className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
+                className="list-item-heading mb-0 w-40 w-xs-100  mb-1 mt-1"
               >
                 <i className="" />
                 <span className="align-middle d-inline-block">
