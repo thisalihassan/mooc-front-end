@@ -45,6 +45,7 @@ class SurveyDetailApp extends Component {
     super(props);
     this.toggleTab = this.toggleTab.bind(this);
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.handleWindowClose = this.handleWindowClose.bind(this);
     this.state = {
       activeFirstTab: "1",
       dropdownSplitOpen: false,
@@ -69,6 +70,7 @@ class SurveyDetailApp extends Component {
     }
   }
   async componentDidMount() {
+    window.addEventListener("beforeunload", this.handleWindowClose);
     document.addEventListener(
       visibilityChange,
       this.handleVisibilityChange,
@@ -97,6 +99,7 @@ class SurveyDetailApp extends Component {
     });
   }
   handleVisibilityChange = () => {
+    console.log(document[hidden]);
     if (document[hidden]) {
       if (
         !this.state.isSubmitted &&
