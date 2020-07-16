@@ -53,15 +53,16 @@ class TheProfile extends React.Component {
   async RemoveAvatar(e) {
     e.preventDefault();
     await axios.post(URL + "api/auth/avatar", {}, config).then((res) => {
-      this.props.history.push("/");
+      this.props.editPicture("none");
     });
   }
-
+  editPicture(e) {
+    this.props.editPicture("none");
+  }
   async deleteCourse(e, id) {
     e.preventDefault();
     await axios.delete(URL + "api/Courses/delete/" + id, {}, config);
-
-    this.props.history.push("/");
+    this.props.courseget(id);
   }
   onChangePage(page) {
     const start = page * (page + 1);
@@ -108,7 +109,7 @@ class TheProfile extends React.Component {
                 <IntlMessages id="modal.modal-title" />
               </ModalHeader>
               <ModalBody>
-                <DropzoneExample />
+                <DropzoneExample editPicture = {e=>this.editPicture(e)} />
               </ModalBody>
             </Modal>
             <img src={profileImage} alt="img here" className="card-img-top" />

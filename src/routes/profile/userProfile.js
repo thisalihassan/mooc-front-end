@@ -79,6 +79,16 @@ class ProfilePortfolio extends Component {
       }
     }
   }
+  async getPorfileagain(e) {
+    this.props.getCurrentProfile();
+  }
+  async getCourseAgain(e) {
+    this.setState({ loading: true });
+    let id = this.props.user._id;
+    const body = JSON.stringify({ id });
+    const res = await axios.post(URL + "api/Courses/mycourses", body, config);
+    this.setState({ myCourses: res.data, loading: false });
+  }
   render() {
     const user = this.props.user;
     const { profile } = this.props.profile;
@@ -155,9 +165,11 @@ class ProfilePortfolio extends Component {
               <TabPane tabId="1">
                 {profile ? (
                   <PortfolioTab
+                    editPicture={(e) => this.getPorfileagain(e)}
+                    courseget={(e) => this.getCourseAgain(e)}
                     skills={profile.skills}
                     description={profile.description}
-                    user={user}
+                    user={profile.user}
                     major={profile.major}
                     education={profile.education}
                     myCourses={this.state.myCourses}

@@ -73,8 +73,8 @@ class DropzoneExample extends Component {
         const res = await axios.post(URL + "upload", formData, configg);
         const avatar = res.data;
         const body = JSON.stringify({ avatar });
-        console.log(avatar);
-        axios.post(URL + "api/auth/avatar", body, config);
+        await axios.post(URL + "api/auth/avatar", body, config);
+        this.props.editPicture("none");
       }
     },
   };
