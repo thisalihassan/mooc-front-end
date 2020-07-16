@@ -44,6 +44,7 @@ class SurveyDetailApp extends Component {
   constructor(props) {
     super(props);
     this.toggleTab = this.toggleTab.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     this.state = {
       activeFirstTab: "1",
       dropdownSplitOpen: false,
