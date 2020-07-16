@@ -7,10 +7,6 @@
         "build": "react-scripts build",
         "test": "mocha --require @babel/register --require src/test/dom.js --require src/test/helper.js --require ignore-styles src/test/*.test.js"
     },
-    "engines": {
-        "node": "12.16.0",
-        "npm": "6.14.0"
-    },
     "keywords": [
         "reactjs"
     ],
@@ -25,7 +21,6 @@
         "history": "^4.10.1",
         "html-react-parser": "^0.10.5",
         "jquery": "^3.4.1",
-        "lodash": "^4.17.19",
         "moment": "^2.24.0",
         "rc-switch": "^1.9.0",
         "react": "^16.13.1",
@@ -57,14 +52,10 @@
         "react-transition-group": "^1.2.0",
         "reactstrap": "8.1.1",
         "redux": "^4.0.5",
-        "redux-devtools-extension": "^2.13.8",
-        "redux-test-utils": "^0.3.0",
         "redux-thunk": "^2.3.0",
         "socket.io": "^2.3.0",
         "sortablejs": "^1.10.1",
-        "uuid": "^3.3.3",
-        "velocity-animate": "^1.5.2",
-        "velocity-react": "^1.4.3"
+        "uuid": "^3.3.3"
     },
     "browserslist": {
         "production": [
