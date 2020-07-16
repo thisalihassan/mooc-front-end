@@ -99,7 +99,6 @@ class SurveyDetailApp extends Component {
     });
   }
   handleVisibilityChange = () => {
-    console.log(document[hidden]);
     if (document[hidden]) {
       if (
         !this.state.isSubmitted &&
@@ -192,27 +191,38 @@ class SurveyDetailApp extends Component {
       return element.title === title;
     });
   }
-  studentSubmitQuiz = async () => {
-    document.getElementById("studentSubmit").disabled = true;
-    const items = this.state.myQuestions;
+  studentSubmitQuiz = () => {
+    let quizzes = this.props.quizzes;
+    let getsubmitbutton = document.getElementById("studentSubmit");
+    if (getsubmitbutton && quizzes) {
+      getsubmitbutton.disabled = true;
 
-    let questions = [];
-    for (let i = 0; i < items.length; i++) {
-      let bool = questions.find((element) => element.id === items[i].id);
-      if (!bool) {
-        questions.unshift(items[i]);
+      const items = this.state.myQuestions;
+
+      let questions = [];
+      for (let i = 0; i < items.length; i++) {
+        let bool = questions.find((element) => element.id === items[i].id);
+        if (!bool) {
+          questions.unshift(items[i]);
+        }
       }
+      const values = queryString.parse(this.props.location.search);
+      const quiz = values.id;
+      const course = values.cid;
+      const title = values.title;
+      const autocheck = quizzes.quiz.autocheck;
+      const body = JSON.stringify({
+        quiz,
+        course,
+        questions,
+        title,
+        autocheck,
+      });
+      axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
+        this.checkSubmission(quiz);
+        this.props.history.push("/app/profile/profile");
+      });
     }
-    const values = queryString.parse(this.props.location.search);
-    const quiz = values.id;
-    const course = values.cid;
-    const title = values.title;
-    const autocheck = this.props.quizzes.quiz.autocheck;
-    const body = JSON.stringify({ quiz, course, questions, title, autocheck });
-    axios.post(URL + "api/quiz/studentsubmit", body, config).then((data) => {
-      this.checkSubmission(quiz);
-      this.props.history.push("/app/profile/profile");
-    });
   };
 
   async submitQuiz(e) {
