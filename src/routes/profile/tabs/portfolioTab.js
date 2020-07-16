@@ -4,14 +4,12 @@ import {
   Row,
   Card,
   CardBody,
-  Button,
   Badge,
   CardSubtitle,
   CardText,
   CardImg,
   Modal,
   ModalHeader,
-  ModalFooter,
   ModalBody,
 } from "reactstrap";
 import moment from "moment";
