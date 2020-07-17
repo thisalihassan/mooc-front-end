@@ -109,22 +109,24 @@ class TheProfile extends React.Component {
                 <IntlMessages id="modal.modal-title" />
               </ModalHeader>
               <ModalBody>
-                <DropzoneExample editPicture = {e=>this.editPicture(e)} />
+                <DropzoneExample editPicture={(e) => this.editPicture(e)} />
               </ModalBody>
             </Modal>
             <img src={profileImage} alt="img here" className="card-img-top" />
 
-            {this.props.user && this.props.user.roll === "teacher" && (
-              <CardBody>
-                <h6>
-                  <IntlMessages id="pages.rating" />
-                </h6>
+            {this.props.user &&
+              this.props.user.roll &&
+              this.props.user.roll === "teacher" && (
+                <CardBody>
+                  <h6>
+                    <IntlMessages id="pages.rating" />
+                  </h6>
 
-                <div className="mb-3">
-                  <Rating total={5} rating={3} interactive={false} />
-                </div>
-              </CardBody>
-            )}
+                  <div className="mb-3">
+                    <Rating total={5} rating={3} interactive={false} />
+                  </div>
+                </CardBody>
+              )}
           </Card>
         </Colxx>
 
@@ -142,30 +144,32 @@ class TheProfile extends React.Component {
                   >
                     <Card className="course" id="course" key={course._id + "1"}>
                       <div className="position-relative">
-                        {this.props.user.roll.toLowerCase() === "teacher" && (
-                          <div className="position-absolute card-top-buttons">
-                            <Dropdown>
-                              <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
+                        {this.props.user &&
+                          this.props.user.roll &&
+                          this.props.user.roll.toLowerCase() === "teacher" && (
+                            <div className="position-absolute card-top-buttons">
+                              <Dropdown>
+                                <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
-                              <Dropdown.Menu>
-                                <Dropdown.Item
-                                  href={
-                                    "/app/mycourses/wizard/?id=" + course._id
-                                  }
-                                >
-                                  Edit
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  onClick={(e) =>
-                                    this.deleteCourse(e, course._id)
-                                  }
-                                >
-                                  Delete
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </div>
-                        )}
+                                <Dropdown.Menu>
+                                  <Dropdown.Item
+                                    href={
+                                      "/app/mycourses/wizard/?id=" + course._id
+                                    }
+                                  >
+                                    Edit
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    onClick={(e) =>
+                                      this.deleteCourse(e, course._id)
+                                    }
+                                  >
+                                    Delete
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </div>
+                          )}
                         <NavLink
                           to={"/app/mycourses/courseView/?id=" + course._id}
                           className="w-40 w-sm-100"
@@ -177,15 +181,17 @@ class TheProfile extends React.Component {
                           />
                         </NavLink>
 
-                        {this.props.user.roll.toLowerCase() === "teacher" && (
-                          <Badge
-                            color={course.statusColor}
-                            pill
-                            className="position-absolute badge-top-left"
-                          >
-                            {course.Approval}
-                          </Badge>
-                        )}
+                        {this.props.user &&
+                          this.props.user.roll &&
+                          this.props.user.roll.toLowerCase() === "teacher" && (
+                            <Badge
+                              color={course.statusColor}
+                              pill
+                              className="position-absolute badge-top-left"
+                            >
+                              {course.Approval}
+                            </Badge>
+                          )}
                       </div>
                       <CardBody>
                         <NavLink
