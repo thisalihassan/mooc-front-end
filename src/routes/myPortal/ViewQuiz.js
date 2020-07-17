@@ -111,6 +111,7 @@ class SurveyDetailApp extends Component {
                                 order={index + 1}
                                 {...item}
                                 roll="student"
+                                answerType={this.props.quiz.autocheck}
                                 answers={item.answers}
                                 myAnswer={item.myAnswer}
                                 expanded={!item.question && true}

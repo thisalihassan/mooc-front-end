@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 
 import { mapOrder } from "../../util/Utils";
 import { saveSurvey, saveQuiz } from "../../redux/actions";
-const answerTypes = [{ label: "Text Area", value: "1", id: 1 }];
+const answerTypes = { label: "Text Area", value: "1", id: 1 };
 const autocheck = { label: "Radiobutton", value: "2", id: 2 };
 class QuestionBuilder extends React.Component {
   constructor(props) {
@@ -267,29 +267,11 @@ class QuestionBuilder extends React.Component {
 
             {roll === "teacher" && (
               <Button
-                id="Tooltip-5"
                 color={"theme-3"}
-                style={
-                  this.state.shouldHide
-                    ? { background: "white" }
-                    : { display: "none" }
-                }
-                className={"icon ml-1"}
+                style={{ display: "none" }}
+                className={"icon ml-1 teachersubmitQuestion"}
                 onClick={(e) => this.submitQuestion(e)}
-              >
-                <Tooltip
-                  placement="top"
-                  isOpen={this.state.tooltipOpen5}
-                  target="Tooltip-5"
-                  toggle={this.ToolTiptoggle5}
-                >
-                  Submit Question
-                </Tooltip>
-                <i
-                  className="simple-icon-check"
-                  style={{ color: "red", fontSize: "30px" }}
-                />
-              </Button>
+              ></Button>
             )}
             {roll === "student" && (
               <Button
@@ -318,20 +300,6 @@ class QuestionBuilder extends React.Component {
                 </FormGroup>
                 <div className="separator mb-4 mt-4" />
 
-                {!this.props.answerType && (
-                  <FormGroup>
-                    <Label>Answer Type</Label>
-                    <Select
-                      components={{ Input: CustomSelectInput }}
-                      className="react-select"
-                      classNamePrefix="react-select"
-                      name="form-field-name"
-                      value={this.state.answerType}
-                      onChange={this.typeChange}
-                      options={answerTypes}
-                    />
-                  </FormGroup>
-                )}
                 {this.state.answers.length > 0 && <Label>Answers</Label>}
 
                 <Sortable
@@ -365,7 +333,7 @@ class QuestionBuilder extends React.Component {
                 </Sortable>
 
                 <div className="text-center">
-                  {this.state.answerType && this.state.answerType.id !== 1 && (
+                  {this.state.answerType && this.state.answerType.id === 2 && (
                     <Button className="mt-3" onClick={() => this.addAnswer()}>
                       <i className="simple-icon-plus btn-group-icon" /> Add
                       Answer

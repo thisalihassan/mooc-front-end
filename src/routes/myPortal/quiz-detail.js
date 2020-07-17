@@ -54,7 +54,6 @@ class QuizViewDetails extends Component {
       totalQuestions: [],
       myQuestions: [],
       Questions: [],
-      runTimes: 2,
       quiz: "",
       course: "",
       isSubmitted: false,
@@ -153,13 +152,9 @@ class QuizViewDetails extends Component {
         },
       ],
     }));
-    this.setState({ runTimes: 1 });
   }
 
-  addQuestion(id, qestion, type, answers, myAnswer) {
-    const { quiz } = this.props.quizzes;
-    var nextId = quiz.questions.length;
-    const newQuizItem = Object.assign({}, quiz);
+  SaveQuestion(id, qestion, type, answers, myAnswer) {
     if (id > 0) {
       this.setState((prevState) => ({
         Questions: [
@@ -174,17 +169,20 @@ class QuizViewDetails extends Component {
         ],
       }));
     }
-
+  }
+  addQuestion() {
+    const { quiz } = this.props.quizzes;
+    var nextId = quiz.questions.length;
+    const newQuizItem = Object.assign({}, quiz);
     newQuizItem.questions.push({
       id: nextId,
       question: "",
-      answerType: type,
+      answerType: quiz.autocheck ? 2 : 1,
       answers: "",
       myAnswer: "",
     });
     this.props.saveSurvey(newQuizItem);
   }
-
   find(array, title) {
     return array.find((element) => {
       return element.title === title;
@@ -236,6 +234,17 @@ class QuizViewDetails extends Component {
 
   async submitQuiz(e) {
     e.preventDefault();
+    let gettick = document.getElementsByClassName("teachersubmitQuestion");
+    for (let i = 0; i < gettick.length; i++) {
+      gettick[i].click();
+    }
+
+    await setTimeout(
+      function () {
+        console.log("this.state.myQuestions");
+      }.bind(this),
+      1500
+    );
     const items = this.state.Questions;
     let questions = [];
     for (let i = items.length - 1; i > 0; i--) {
@@ -391,7 +400,7 @@ class QuizViewDetails extends Component {
                                       answers,
                                       myAnswer
                                     ) => {
-                                      this.addQuestion(
+                                      this.SaveQuestion(
                                         id,
                                         qestion,
                                         type,
@@ -440,28 +449,25 @@ class QuizViewDetails extends Component {
                                         myans
                                       );
                                     }}
-                                    runTimes={this.state.runTimes}
                                   />
                                 </li>
                               );
                             })}
                           </ul>
                         )}
-                        {quiz &&
-                          quiz.questions.length === 0 &&
-                          roll === "teacher" && (
-                            <div className="text-center">
-                              <Button
-                                outline
-                                color="primary"
-                                className="mt-3"
-                                onClick={() => this.addQuestion()}
-                              >
-                                <i className="simple-icon-plus btn-group-icon" />{" "}
-                                Add Question
-                              </Button>
-                            </div>
-                          )}
+                        {quiz && roll === "teacher" && (
+                          <div className="text-center">
+                            <Button
+                              outline
+                              color="primary"
+                              className="mt-3"
+                              onClick={() => this.addQuestion()}
+                            >
+                              <i className="simple-icon-plus btn-group-icon" />{" "}
+                              Add Question
+                            </Button>
+                          </div>
+                        )}
                       </Colxx>
                     </Row>
                   </TabPane>
