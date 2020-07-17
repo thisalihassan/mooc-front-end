@@ -151,7 +151,7 @@ class Profile extends React.Component {
     e.preventDefault();
     const major = this.state.major;
     const body = { major };
-    this.props.createProfile(body, true);
+    await this.props.createProfile(body, true);
     this.state.infoUpdate = true;
     this.informationSection();
   }
@@ -173,6 +173,7 @@ class Profile extends React.Component {
       await this.props.addEducation(body);
     }
 
+    await this.props.getCurrentProfile();
     this.setState({
       eduId: "",
       fieldofstudy: "",
@@ -180,7 +181,6 @@ class Profile extends React.Component {
       from: "",
       to: "",
     });
-    this.props.getCurrentProfile();
   }
   async submitWork(e) {
     const company = this.state.company;
@@ -196,8 +196,9 @@ class Profile extends React.Component {
       const body = { company, from, position, to };
       await this.props.addWork(body);
     }
+
+    await this.props.getCurrentProfile();
     this.setState({ wid: "", company: "", position: "", wfrom: "", wto: "" });
-    this.props.getCurrentProfile();
   }
   handleTagChange = (skills) => {
     this.setState({ skills });
@@ -207,16 +208,16 @@ class Profile extends React.Component {
     const skills = this.state.skills;
     const body = { skills };
     await this.props.createProfile(body, true);
+    await this.props.getCurrentProfile();
     this.setState({ infoUpdate: true });
-    this.props.getCurrentProfile();
   }
-  deleteEducation(e, id) {
+  async deleteEducation(e, id) {
     e.preventDefault();
-    this.props.deleteEducation(id);
+    await this.props.deleteEducation(id);
   }
-  deleteWork(e, id) {
+  async deleteWork(e, id) {
     e.preventDefault();
-    this.props.deleteWork(id);
+    await this.props.deleteWork(id);
   }
   updateEducation(e, id) {
     e.preventDefault();
@@ -314,8 +315,8 @@ class Profile extends React.Component {
     const description = this.state.description;
     const body = { description };
     await this.props.createProfile(body, true);
+    await this.props.getCurrentProfile();
     this.setState({ infoUpdate: true });
-    this.props.getCurrentProfile();
   }
   educationForm() {
     return (
