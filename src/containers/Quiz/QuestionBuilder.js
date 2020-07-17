@@ -145,7 +145,7 @@ class QuestionBuilder extends React.Component {
       case 1:
         return (
           <Input
-            type="text"
+            type="textarea"
             value={this.state.myAnswer}
             onChange={(val) => {
               this.setState({ myAnswer: val.target.value });
