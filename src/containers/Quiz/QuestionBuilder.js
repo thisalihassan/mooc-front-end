@@ -80,7 +80,7 @@ class QuestionBuilder extends React.Component {
     this.setState({ collapse: !this.state.collapse });
   };
 
-  submitQuestion() {
+  submitQuestion(e) {
     console.log(this.state.myAnswer);
     this.setState({ shouldHide: false });
     console.log(this.props.id);
@@ -275,7 +275,7 @@ class QuestionBuilder extends React.Component {
                     : { display: "none" }
                 }
                 className={"icon ml-1"}
-                onClick={() => this.submitQuestion()}
+                onClick={(e) => this.submitQuestion(e)}
               >
                 <Tooltip
                   placement="top"
@@ -293,25 +293,11 @@ class QuestionBuilder extends React.Component {
             )}
             {roll === "student" && (
               <Button
-                style={{ background: "white" }}
-                id="Tooltip-6"
+                style={{ background: "white", display: "none" }}
                 color={"theme-3"}
-                className="icon ml-1"
-                onClick={() => this.submitQuestion()}
-              >
-                <Tooltip
-                  placement="top"
-                  isOpen={this.state.tooltipOpen6}
-                  target="Tooltip-6"
-                  toggle={this.ToolTiptoggle6}
-                >
-                  Submit Question
-                </Tooltip>
-                <i
-                  className="simple-icon-check"
-                  style={{ color: "red", fontSize: "30px" }}
-                />
-              </Button>
+                className="icon ml-1 studentsubmit"
+                onClick={(e) => this.submitQuestion(e)}
+              ></Button>
             )}
           </div>
         </div>

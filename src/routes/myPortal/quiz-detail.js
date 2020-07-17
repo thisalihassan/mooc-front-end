@@ -190,12 +190,23 @@ class QuizViewDetails extends Component {
       return element.title === title;
     });
   }
-  studentSubmitQuiz = () => {
+  studentSubmitQuiz = async () => {
     let quizzes = this.props.quizzes;
     let getsubmitbutton = document.getElementById("studentSubmit");
     if (getsubmitbutton && quizzes) {
       getsubmitbutton.disabled = true;
-      console.log("is hee");
+      let gettick = document.getElementsByClassName("studentsubmit");
+      for (let i = 0; i < gettick.length; i++) {
+        gettick[i].click();
+      }
+
+      await setTimeout(
+        function () {
+          console.log("this.state.myQuestions");
+        }.bind(this),
+        1500
+      );
+      console.log(this.state.myQuestions);
       const items = this.state.myQuestions;
 
       let questions = [];
