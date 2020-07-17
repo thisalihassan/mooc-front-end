@@ -279,7 +279,10 @@ class QuizViewDetails extends Component {
   deleteQuestion(id) {
     this.props.deleteQuizQuestion(id, this.props.quizzes.quiz);
   }
-
+  async deleteStudentQuiz(e, id) {
+    await axios.post(URL + "api/quiz/deletequiz/" + id, {}, config);
+    await this.props.findSolvedQuiz(this.state.course, this.state.quiz);
+  }
   render() {
     const { quiz, loading } = this.props.quizzes;
     let roll;
@@ -501,19 +504,30 @@ class QuizViewDetails extends Component {
                                       {item.user.name}
                                     </span>
                                   </Link>
-
-                                  <Button
-                                    outline
-                                    color="primary"
-                                    className="mt-3"
-                                  >
-                                    <Link
-                                      to={`/app/myportal/viewquiz/${item._id}`}
-                                      target="_blank"
+                                  <div>
+                                    <Button
+                                      outline
+                                      color="primary"
+                                      className="mt-3"
                                     >
-                                      Open Quiz
-                                    </Link>
-                                  </Button>
+                                      <Link
+                                        to={`/app/myportal/viewquiz/${item._id}`}
+                                        target="_blank"
+                                      >
+                                        Open Quiz
+                                      </Link>
+                                    </Button>
+                                    <br></br>
+                                    <Button
+                                      outline
+                                      className="mt-3"
+                                      onClick={(e) =>
+                                        this.deleteStudentQuiz(e, item._id)
+                                      }
+                                    >
+                                      Delete Quiz
+                                    </Button>
+                                  </div>
                                 </CardBody>
                               </div>
                             </Card>
