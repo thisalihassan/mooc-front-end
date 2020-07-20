@@ -489,7 +489,8 @@ class ChatApplication extends Component {
           this.state.room +
           "&u=" +
           this.props.user._id +
-          "&s=video&q=join",
+          "&s=video&q=join&n=" +
+          this.state.roomName,
       });
     } else {
       alert("You are already in a call!!");
