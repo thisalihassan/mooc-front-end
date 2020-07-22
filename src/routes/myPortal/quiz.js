@@ -135,61 +135,34 @@ class Quiz extends Component {
       <Fragment>
         <Row className="app-row survey-app">
           <Colxx xxs="12">
-            <div className="mb-2">
-              <h1>
-                <IntlMessages id="menu.quizes" />
-              </h1>
+            <table>
+              <tr>
+                <td>
+                  <div className="announcement">
+                    <h2>
+                      <IntlMessages id="menu.quizes" />
+                    </h2>
+                  </div>
+                </td>
+                <td>
+                  {this.props.user && this.props.user.roll === "teacher" && (
+                    <div className="float-sm-right">
+                      <Button
+                        size="lg"
+                        float="right"
+                        onClick={this.toggleModal}
+                      >
+                        <IntlMessages id="quizes.add-new" />
+                      </Button>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </table>
 
-              {this.props.user && this.props.user.roll === "teacher" && (
-                <div className="float-sm-right">
-                  <Button
-                    size="lg"
-                    className="top-right-button mr-1"
-                    onClick={this.toggleModal}
-                  >
-                    <IntlMessages id="quizes.add-new" />
-                  </Button>
-                </div>
-              )}
-            </div>
-
-            <div className="mb-2">
-              <Button
-                id="displayOptions"
-                className="pt-0 pl-0 d-inline-block d-md-none"
-                onClick={this.toggleDisplayOptions}
-              >
-                <IntlMessages id="survey.display-options" />{" "}
-                <i className="simple-icon-arrow-down align-middle" />
-              </Button>
-
-              <Collapse
-                className="d-md-block"
-                isOpen={this.state.displayOptionsIsOpen}
-              >
-                <div className="d-block mb-2 d-md-inline-block">
-                  {/* <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                    <DropdownToggle caret color="outline-dark" size="xs">
-                      <IntlMessages id="quizes.orderby" />
-                      {orderColumn ? orderColumn.label : ""}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {orderColumns.map((o, index) => {
-                        return (
-                          <DropdownItem
-                            key={index}
-                            onClick={() => this.changeOrderBy(o.column)}
-                          >
-                            {o.label}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  </UncontrolledDropdown> */}
-                </div>
-              </Collapse>
-            </div>
+            <div className="mb-2"></div>
             <Separator className="mb-5" />
+
             <Row>
               {loading ? (
                 surveyItems.map((item, index) => {
