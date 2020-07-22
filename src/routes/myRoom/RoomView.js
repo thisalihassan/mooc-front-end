@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import IntlMessages from "../../util/IntlMessages";
 import { injectIntl } from "react-intl";
+import AttachmentModel from "./AttachmentModel";
 import "./table.css";
 import {
   Row,

@@ -11,7 +11,7 @@ import { injectIntl } from "react-intl";
 import { BottomNavigation } from "../../components/wizard/BottomNavigation";
 import { TopNavigation } from "../../components/wizard/TopNavigation";
 import { Formik, Form, Field } from "formik";
-import { login } from "../../redux/actions";
+import { login, setAlert } from "../../redux/actions";
 import { URL, config } from "../../constants/defaultValues";
 import axios from "axios";
 import "react-quill/dist/quill.snow.css";
@@ -152,7 +152,7 @@ export class Basic extends Component {
     let formIndex = steps.indexOf(step);
     let form = this.state.fields[formIndex].form.current;
     let name = this.state.fields[formIndex].name;
-    form.submitForm().then(() => {
+    form.submitForm().then(async () => {
       let fields = this.state.fields;
       fields[formIndex].value = form.state.values[name];
       fields[formIndex].valid = form.state.errors[name] ? false : true;
@@ -160,8 +160,21 @@ export class Basic extends Component {
       if (!form.state.errors[name]) {
         if (name === "email") {
           let email = this.state.fields[formIndex].value;
+          console.log(email);
           const body = JSON.stringify({ email });
-          axios.post(URL + "api/auth/resend", body, config);
+          try {
+            await axios.post(URL + "api/auth/resend", body, config);
+
+            this.props.setAlert("Verification code has been resend", "success");
+          } catch (err) {
+            const errors = err.response.data.errors;
+
+            if (errors) {
+              errors.forEach((error) =>
+                this.props.setAlert(error.msg, "danger")
+              );
+            }
+          }
         }
         goToNext();
         step.isDone = true;
@@ -374,5 +387,5 @@ const mapStateToProps = ({ auth }) => {
   };
 };
 export default injectIntl(
-  withRouter(connect(mapStateToProps, { login })(Basic))
+  withRouter(connect(mapStateToProps, { login, setAlert })(Basic))
 );
