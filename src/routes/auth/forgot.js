@@ -163,6 +163,10 @@ export class Basic extends Component {
           console.log(email);
           const body = JSON.stringify({ email });
           try {
+            this.props.setAlert(
+              "Please wait we are sending you email",
+              "success"
+            );
             await axios.post(URL + "api/auth/resend", body, config);
 
             this.props.setAlert("Verification code has been resend", "success");
