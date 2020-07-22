@@ -488,9 +488,7 @@ export class DetailsPages extends Component {
               toggle={this.VideoModal}
               backdrop="static"
             >
-              <ModalHeader toggle={this.VideoModal}>
-                <IntlMessages id="survey.add-new-title" />
-              </ModalHeader>
+              <ModalHeader toggle={this.VideoModal}>View Video</ModalHeader>
               <ModalBody>
                 <VideoPlayer
                   autoplay={false}
