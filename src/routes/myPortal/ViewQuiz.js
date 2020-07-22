@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Row, Button } from "reactstrap";
 import { withRouter } from "react-router-dom";
-import { Colxx } from "../../components/CustomBootstrap";
+import { Colxx, Separator } from "../../components/CustomBootstrap";
 import QuestionBuilder from "../../containers/Quiz/QuestionBuilder";
 import {
   getQuizDetail,
@@ -68,26 +68,32 @@ class SurveyDetailApp extends Component {
                 {this.props.quiz && this.props.quiz.course.name}
               </span>
             </h1>
+            <Separator className="mb-5" />
             <div>
               <Row>
-                <Button
-                  outline
-                  className="top-right-button top-right-button-single "
-                  size="lg"
-                  onClick={(e) => this.setMarks(e)}
-                >
-                  Mark Quiz
-                </Button>
-              </Row>
-              <Row>
-                <input
-                  type="Number"
-                  value={this.state.marks}
-                  min="0"
-                  onChange={(val) => {
-                    this.setState({ marks: val.target.value });
-                  }}
-                />
+                <table id="quiz">
+                  <tr>
+                    <td>
+                      <Button
+                        className="top-right-button top-right-button-single "
+                        size="lg"
+                        onClick={(e) => this.setMarks(e)}
+                      >
+                        Mark Quiz
+                      </Button>
+                    </td>
+                    <td>
+                      <input
+                        type="Number"
+                        value={this.state.marks}
+                        min="0"
+                        onChange={(val) => {
+                          this.setState({ marks: val.target.value });
+                        }}
+                      />
+                    </td>
+                  </tr>
+                </table>
               </Row>
             </div>
 

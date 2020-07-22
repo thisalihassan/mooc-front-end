@@ -29,7 +29,7 @@ class Quiz extends Component {
       modalOpen: false,
       firstTime: true,
       lastChecked: null,
-      displayOptionsIsOpen: false,
+
       listCourse: [],
       title: null,
       course: null,
@@ -65,9 +65,6 @@ class Quiz extends Component {
       }
     }
   }
-  toggleDisplayOptions = () => {
-    this.setState({ displayOptionsIsOpen: !this.state.displayOptionsIsOpen });
-  };
 
   toggleModal = () => {
     this.setState({
@@ -91,10 +88,6 @@ class Quiz extends Component {
     this.setState((prevState) => ({
       dropdownSplitOpen: !prevState.dropdownSplitOpen,
     }));
-  };
-
-  changeOrderBy = (column) => {
-    this.props.getSurveyListWithOrder(column);
   };
 
   async deleteQuiz(id) {

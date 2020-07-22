@@ -27,7 +27,7 @@ class Assignment extends Component {
       modalOpen: false,
       firstTime: true,
       lastChecked: null,
-      displayOptionsIsOpen: false,
+
       listCourse: [],
       id: null,
       file: null,
@@ -61,9 +61,6 @@ class Assignment extends Component {
       }
     }
   }
-  toggleDisplayOptions = () => {
-    this.setState({ displayOptionsIsOpen: !this.state.displayOptionsIsOpen });
-  };
 
   toggleModal = () => {
     this.setState({
@@ -124,36 +121,35 @@ class Assignment extends Component {
       <Fragment>
         <Row className="app-row survey-app">
           <Colxx xxs="12">
-            <div className="mb-2">
-              <h1>
-                <IntlMessages id="menu.assignment" />
-              </h1>
+            <table>
+              <tr>
+                <td>
+                  <div className="announcement">
+                    <h2>
+                      <IntlMessages id="menu.assignment" />
+                    </h2>
+                  </div>
+                </td>
 
-              {this.props.user && this.props.user.roll === "teacher" && (
-                <div className="float-sm-right">
-                  <Button
-                    size="lg"
-                    className="top-right-button mr-1"
-                    onClick={this.toggleModal}
-                  >
-                    <IntlMessages id="assignment.add-new" />
-                  </Button>
-                </div>
-              )}
-            </div>
+                <td>
+                  {this.props.user && this.props.user.roll === "teacher" && (
+                    <div className="float-sm-right">
+                      <Button
+                        size="small"
+                        className="top-right-button mr-1"
+                        onClick={this.toggleModal}
+                      >
+                        <IntlMessages id="assignment.add-new" />
+                      </Button>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </table>
 
-            <div className="mb-2">
-              <Button
-                color="empty"
-                id="displayOptions"
-                className="pt-0 pl-0 d-inline-block d-md-none"
-                onClick={this.toggleDisplayOptions}
-              >
-                <IntlMessages id="survey.display-options" />{" "}
-                <i className="simple-icon-arrow-down align-middle" />
-              </Button>
-            </div>
+            <div className="mb-2"></div>
             <Separator className="mb-5" />
+
             <Row>
               {selectedassignments &&
                 selectedassignments.map((item, index) => {

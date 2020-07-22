@@ -342,14 +342,14 @@ class ChatApplication extends Component {
                 </div>
                 <div className="float-sm-right mb-2">
                   <Button
-                    outline
-                    className="top-right-button top-right-button-single flex-grow-1"
+                    className="top-right-botton mr-1"
                     size="lg"
                     onClick={() => this.deletConversation()}
                   >
                     Delete
                   </Button>
-                </div>{" "}
+                </div>
+                <br></br>
                 <div className="float-sm-right mb-2">
                   <Button
                     onClick={() =>

@@ -166,7 +166,7 @@ class QuestionBuilder extends React.Component {
                   }}
                   name={`radio${this.state.id}`}
                   id={`radio${this.state.id}_${answer.id}`}
-                  label={answer.label}
+                  label={"....." + answer.label}
                 />
               );
             })}

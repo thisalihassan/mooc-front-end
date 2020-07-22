@@ -66,6 +66,11 @@ Table of Contents
     border: 3px solid green;
 }
 
+#quiz {
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
 #nav {
     margin-bottom: 10px;
     padding-bottom: 10px;
@@ -77,12 +82,14 @@ Table of Contents
     min-width: 645px;
     min-height: 300px;
 }
-#land{
+
+#land {
     height: 100px;
     padding-top: 0px;
     padding-bottom: 0px;
 }
-#spb{
+
+#spb {
     margin-top: 29px;
     width: 150px;
     border-radius: 10px;
@@ -91,13 +98,12 @@ Table of Contents
     padding-top: 7px;
     letter-spacing: 2px;
     margin-right: 15px;
- 
-    
 }
-#cate{
-  
+
+#cate {
     margin-top: 30px;
 }
+
 #courseDetails {
     object-fit: cover;
     max-width: 745px;
@@ -512,7 +518,8 @@ p {
     font-size: 0.76rem;
     line-height: 0.9rem;
 }
-#img{
+
+#img {
     margin-top: 0px;
     padding-top: 0px;
     margin-bottom: 0px;
