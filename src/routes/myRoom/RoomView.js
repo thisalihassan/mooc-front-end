@@ -61,6 +61,7 @@ class ChatApplication extends Component {
       guidelines: "",
       recording: false,
       autozoom: false,
+      modalOpen2: false,
     };
   }
 
@@ -262,6 +263,19 @@ class ChatApplication extends Component {
       );
     }
   }
+  reterieveURL = (e) => {
+    const myroom = this.state.room;
+    var msg = e.url + "*" + e.filename;
+    const check = true;
+    const id = this.props.user._id;
+    const timeStamp = moment().format("D MMM YY hh:mm a");
+    const tuple = { myroom, msg, check, id, timeStamp };
+    this.state.socket.emit("sendMessage", tuple, () =>
+      this.setState({
+        messageInput: "",
+      })
+    );
+  };
   sendMessage2(event) {
     if (event.key === "Enter") {
       if (this.state.messageInput !== "") {
@@ -518,6 +532,12 @@ class ChatApplication extends Component {
       });
     }
   }
+  toggleModal = () => {
+    this.setState({
+      modalOpen2: !this.state.modalOpen2,
+    });
+  };
+
   render() {
     const owner = this.state.roomCreator;
     console.log(owner);
@@ -674,12 +694,19 @@ class ChatApplication extends Component {
             <div>
               <Button
                 outline
+                onClick={this.toggleModal}
                 color={"primary"}
                 className="icon-button large ml-1"
               >
                 <i className="simple-icon-paper-clip" />
               </Button>
-
+              <AttachmentModel
+                toggleModal={this.toggleModal}
+                reterieveURL={(e) => {
+                  this.reterieveURL(e);
+                }}
+                modalOpen={this.state.modalOpen2}
+              />
               <Button
                 color={"primary"}
                 className="icon-button large ml-1"
