@@ -189,18 +189,18 @@ Table of Contents
 
 @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
 $main-menu-item-height: 103px;
-$main-menu-width: 100px;
-$main-menu-width-lg: 100px;
+$main-menu-width: 90px;
+$main-menu-width-lg: 90px;
 $main-menu-width-md: 90px;
 $main-menu-width-xs: 80px;
-$sub-menu-width: 230px;
-$sub-menu-width-lg: 230px;
-$sub-menu-width-md: 230px;
-$sub-menu-width-xs: 230px;
-$navbar-height: 67px;
-$navbar-height-xs: 67px;
-$navbar-height-md: 67px;
-$navbar-height-lg: 67px;
+$sub-menu-width: 200px;
+$sub-menu-width-lg: 200px;
+$sub-menu-width-md: 200px;
+$sub-menu-width-xs: 200px;
+$navbar-height: 60px;
+$navbar-height-xs: 60px;
+$navbar-height-md: 60px;
+$navbar-height-lg: 60px;
 $main-margin: 60px;
 $main-margin-lg: 50px;
 $main-margin-md: 40px;
@@ -1791,8 +1791,8 @@ button {
         }
     }
     .navbar-logo {
-        width: 250px;
-        height: 36px;
+        width: 235px;
+        height: 29px;
         position: absolute;
         left: 0;
         right: 0;
@@ -1831,7 +1831,7 @@ button {
     }
     .search {
         position: relative;
-        width: $sub-menu-width;
+        width: 300px;
         border-radius: 20px;
         background: $background-color;
         input {
