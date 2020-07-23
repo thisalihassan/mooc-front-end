@@ -31,7 +31,7 @@ export class MyApplicationMenu extends Component {
             </p>
             <ul className="list-unstyled mb-5">
               <NavItem className={classnames({ active: !filter })}>
-                <NavLink to="#" onClick={(e) => this.addFilter("", "")}>
+                <NavLink id="filter" to="#" onClick={(e) => this.addFilter("", "")}>
                   All Items
                 </NavLink>
               </NavItem>
@@ -42,6 +42,7 @@ export class MyApplicationMenu extends Component {
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink
+                      id="filter"
                         to="#"
                         onClick={(e) => this.addFilter("course", itemData._id)}
                       >

@@ -717,7 +717,7 @@ class ChatApplication extends Component {
               </Button>
             </div>
           </div>
-          <ApplicationMenu>
+          <ApplicationMenu id="roomright">
             <CardHeader className="pl-0 pr-0">
               <Nav tabs className="card-header-tabs ml-0 mr-0">
                 <NavItem className="w-50 text-center">
@@ -762,33 +762,33 @@ class ChatApplication extends Component {
                   options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   <div className="pt-2 pr-4 pl-4 pb-2">
-                    <h3>Guidelines</h3>
+                    <h3 id="roo">Guidelines</h3>
 
-                    <p>{this.state.guidelines}</p>
-                    <br></br>
+                    <p id="roo">{this.state.guidelines}</p>
+                    
                     <Separator></Separator>
                     <br></br>
-                    <NavLink
+                    <NavLink id="filter"
                       to={"/app/myrooms/roomview/?id=" + this.state.room}
                       onClick={(e) => this.leaveRoom(e)}
                     >
-                      <h3> Leave Room</h3>
+                      <h6 id="filter"> Leave Room</h6>
                     </NavLink>
 
                     <br></br>
-                    <NavLink
+                    <NavLink id="filter"
                       to={"/app/myrooms/roomview/?id=" + this.state.room}
                       onClick={(e) => this.deletConversation(e)}
                     >
-                      <h6> Delete Conversation</h6>
+                      <h6 id="filter"> Delete Conversation</h6>
                     </NavLink>
                   </div>
                   <Formik initialValues={{}}>
                     {() => (
                       <Form className="pt-2 pr-4 pl-4 pb-2">
-                        <p>Note: Only one can be turned on</p>
+                        <p id="roo">Note: Only one can be turned on</p>
                         <FormGroup>
-                          <Label className="d-block">
+                          <Label className="d-block" id="roo">
                             <IntlMessages id="form-components.autozoom" />
                           </Label>
                           <FormikSwitch
@@ -800,7 +800,7 @@ class ChatApplication extends Component {
                           />
                         </FormGroup>
                         <FormGroup>
-                          <Label className="d-block">
+                          <Label className="d-block" id="roo">
                             <IntlMessages id="form-components.recording" />
                           </Label>
                           <FormikSwitch
@@ -842,7 +842,7 @@ class ChatApplication extends Component {
                                         <div className="d-flex flex-grow-1 min-width-zero">
                                           <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
-                                              <p className="mb-0 truncate">
+                                              <p className="mb-0 truncate" id="filter">
                                                 {owner._id === item._id
                                                   ? item.name + " (Teacher)"
                                                   : item.name}
@@ -856,6 +856,7 @@ class ChatApplication extends Component {
                                           <div className="m-3 pl-3 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
                                               <Link
+                                              id="filter"
                                                 to={
                                                   "/app/myrooms/roomview/?id=" +
                                                   this.state.room

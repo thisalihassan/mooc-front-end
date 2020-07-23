@@ -55,7 +55,7 @@ export default class ApplicationMenu extends React.Component {
       <div className={`app-menu ${this.state.isOpen ? 'shown' : ''}`}>
         {this.props.children}
 
-        <NavLink
+        <NavLink id="roomright"
           className="app-menu-button d-inline-block d-xl-none"
           onClick={this.toggle}
         >

@@ -431,7 +431,7 @@ class TopNav extends Component {
       let profileImage = user.avatar;
 
       return (
-        <nav className="navbar fixed-top">
+        <nav className="navbar fixed-top" id="filter">
           <NavLink
             to="#"
             className="menu-button d-none d-md-block"
@@ -520,8 +520,6 @@ class TopNav extends Component {
 
           <a className="navbar-logo" href="/app/">
             <Image className="Logo" src={Logo}></Image>
-            {/* <span className="logo d-none d-xs-block" />
-            <span className="logo-mobile d-block d-xs-none" /> */}
           </a>
 
           <div className="ml-auto">

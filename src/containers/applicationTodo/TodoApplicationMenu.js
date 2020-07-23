@@ -27,7 +27,7 @@ class TodoApplicationMenu extends Component {
             </p>
             <ul className="list-unstyled mb-5">
               <NavItem className={classnames({ active: !filter })}>
-                <NavLink to="#" onClick={(e) => this.addFilter("", "")}>
+                <NavLink     to="#" onClick={(e) => this.addFilter("", "")} id="filter">
                   All Items
                 </NavLink>
               </NavItem>
@@ -38,6 +38,7 @@ class TodoApplicationMenu extends Component {
                   return (
                     <NavItem className={classnames({ active: match })}>
                       <NavLink
+                      id="filter"
                         to="#"
                         onClick={(e) => this.addFilter("course", itemData._id)}
                       >

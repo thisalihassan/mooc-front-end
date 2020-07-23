@@ -114,6 +114,7 @@ class ChatApplication extends Component {
                             }}
                             readOnly={this.state.mydescription}
                           />
+                          <br></br>
                           <Button
                             onClick={() =>
                               this.replyComplaint(index, item.user)

@@ -510,7 +510,7 @@ class ChatApplication extends Component {
                             <div className="d-flex flex-grow-1 min-width-zero">
                               <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                 <div className="min-width-zero">
-                                  <p className="mb-0 truncate">{item.name}</p>
+                                  <p className="mb-0 truncate" id="filter">{item.name}</p>
                                 </div>
                               </div>
                             </div>

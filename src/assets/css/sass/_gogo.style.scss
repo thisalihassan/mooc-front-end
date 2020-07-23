@@ -66,6 +66,14 @@ Table of Contents
     border: 3px solid green;
 }
 
+#roomright {
+    background-color: white;
+}
+
+#roo {
+    color: whitesmoke;
+}
+
 #quiz {
     margin-bottom: 20px;
     margin-left: 10px;
@@ -74,6 +82,22 @@ Table of Contents
 #nav {
     margin-bottom: 10px;
     padding-bottom: 10px;
+}
+
+#filter:hover {
+    color: $theme-color-1;
+}
+
+#filter:active {
+    color: $theme-color-1;
+}
+
+#filter:focus {
+    color: $theme-color-1;
+}
+
+#filter {
+    color: whitesmoke;
 }
 
 #z {
@@ -151,6 +175,7 @@ Table of Contents
 #course {
     min-height: 280px;
     max-height: 280px;
+    background-color: #eaedf3;
     min-width: 240px;
     max-width: 240px;
     border-radius: 0.625rem;
@@ -172,10 +197,10 @@ $sub-menu-width: 230px;
 $sub-menu-width-lg: 230px;
 $sub-menu-width-md: 230px;
 $sub-menu-width-xs: 230px;
-$navbar-height: 97px;
+$navbar-height: 67px;
 $navbar-height-xs: 67px;
-$navbar-height-md: 77px;
-$navbar-height-lg: 87px;
+$navbar-height-md: 67px;
+$navbar-height-lg: 67px;
 $main-margin: 60px;
 $main-margin-lg: 50px;
 $main-margin-md: 40px;
@@ -220,6 +245,7 @@ html {
     --theme-color-6-10: #{rgba($theme-color-6, 0.1)};
     --primary-color: #{$primary-color};
     --foreground-color: #{$foreground-color};
+    --write-color: #{$write-color};
     --separator-color: #{$separator-color};
 }
 
@@ -1670,7 +1696,7 @@ button {
 /* 09.Navbar*/
 
 .navbar {
-    background: $foreground-color;
+    background: white;
     height: $navbar-height;
     @include depth(1);
     #notificationDropdown {
@@ -1765,8 +1791,8 @@ button {
         }
     }
     .navbar-logo {
-        width: 150px;
-        height: 50px;
+        width: 250px;
+        height: 36px;
         position: absolute;
         left: 0;
         right: 0;
@@ -2036,7 +2062,7 @@ button {
                 font-style: normal;
                 font-weight: 400;
                 border-bottom: 1px solid $separator-color-light;
-                color: $primary-color;
+                color: whitesmoke;
                 transition: color $menu-collapse-time;
                 transition: background $menu-collapse-time;
                 &:hover,
@@ -2128,6 +2154,7 @@ button {
                     display: block;
                     padding: 8px 0;
                     margin-bottom: 10px;
+                    color: whitesmoke;
                 }
                 i {
                     font-size: 1.3em;
@@ -3516,7 +3543,7 @@ div[data-notify="container"] {
     padding: 0.5rem 1rem;
     font-size: 0.76rem;
     color: $primary-color;
-    background: $foreground-color;
+    background: white;
     border: 1px solid $theme-color-1;
     text-align: center;
     width: unset !important;
@@ -3546,7 +3573,7 @@ div[data-notify="container"] {
         margin-left: 50%;
         width: 10px;
         height: 5px;
-        border-bottom: solid 5px $foreground-color;
+        border-bottom: solid 5px white;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
     }
@@ -3593,7 +3620,7 @@ div[data-notify="container"] {
         position: absolute;
         top: initial;
         bottom: -4px;
-        border-top: solid 5px $foreground-color;
+        border-top: solid 5px white;
         border-bottom: initial;
     }
 }
@@ -3620,7 +3647,7 @@ div[data-notify="container"] {
         position: absolute;
         top: initial;
         bottom: -4px;
-        border-top: solid 5px $foreground-color;
+        border-top: solid 5px white;
         border-bottom: initial;
         left: initial;
         right: 25px;
@@ -3650,7 +3677,7 @@ div[data-notify="container"] {
         position: absolute;
         top: initial;
         bottom: -4px;
-        border-top: solid 5px $foreground-color;
+        border-top: solid 5px white;
         border-bottom: initial;
         left: 25px;
         right: initial;
@@ -3687,7 +3714,7 @@ div[data-notify="container"] {
         border: initial;
         border-top: solid 5px transparent;
         border-bottom: solid 5px transparent;
-        border-right: solid 5px $foreground-color;
+        border-right: solid 5px white;
         bottom: initial;
         top: 12px;
         width: 5px;
@@ -3941,7 +3968,7 @@ select.form-control:not([size]):not([multiple]) {
     z-index: 20;
     box-shadow: initial;
     margin-top: -1px;
-    background: $foreground-color;
+    background: white;
     position: absolute;
     width: 100%;
     box-sizing: border-box;
@@ -3960,12 +3987,12 @@ select.form-control:not([size]):not([multiple]) {
     font-size: inherit;
     padding: 8px 12px;
     width: 100%;
-    background: $foreground-color !important;
+    background: white !important;
     color: $primary-color !important;
     &:hover,
     &:active {
         background: lighten($theme-color-1, 10%) !important;
-        color: $foreground-color !important;
+        color: white !important;
     }
 }
 
@@ -3988,7 +4015,7 @@ select.form-control:not([size]):not([multiple]) {
     outline: initial !important;
     box-shadow: none !important;
     padding: 0.45rem 0.75rem 0.4rem 0.75rem !important;
-    background: $foreground-color !important;
+    background: white !important;
 }
 
 .react-select .react-select__dropdown-indicator {
@@ -4036,7 +4063,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .react-select__option {
-    background: $foreground-color !important;
+    background: white !important;
     color: $primary-color !important;
     &:hover,
     &:active {
@@ -4072,7 +4099,7 @@ select.form-control:not([size]):not([multiple]) {
     border: 1px solid rgba($theme-color-1, 0.6) !important;
     border-top: initial !important;
     margin-top: -1px !important;
-    background-color: $foreground-color !important;
+    background-color: white !important;
     border-width: 1px !important;
 }
 
@@ -4156,7 +4183,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
-    border-bottom-color: $foreground-color !important;
+    border-bottom-color: white !important;
 }
 
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::before {
@@ -4198,7 +4225,7 @@ select.form-control:not([size]):not([multiple]) {
 .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
-    border-top-color: $foreground-color !important;
+    border-top-color: white !important;
 }
 
 .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle::before,
@@ -4297,7 +4324,7 @@ select.form-control:not([size]):not([multiple]) {
     min-height: unset;
     border: 1px solid $separator-color !important;
     border-radius: $border-radius !important;
-    background: $foreground-color !important;
+    background: white !important;
     color: $primary-color !important;
     .preview-container {
         transition: initial !important;
@@ -4502,7 +4529,7 @@ select.form-control:not([size]):not([multiple]) {
         box-shadow: initial;
         transform: initial !important;
         animation-name: unset !important;
-        background: $foreground-color !important;
+        background: white !important;
     }
     &.rc-switch:after {
         box-shadow: none !important;
@@ -4689,7 +4716,7 @@ input:-webkit-autofill {
 }
 
 .custom-file-label::after {
-    background: $foreground-color;
+    background: white;
     color: $primary-color;
     border-color: $separator-color;
 }
@@ -4699,7 +4726,7 @@ input:-webkit-autofill {
 }
 
 .custom-file-label {
-    background: $foreground-color;
+    background: white;
     border-color: $separator-color;
 }
 
@@ -4747,7 +4774,7 @@ input:-webkit-autofill {
     width: 20px !important;
     height: 20px !important;
     border-radius: 20px !important;
-    background: $foreground-color !important;
+    background: white !important;
     cursor: default !important;
     border: 1px solid $separator-color !important;
     box-shadow: initial !important;
@@ -4761,7 +4788,7 @@ input:-webkit-autofill {
 
 .rc-slider-rail {
     border: 1px solid $separator-color !important;
-    background: $foreground-color !important;
+    background: white !important;
 }
 
 .rc-slider-handle {
@@ -5550,7 +5577,7 @@ input:-webkit-autofill {
 .modal-content {
     border: initial;
     border-radius: 0.1rem;
-    background: $foreground-color;
+    background: white;
 }
 
 .modal-dialog {
@@ -5566,6 +5593,7 @@ input:-webkit-autofill {
         margin-bottom: 0;
         height: 100%;
         max-width: 380px;
+        background-color: white;
     }
     .modal-content {
         min-height: 100%;

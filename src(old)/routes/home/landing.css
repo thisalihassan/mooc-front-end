@@ -1,0 +1,15 @@
+body{
+    overflow-x: hidden;
+}
+#slide{
+    height: 300px;
+}
+.items{
+    height: 300px;
+}
+#sp{
+    width: 1024px;
+}
+#im{
+    width: 1024px;
+}

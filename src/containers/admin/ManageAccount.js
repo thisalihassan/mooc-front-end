@@ -99,12 +99,13 @@ class ProfilePortfolio extends Component {
                   <Colxx xl="1" lg="1" className="mb-4"></Colxx>
                   <Colxx xl="10" lg="12" className="mb-4">
                     <CardTitle>
+                      <br></br>
                       <h2>
                         {" "}
                         <IntlMessages id="admin.Blockreq" />
                       </h2>
                     </CardTitle>
-                    <br></br>
+                  
                     <ReactTable
                       defaultPageSize={6}
                       data={this.props.reportedAccounts}
