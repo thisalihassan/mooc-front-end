@@ -14,6 +14,9 @@ import {
   getmyCourse,
   makeAnouncement,
 } from "../../redux/actions";
+import { Image } from "react-bootstrap";
+import Studentannouncement from "./Studentannouncement.svg";
+import Teacherannouncement from "./Teacherannouncement.svg";
 import axios from "axios";
 import queryString from "query-string";
 import { URL, config } from "../../constants/defaultValues";
@@ -175,26 +178,51 @@ class TodoApp extends Component {
             <div className="mb-2"></div>
             <Separator className="mb-5" />
             <Row>
-              {this.props.todoApp.todoItems ? (
-                this.props.todoApp.todoItems.slice(start, end).map((item) => {
-                  const name = item.course.name;
-                  return item.anouncement.map((n, k) => {
-                    return (
-                      <TodoListItem
-                        key={`todo_item_${n._id}`}
-                        item={n}
-                        name={name}
-                        roll={this.props.user.roll}
-                        deleteClick={(id) => {
-                          this.deleteAnouncement(id);
-                        }}
-                        updateAnouncement={(id) => {
-                          this.updateAnouncement(id);
-                        }}
+              {this.props.user &&
+              this.props.user.roll &&
+              this.props.todoApp.todoItems ? (
+                this.props.todoApp.todoItems.length > 0 ? (
+                  this.props.todoApp.todoItems.slice(start, end).map((item) => {
+                    const name = item.course.name;
+                    return item.anouncement.map((n, k) => {
+                      return (
+                        <TodoListItem
+                          key={`todo_item_${n._id}`}
+                          item={n}
+                          name={name}
+                          roll={this.props.user.roll}
+                          deleteClick={(id) => {
+                            this.deleteAnouncement(id);
+                          }}
+                          updateAnouncement={(id) => {
+                            this.updateAnouncement(id);
+                          }}
+                        />
+                      );
+                    });
+                  })
+                ) : (
+                  <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                    {this.props.user.roll === "teacher" ? (
+                      <Image
+                        style={{ width: "65%" }}
+                        src={Teacherannouncement}
+                        alt="Snow"
                       />
-                    );
-                  });
-                })
+                    ) : (
+                      <Image
+                        style={{ width: "65%" }}
+                        src={Studentannouncement}
+                        alt="Snow"
+                      />
+                    )}{" "}
+                    {this.props.user.roll === "student" && (
+                      <div class="img_centered_c">
+                        <h2>You don't have any announcements</h2>
+                      </div>
+                    )}
+                  </div>
+                )
               ) : (
                 <div className="loading"></div>
               )}

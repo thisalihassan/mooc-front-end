@@ -13,6 +13,7 @@ import {
   ModalBody,
 } from "reactstrap";
 import moment from "moment";
+import { Image } from "react-bootstrap";
 import { Dropdown } from "react-bootstrap";
 import IntlMessages from "../../../util/IntlMessages";
 import { Colxx } from "../../../components/CustomBootstrap";
@@ -21,6 +22,7 @@ import DropzoneExample from "../../../components/DropzoneExample";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
+import Coursvg from "../course.svg";
 import Pagination from "../../../components/pages/Pagination";
 import { URL, config } from "../../../constants/defaultValues";
 class TheProfile extends React.Component {
@@ -132,82 +134,105 @@ class TheProfile extends React.Component {
 
         <Colxx xxs="12" lg="8" className="mb-4 col-right">
           <Row>
-            {this.props.myCourses &&
-              this.props.myCourses.slice(start, end).map((course) => {
-                return (
-                  <Colxx
-                    xxs="12"
-                    lg="6"
-                    xl="4"
-                    className="mb-4"
-                    key={course._id}
-                  >
-                    <Card className="course" id="course" key={course._id + "1"}>
-                      <div className="position-relative">
-                        {this.props.user &&
-                          this.props.user.roll &&
-                          this.props.user.roll.toLowerCase() === "teacher" && (
-                            <div className="position-absolute card-top-buttons">
-                              <Dropdown>
-                                <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
+            {this.props.myCourses ? (
+              this.props.myCourses.length > 0 ? (
+                this.props.myCourses.slice(start, end).map((course) => {
+                  return (
+                    <Colxx
+                      xxs="12"
+                      lg="6"
+                      xl="4"
+                      className="mb-4"
+                      key={course._id}
+                    >
+                      <Card
+                        className="course"
+                        id="course"
+                        key={course._id + "1"}
+                      >
+                        <div className="position-relative">
+                          {this.props.user &&
+                            this.props.user.roll &&
+                            this.props.user.roll.toLowerCase() ===
+                              "teacher" && (
+                              <div className="position-absolute card-top-buttons">
+                                <Dropdown>
+                                  <Dropdown.Toggle className="icon-button"></Dropdown.Toggle>
 
-                                <Dropdown.Menu>
-                                  <Dropdown.Item
-                                    href={
-                                      "/app/mycourses/wizard/?id=" + course._id
-                                    }
-                                  >
-                                    Edit
-                                  </Dropdown.Item>
-                                  <Dropdown.Item
-                                    onClick={(e) =>
-                                      this.deleteCourse(e, course._id)
-                                    }
-                                  >
-                                    Delete
-                                  </Dropdown.Item>
-                                </Dropdown.Menu>
-                              </Dropdown>
-                            </div>
-                          )}
-                        <NavLink
-                          to={"/app/mycourses/courseView/?id=" + course._id}
-                          className="w-40 w-sm-100"
-                        >
-                          <CardImg
-                            className=".card-img-details"
-                            alt={course.name}
-                            src={course.pic}
-                          />
-                        </NavLink>
+                                  <Dropdown.Menu>
+                                    <Dropdown.Item
+                                      href={
+                                        "/app/mycourses/wizard/?id=" +
+                                        course._id
+                                      }
+                                    >
+                                      Edit
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      onClick={(e) =>
+                                        this.deleteCourse(e, course._id)
+                                      }
+                                    >
+                                      Delete
+                                    </Dropdown.Item>
+                                  </Dropdown.Menu>
+                                </Dropdown>
+                              </div>
+                            )}
+                          <NavLink
+                            to={"/app/mycourses/courseView/?id=" + course._id}
+                            className="w-40 w-sm-100"
+                          >
+                            <CardImg
+                              className=".card-img-details"
+                              alt={course.name}
+                              src={course.pic}
+                            />
+                          </NavLink>
 
-                        {this.props.user &&
-                          this.props.user.roll &&
-                          this.props.user.roll.toLowerCase() === "teacher" && (
-                            <Badge
-                              color={course.statusColor}
-                              pill
-                              className="position-absolute badge-top-left"
-                            >
-                              {course.Approval}
-                            </Badge>
-                          )}
-                      </div>
-                      <CardBody>
-                        <NavLink
-                          to={"/app/mycourses/courseView/?id=" + course._id}
-                          className="w-40 w-sm-100"
-                        >
-                          <CardSubtitle>{course.name}</CardSubtitle>
-                        </NavLink>
-                        <CardText className="text-muted text-small mb-0 font-weight-light">
-                          {moment(course.date).format("YYYY MMM DD")}
-                        </CardText>
-                      </CardBody>
-                    </Card>
-                  </Colxx>
-                );
-              })}
+                          {this.props.user &&
+                            this.props.user.roll &&
+                            this.props.user.roll.toLowerCase() ===
+                              "teacher" && (
+                              <Badge
+                                color={course.statusColor}
+                                pill
+                                className="position-absolute badge-top-left"
+                              >
+                                {course.Approval}
+                              </Badge>
+                            )}
+                        </div>
+                        <CardBody>
+                          <NavLink
+                            to={"/app/mycourses/courseView/?id=" + course._id}
+                            className="w-40 w-sm-100"
+                          >
+                            <CardSubtitle>{course.name}</CardSubtitle>
+                          </NavLink>
+                          <CardText className="text-muted text-small mb-0 font-weight-light">
+                            {moment(course.date).format("YYYY MMM DD")}
+                          </CardText>
+                        </CardBody>
+                      </Card>
+                    </Colxx>
+                  );
+                })
+              ) : (
+                <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                  <Image style={{ width: "65%" }} src={Coursvg} alt="Snow" />
+                  <div class="img_centered_c">
+                    {this.props.user.roll === "teacher" ? (
+                      <h2> Please add your courses</h2>
+                    ) : (
+                      <h2>Please Subscribe a course</h2>
+                    )}
+                  </div>
+                </div>
+              )
+            ) : (
+              <div class="loading"></div>
+            )}
             {this.props.myCourses && (
               <Pagination
                 currentPage={currentPage}

@@ -13,7 +13,8 @@ import {
   GetSubscription,
   getAssignments,
 } from "../../redux/actions";
-
+import { Image } from "react-bootstrap";
+import AddAssingment from "./addassignment.svg";
 import ListItem from "../../containers/Assignment/ListItem";
 import AddNewModel from "../../containers/Assignment/AddNewModel";
 import ApplicationMenu from "../../containers/Assignment/ApplicationMenu";
@@ -151,23 +152,46 @@ class Assignment extends Component {
             <Separator className="mb-5" />
 
             <Row>
-              {selectedassignments &&
-                selectedassignments.map((item, index) => {
-                  const name = item.course.name;
-                  return item.assignment.map((n, k) => {
-                    return (
-                      <ListItem
-                        key={`todo_item_${n._id}`}
-                        item={n}
-                        name={name}
-                        roll={this.props.user.roll}
-                        editAssignment={(e) => this.editAssignment(e)}
-                        reloadModel={(e) => this.reloadModel(e)}
-                        deleteClick={(e) => this.deleteAssignment(e)}
-                      />
-                    );
-                  });
-                })}
+              {this.props.user && selectedassignments ? (
+                selectedassignments.length > 0 ? (
+                  selectedassignments.map((item, index) => {
+                    const name = item.course.name;
+                    return item.assignment.map((n, k) => {
+                      return (
+                        <ListItem
+                          key={`todo_item_${n._id}`}
+                          item={n}
+                          name={name}
+                          roll={this.props.user.roll}
+                          editAssignment={(e) => this.editAssignment(e)}
+                          reloadModel={(e) => this.reloadModel(e)}
+                          deleteClick={(e) => this.deleteAssignment(e)}
+                        />
+                      );
+                    });
+                  })
+                ) : (
+                  <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                    <Image
+                      style={{ width: "65%" }}
+                      src={AddAssingment}
+                      alt="Snow"
+                    />
+
+                    {this.props.user.roll === "student" ? (
+                      <div class="img_centered_c">
+                        <h2>You don't have any assignments for now</h2>
+                      </div>
+                    ) : (
+                      <div class="img_centered_c">
+                        <h2>You can add assingments for your courses here!!</h2>
+                      </div>
+                    )}
+                  </div>
+                )
+              ) : (
+                <div className="loading"></div>
+              )}
             </Row>
           </Colxx>
         </Row>

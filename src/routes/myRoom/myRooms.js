@@ -159,24 +159,28 @@ class ThumbListPages extends Component {
         {!this.props.loading ? (
           <div className="disable-text-selection">
             <Row>
-              {this.props.rooms.map((product) => {
-                return (
-                  <DataListView
-                    key={product._id}
-                    user={this.props.user._id}
-                    product={product}
-                    deleteClick={(id) => {
-                      this.deleteRoom(id);
-                    }}
-                    editClick={(id) => {
-                      this.editRoom(id);
-                    }}
-                    joinRoom={(id) => {
-                      this.joinRoom(id);
-                    }}
-                  />
-                );
-              })}
+              {this.props.rooms ? (
+                this.props.rooms.map((product) => {
+                  return (
+                    <DataListView
+                      key={product._id}
+                      user={this.props.user._id}
+                      product={product}
+                      deleteClick={(id) => {
+                        this.deleteRoom(id);
+                      }}
+                      editClick={(id) => {
+                        this.editRoom(id);
+                      }}
+                      joinRoom={(id) => {
+                        this.joinRoom(id);
+                      }}
+                    />
+                  );
+                })
+              ) : (
+                <div className="loading"></div>
+              )}
 
               {this.props.courses && (
                 <Pagination

@@ -19,6 +19,9 @@ import ListItem from "../../containers/Quiz/ListItem";
 import AddNewModal from "../../containers/Quiz/AddNewModel";
 import ApplicationMenu from "../../containers/Quiz/ApplicationMenu";
 import axios from "axios";
+import { Image } from "react-bootstrap";
+import NoQuiz from "./noquiz.svg";
+import AddQuiz from "./addquiz.svg";
 import { URL, config } from "../../constants/defaultValues";
 class Quiz extends Component {
   constructor(props) {
@@ -157,20 +160,49 @@ class Quiz extends Component {
             <Separator className="mb-5" />
 
             <Row>
-              {loading ? (
-                surveyItems.map((item, index) => {
-                  return (
-                    <ListItem
-                      key={`todo_item_${index}`}
-                      item={item}
-                      deleteClick={(id) => {
-                        this.deleteQuiz(id);
-                      }}
-                      updateQuiz={(id) => this.updateQuiz(id)}
-                      roll={this.props.user.roll}
-                    />
-                  );
-                })
+              {this.props.user && loading ? (
+                surveyItems.length > 0 ? (
+                  surveyItems.map((item, index) => {
+                    return (
+                      <ListItem
+                        key={`todo_item_${index}`}
+                        item={item}
+                        deleteClick={(id) => {
+                          this.deleteQuiz(id);
+                        }}
+                        updateQuiz={(id) => this.updateQuiz(id)}
+                        roll={this.props.user.roll}
+                      />
+                    );
+                  })
+                ) : (
+                  <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                    {this.props.user.roll === "teacher" ? (
+                      <Image
+                        className="mt-3"
+                        style={{ width: "65%" }}
+                        src={AddQuiz}
+                        alt="Snow"
+                      />
+                    ) : (
+                      <Image
+                        className="mt-3"
+                        style={{ width: "65%" }}
+                        src={NoQuiz}
+                        alt="Snow"
+                      />
+                    )}
+                    {this.props.user.roll === "student" ? (
+                      <div class="img_centered_c">
+                        <h2>You don't have any Quizzes for now</h2>
+                      </div>
+                    ) : (
+                      <div class="img_centered_c">
+                        <h2>You can add quiz for your courses here!!</h2>
+                      </div>
+                    )}
+                  </div>
+                )
               ) : (
                 <div className="loading"></div>
               )}
