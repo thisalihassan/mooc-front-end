@@ -535,15 +535,10 @@ class TopNav extends Component {
                     {/* <span className="count">3</span> */}
                   </DropdownToggle>
                   <DropdownMenu
-                    className="position-absolute mt-3 scroll"
+                    className="position-absolute mt-2 scroll"
                     right
                     id="notificationDropdown"
                   >
-                    <Link to="/app/notification" className="float-left">
-                      View All
-                    </Link>
-                    <div className="separator"></div>
-
                     <PerfectScrollbar
                       options={{
                         suppressScrollX: true,
@@ -566,9 +561,9 @@ class TopNav extends Component {
                           return (
                             <div
                               key={index}
-                              className="d-flex flex-row mb-3 pb-3 border-bottom"
+                              className="d-flex flex-row mb-2 pb-2 border-bottom"
                             >
-                              <div className="pl-3 pr-2">
+                              <div>
                                 {n.quiz && (
                                   <a href="/app/myportal/quiz">
                                     {this.setNotifications(n.message, n.date)}
@@ -600,6 +595,14 @@ class TopNav extends Component {
                         }
                       })}
                     </PerfectScrollbar>
+
+                    <div className="separator mb-2"></div>
+                    <Link
+                      to="/app/notification"
+                      className="d-flex justify-content-center align-items-center"
+                    >
+                      View All
+                    </Link>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </div>
@@ -627,7 +630,7 @@ class TopNav extends Component {
                     <img alt="Profile" src={profileImage} />
                   </span>
                 </DropdownToggle>
-                <DropdownMenu className="mt-3" right>
+                <DropdownMenu className="mt-2" right>
                   {user.roll.toLowerCase() !== "admin" && (
                     <DropdownItem onClick={(e) => this.switchAccount(e)}>
                       Switch
