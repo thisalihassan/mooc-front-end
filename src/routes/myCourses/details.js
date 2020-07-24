@@ -28,6 +28,8 @@ import {
   CustomInput,
   FormGroup,
 } from "reactstrap";
+import { Image } from "react-bootstrap";
+import Content from "./content.svg";
 import { Formik, Form, Field } from "formik";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
@@ -79,7 +81,7 @@ export class DetailsPages extends Component {
       files: "",
       theCourses: 0,
       follower: "",
-      lectureFiles: null,
+      lectureFiles: [],
       reviews: [],
       isReviewed: false,
       checkReview: true,
@@ -196,7 +198,7 @@ export class DetailsPages extends Component {
             });
           }
           this.setState({
-            lectureFiles: data,
+            lectureFiles: data || [],
             accordion: accordionData,
             loadinLec: false,
           });
@@ -670,94 +672,78 @@ export class DetailsPages extends Component {
                           <Colxx sm="12">
                             <CardBody>
                               {!this.state.loadinLec ? (
-                                this.state.lectureFiles &&
-                                this.state.lectureFiles.map(
-                                  (lecture, index) => {
-                                    return (
-                                      <div className="border" key={index}>
-                                        <Button
-                                          color="link"
-                                          onClick={() =>
-                                            this.toggleAccordion(index)
-                                          }
-                                          aria-expanded={
-                                            this.state.accordion[index]
-                                          }
-                                        >
-                                          Lecture {index + 1}
-                                        </Button>
-                                        <Collapse
-                                          isOpen={this.state.accordion[index]}
-                                        >
-                                          <div className="p-4">
-                                            <Link
-                                              to={
-                                                "/app/mycourses/courseView/?id=" +
-                                                this.state.course._id
-                                              }
-                                              onClick={(e) =>
-                                                this.EditLecture(
-                                                  e,
-                                                  lecture.lecture,
-                                                  lecture._id
-                                                )
-                                              }
-                                            >
-                                              Edit
-                                            </Link>
-                                            <br></br>
-                                            <br></br>
-                                            {lecture.lecture}
-                                            <Table borderless>
-                                              <thead>
-                                                <tr>
-                                                  <th scope="col">#</th>
-                                                  <th scope="col">
-                                                    Lecture Content
-                                                  </th>
-                                                  {this.props.user._id ===
-                                                    this.state.course.user && (
-                                                    <th scope="col">Action</th>
-                                                  )}
-                                                </tr>
-                                              </thead>
-                                              {lecture.files.map(
-                                                (item, index) => {
-                                                  const getExt = lecture.fileNames[
-                                                    index
-                                                  ].split(".");
-                                                  const type = getExt[
-                                                    getExt.length - 1
-                                                  ].toLowerCase();
-                                                  const name = VidFile.find(
-                                                    (x) => x === type
-                                                  );
-                                                  return (
-                                                    <tbody key={index}>
-                                                      <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>
-                                                          {this.props.user
-                                                            ._id ===
-                                                            this.state.course
-                                                              .user && (
-                                                            <a
-                                                              href={item}
-                                                              target="_blank"
-                                                              download
-                                                              rel="noopener noreferrer"
-                                                            >
-                                                              {
-                                                                lecture
-                                                                  .fileNames[
-                                                                  index
-                                                                ]
-                                                              }
-                                                            </a>
-                                                          )}
-                                                          {!name &&
-                                                            this.props.user
-                                                              ._id !==
+                                this.state.lectureFiles.length > 0 ? (
+                                  this.state.lectureFiles.map(
+                                    (lecture, index) => {
+                                      return (
+                                        <div className="border" key={index}>
+                                          <Button
+                                            color="link"
+                                            onClick={() =>
+                                              this.toggleAccordion(index)
+                                            }
+                                            aria-expanded={
+                                              this.state.accordion[index]
+                                            }
+                                          >
+                                            Lecture {index + 1}
+                                          </Button>
+                                          <Collapse
+                                            isOpen={this.state.accordion[index]}
+                                          >
+                                            <div className="p-4">
+                                              <Link
+                                                to={
+                                                  "/app/mycourses/courseView/?id=" +
+                                                  this.state.course._id
+                                                }
+                                                onClick={(e) =>
+                                                  this.EditLecture(
+                                                    e,
+                                                    lecture.lecture,
+                                                    lecture._id
+                                                  )
+                                                }
+                                              >
+                                                Edit
+                                              </Link>
+                                              <br></br>
+                                              <br></br>
+                                              {lecture.lecture}
+                                              <Table borderless>
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">
+                                                      Lecture Content
+                                                    </th>
+                                                    {this.props.user._id ===
+                                                      this.state.course
+                                                        .user && (
+                                                      <th scope="col">
+                                                        Action
+                                                      </th>
+                                                    )}
+                                                  </tr>
+                                                </thead>
+                                                {lecture.files.map(
+                                                  (item, index) => {
+                                                    const getExt = lecture.fileNames[
+                                                      index
+                                                    ].split(".");
+                                                    const type = getExt[
+                                                      getExt.length - 1
+                                                    ].toLowerCase();
+                                                    const name = VidFile.find(
+                                                      (x) => x === type
+                                                    );
+                                                    return (
+                                                      <tbody key={index}>
+                                                        <tr>
+                                                          <th scope="row">1</th>
+                                                          <td>
+                                                            {this.props.user
+                                                              ._id ===
                                                               this.state.course
                                                                 .user && (
                                                               <a
@@ -774,69 +760,112 @@ export class DetailsPages extends Component {
                                                                 }
                                                               </a>
                                                             )}
-                                                          {name &&
-                                                            this.props.user
-                                                              ._id !==
-                                                              this.state.course
-                                                                .user &&
-                                                            lecture.fileNames[
-                                                              index
-                                                            ]}
-                                                        </td>
-
-                                                        {this.props.user._id ===
-                                                          this.state.course
-                                                            .user && (
-                                                          <td>
-                                                            <Link
-                                                              to={
-                                                                "/app/mycourses/courseView/?id=" +
+                                                            {!name &&
+                                                              this.props.user
+                                                                ._id !==
                                                                 this.state
-                                                                  .course._id
-                                                              }
-                                                              onClick={(e) =>
-                                                                this.DeleteFile(
-                                                                  e,
-                                                                  item,
-                                                                  lecture._id
-                                                                )
-                                                              }
-                                                            >
-                                                              Delete
-                                                            </Link>{" "}
+                                                                  .course
+                                                                  .user && (
+                                                                <a
+                                                                  href={item}
+                                                                  target="_blank"
+                                                                  download
+                                                                  rel="noopener noreferrer"
+                                                                >
+                                                                  {
+                                                                    lecture
+                                                                      .fileNames[
+                                                                      index
+                                                                    ]
+                                                                  }
+                                                                </a>
+                                                              )}
+                                                            {name &&
+                                                              this.props.user
+                                                                ._id !==
+                                                                this.state
+                                                                  .course
+                                                                  .user &&
+                                                              lecture.fileNames[
+                                                                index
+                                                              ]}
                                                           </td>
-                                                        )}
 
-                                                        <td>
-                                                          {name && (
-                                                            <Link
-                                                              to={
-                                                                "/app/mycourses/courseView/?id=" +
-                                                                this.state
-                                                                  .course._id
-                                                              }
-                                                              onClick={(e) =>
-                                                                this.watchVideo(
-                                                                  e,
-                                                                  item
-                                                                )
-                                                              }
-                                                            >
-                                                              Watch
-                                                            </Link>
+                                                          {this.props.user
+                                                            ._id ===
+                                                            this.state.course
+                                                              .user && (
+                                                            <td>
+                                                              <Link
+                                                                to={
+                                                                  "/app/mycourses/courseView/?id=" +
+                                                                  this.state
+                                                                    .course._id
+                                                                }
+                                                                onClick={(e) =>
+                                                                  this.DeleteFile(
+                                                                    e,
+                                                                    item,
+                                                                    lecture._id
+                                                                  )
+                                                                }
+                                                              >
+                                                                Delete
+                                                              </Link>{" "}
+                                                            </td>
                                                           )}
-                                                        </td>
-                                                      </tr>
-                                                    </tbody>
-                                                  );
-                                                }
-                                              )}
-                                            </Table>
-                                          </div>
-                                        </Collapse>
+
+                                                          <td>
+                                                            {name && (
+                                                              <Link
+                                                                to={
+                                                                  "/app/mycourses/courseView/?id=" +
+                                                                  this.state
+                                                                    .course._id
+                                                                }
+                                                                onClick={(e) =>
+                                                                  this.watchVideo(
+                                                                    e,
+                                                                    item
+                                                                  )
+                                                                }
+                                                              >
+                                                                Watch
+                                                              </Link>
+                                                            )}
+                                                          </td>
+                                                        </tr>
+                                                      </tbody>
+                                                    );
+                                                  }
+                                                )}
+                                              </Table>
+                                            </div>
+                                          </Collapse>
+                                        </div>
+                                      );
+                                    }
+                                  )
+                                ) : (
+                                  <div className="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                                    {this.props.user._id !==
+                                      this.state.course.user && (
+                                      <div>
+                                        <Image
+                                          className="mt-5"
+                                          style={{ width: "35%" }}
+                                          src={Content}
+                                          alt="Snow"
+                                        />
+                                        <div class="img_centered_c">
+                                          <h5>
+                                            No lecture files are present for
+                                            this course!
+                                          </h5>
+                                        </div>
                                       </div>
-                                    );
-                                  }
+                                    )}
+                                  </div>
                                 )
                               ) : (
                                 <div className="loading"></div>
@@ -969,23 +998,14 @@ export class DetailsPages extends Component {
                       </TabPane>
                       <TabPane tabId="6">
                         <Row>
-                          <Colxx sm="12">
-                            <CardBody>
-                              {this.state.subscriberUsers &&
-                                this.state.subscriberUsers.map((itemData) => {
-                                  return (
-                                    <Colxx
-                                      xxs="12"
-                                      md="6"
-                                      lg="4"
-                                      key={itemData.key}
-                                    >
-                                      <UserCardBasic data={itemData} />
-                                    </Colxx>
-                                  );
-                                })}
-                            </CardBody>
-                          </Colxx>
+                          {this.state.subscriberUsers &&
+                            this.state.subscriberUsers.map((itemData) => {
+                              return (
+                                <Colxx md="6" lg="4" key={itemData.key}>
+                                  <UserCardBasic data={itemData} />
+                                </Colxx>
+                              );
+                            })}
                         </Row>
                       </TabPane>
                     </TabContent>

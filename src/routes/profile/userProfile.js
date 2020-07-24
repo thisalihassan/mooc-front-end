@@ -191,7 +191,7 @@ class ProfilePortfolio extends Component {
                     ? this.props.subscribed.following &&
                       this.props.subscribed.following.map((itemData) => {
                         return (
-                          <Colxx xxs="12" md="6" lg="4" key={itemData.key}>
+                          <Colxx xxs="5" md="3" lg="3" key={itemData.key}>
                             <UserCardBasic data={itemData} />
                           </Colxx>
                         );
@@ -199,7 +199,7 @@ class ProfilePortfolio extends Component {
                     : this.props.subscribed.followers &&
                       this.props.subscribed.followers.map((itemData) => {
                         return (
-                          <Colxx xxs="12" md="6" lg="4" key={itemData.key}>
+                          <Colxx xxs="5" md="3" lg="3" key={itemData.key}>
                             <UserCardBasic data={itemData} />
                           </Colxx>
                         );
