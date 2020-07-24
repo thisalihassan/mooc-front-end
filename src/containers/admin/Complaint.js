@@ -4,7 +4,9 @@ import { Row, Card, Input, Button } from "reactstrap";
 import { Colxx } from "../../components/CustomBootstrap";
 import { URL, config } from "../../constants/defaultValues";
 import axios from "axios";
-class ChatApplication extends Component {
+import { connect } from "react-redux";
+import { socket } from "../TopNav";
+class Complaints extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +25,9 @@ class ChatApplication extends Component {
     });
   };
   componentDidMount() {
+    if (!this.state.socket) {
+      this.state.socket = socket;
+    }
     axios
       .post(URL + "api/complaint/getComplaints", {}, config)
       .then((res) => {
@@ -50,8 +55,25 @@ class ChatApplication extends Component {
 
   async replyComplaint(index, id) {
     const answer = this.state.answers[index];
-    const body = JSON.stringify({ answer, id });
+    let body = JSON.stringify({ answer, id });
     await axios.post(URL + "api/complaint/answercomplaints", body, config);
+    const compuser = this.state.complaints[index].user;
+    console.log(this.state.complaints[index]);
+    console.log("2");
+    const user = this.props.user._id;
+    const replyComplaint = this.state.complaints[index]._id;
+    const message =
+      "You complaint about '" +
+      this.state.complaints[index].question +
+      "' has been answered";
+    body = JSON.stringify({ replyComplaint, message, user, compuser });
+    this.state.socket.emit("new_notification", {
+      body: body,
+      message: message,
+      user: user,
+      replyComplaint: replyComplaint,
+      compuser: compuser,
+    });
     await axios
       .post(URL + "api/complaint/getComplaints", {}, config)
       .then((res) => {
@@ -116,9 +138,7 @@ class ChatApplication extends Component {
                           />
                           <br></br>
                           <Button
-                            onClick={() =>
-                              this.replyComplaint(index, item.user)
-                            }
+                            onClick={() => this.replyComplaint(index, item._id)}
                           >
                             Reply
                           </Button>
@@ -135,4 +155,9 @@ class ChatApplication extends Component {
     );
   }
 }
-export default ChatApplication;
+
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
+export default connect(mapStateToProps, null)(Complaints);

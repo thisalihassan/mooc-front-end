@@ -16,6 +16,7 @@ import { URL, config } from "../../constants/defaultValues";
 import axios from "axios";
 import { Colxx } from "../../components/CustomBootstrap";
 import { setAlert } from "../../redux/actions";
+import { socket } from "../../containers/TopNav";
 class ChatApplication extends Component {
   constructor(props) {
     super(props);
@@ -41,12 +42,28 @@ class ChatApplication extends Component {
     const check = this.state.question.split(" ").join("");
     if (check) {
       const question = this.state.question;
-      const body = JSON.stringify({ question });
-      await axios.post(URL + "api/complaint/sendcomplaints", body, config);
+      let body = JSON.stringify({ question });
+
+      const res = await axios.post(
+        URL + "api/complaint/sendcomplaints",
+        body,
+        config
+      );
       this.props.setAlert(
         "Thank you for submitting your query. We will send a reply soon. Please check back again",
         "success"
       );
+
+      const user = this.props.user._id;
+      const complaint = res.data._id;
+      const message = "You have one new comlaint: '" + question + "'";
+      body = JSON.stringify({ complaint, message, user });
+      this.state.socket.emit("new_notification", {
+        body: body,
+        message: message,
+        user: user,
+        complaint: complaint,
+      });
       await axios
         .post(URL + "api/complaint/getActive", {}, config)
         .then((res) => {
@@ -73,6 +90,9 @@ class ChatApplication extends Component {
   }
 
   componentDidMount() {
+    if (!this.state.socket) {
+      this.state.socket = socket;
+    }
     axios
       .post(URL + "api/complaint/getActive", {}, config)
       .then((res) => {
@@ -157,4 +177,8 @@ class ChatApplication extends Component {
     );
   }
 }
-export default connect(null, { setAlert })(ChatApplication);
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
+export default connect(mapStateToProps, { setAlert })(ChatApplication);

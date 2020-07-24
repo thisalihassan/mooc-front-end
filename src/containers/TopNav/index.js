@@ -229,8 +229,10 @@ class TopNav extends Component {
       let mess;
       this.state.socket.on("show_notification", (mess) => {
         if (mess !== this.state.notifications[0]) {
-          let match = true;
+          let match = false;
           let itself = false;
+          const test = mess.replyComplaint != null;
+          const isComplaint = mess.compuser === this.props.user._id;
           if (mess.course) {
             match = this.state.listCourse.find((u) => u === mess.course);
           }
@@ -238,14 +240,33 @@ class TopNav extends Component {
             itself = mess.user === this.props.user._id;
           }
           if (match && !itself) {
+            console.log("Herre 1");
             document.getElementById("notification-sound").play();
             this.setState((prevState) => ({
               notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
             }));
           } else if (mess.follower) {
+            console.log("Herre 12");
             document.getElementById("notification-sound").play();
             this.setState((prevState) => ({
               notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
+            }));
+          } else if (mess.complaint && this.props.user.roll === "admin") {
+            console.log("Herre 123");
+            document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
+            }));
+          } else if (isComplaint && test) {
+            console.log("Herre 4");
+            console.log("erere");
+            document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
             }));
           }
         }
@@ -412,6 +433,13 @@ class TopNav extends Component {
       </div>
     );
   }
+  resetCounter(e) {
+    e.preventDefault();
+    axios.post(URL + "api/notifications/setCounter", {}, config);
+    this.setState({
+      counter: 0,
+    });
+  }
   toggleModal = () => {
     this.setState({
       modalOpen: !this.state.modalOpen,
@@ -529,10 +557,10 @@ class TopNav extends Component {
                   <DropdownToggle
                     className="header-icon notificationButton"
                     color="empty"
-                    //onClick={this.setNotifications}
+                    onClick={(e) => this.resetCounter(e)}
                   >
                     <i className="simple-icon-bell" />
-                    {/* <span className="count">3</span> */}
+                    <span className="count">{this.state.counter}</span>
                   </DropdownToggle>
                   <DropdownMenu
                     className="position-absolute mt-2 scroll"
@@ -546,7 +574,7 @@ class TopNav extends Component {
                       }}
                     >
                       {this.state.notifications.map((n, index) => {
-                        let match = true;
+                        let match = false;
                         let itself = false;
                         if (n.course) {
                           match = this.state.listCourse.find(
@@ -557,7 +585,12 @@ class TopNav extends Component {
                           itself = n.user === this.props.user._id;
                         }
 
-                        if ((match && !itself) || n.follower) {
+                        if (
+                          (match && !itself) ||
+                          n.follower ||
+                          n.complaint ||
+                          n.replyComplaint
+                        ) {
                           return (
                             <div
                               key={index}
@@ -571,6 +604,22 @@ class TopNav extends Component {
                                 )}
                                 {n.anouncements && (
                                   <a href="/app/myportal/anouncements">
+                                    {this.setNotifications(n.message, n.date)}
+                                  </a>
+                                )}
+
+                                {n.complaint &&
+                                this.props.user.roll === "admin" ? (
+                                  <a href="/app/admin/complaint">
+                                    {this.setNotifications(n.message, n.date)}
+                                  </a>
+                                ) : (
+                                  <a href="/app/help">
+                                    {this.setNotifications(n.message, n.date)}
+                                  </a>
+                                )}
+                                {n.replyComplaint && (
+                                  <a href="/app/help">
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 )}
