@@ -25,7 +25,7 @@ import {
   getPendingCourse,
 } from "../../redux/actions";
 import axios from "axios";
-
+import { socket } from "../TopNav";
 import { URL, config } from "../../constants/defaultValues";
 import { NavLink } from "react-router-dom";
 class ProfilePortfolio extends Component {
@@ -86,13 +86,48 @@ class ProfilePortfolio extends Component {
   }
   async AcceptCourse(e, id) {
     e.preventDefault();
-    await axios.get(URL + "api/Courses/acceptcourse/" + id, {}, config);
+    const res = await axios.get(
+      URL + "api/Courses/acceptcourse/" + id,
+      {},
+      config
+    );
+    const compuser = res.data.user;
+
+    const user = this.props.user._id;
+    const newCourseRes = res.data._id;
+    const message = "Your course '" + res.data.name + "' has been accepted";
+    const body = JSON.stringify({ newCourseRes, message, user, compuser });
+    this.state.socket.emit("new_notification", {
+      body: body,
+      message: message,
+      user: user,
+      newCourseRes: newCourseRes,
+      compuser: compuser,
+    });
     this.props.getApprovedCourse();
     this.props.getPendingCourse();
   }
   async RejectCourse(e, id) {
     e.preventDefault();
-    await axios.delete(URL + "api/Courses/delete/" + id, {}, config);
+    const res = await axios.delete(
+      URL + "api/Courses/delete/" + id,
+      {},
+      config
+    );
+    const compuser = res.data.user;
+
+    const user = this.props.user._id;
+    const newCourseRes = res.data._id;
+    const message =
+      "Your course '" + res.data.name + "' has been rejected and deleted";
+    const body = JSON.stringify({ newCourseRes, message, user, compuser });
+    this.state.socket.emit("new_notification", {
+      body: body,
+      message: message,
+      user: user,
+      newCourseRes: newCourseRes,
+      compuser: compuser,
+    });
     this.props.getApprovedCourse();
     this.props.getPendingCourse();
   }
@@ -106,6 +141,9 @@ class ProfilePortfolio extends Component {
   }
 
   componentDidMount() {
+    if (!this.state.socket) {
+      this.state.socket = socket;
+    }
     this.props.getApprovedCourse();
     this.props.getPendingCourse();
   }
@@ -198,7 +236,8 @@ class ProfilePortfolio extends Component {
 
 const mapStateToProps = (state) => {
   const { pendingCourses, activeCourses } = state.course;
-  return { pendingCourses, activeCourses };
+  const { user } = state.auth;
+  return { pendingCourses, activeCourses, user };
 };
 export default injectIntl(
   connect(mapStateToProps, {

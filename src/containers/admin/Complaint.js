@@ -58,8 +58,7 @@ class Complaints extends Component {
     let body = JSON.stringify({ answer, id });
     await axios.post(URL + "api/complaint/answercomplaints", body, config);
     const compuser = this.state.complaints[index].user;
-    console.log(this.state.complaints[index]);
-    console.log("2");
+
     const user = this.props.user._id;
     const replyComplaint = this.state.complaints[index]._id;
     const message =

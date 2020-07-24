@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TagsInput from "react-tagsinput";
 import "react-tagsinput/react-tagsinput.css";
+import { connect } from "react-redux";
 import "./basic.css";
 import { withRouter } from "react-router-dom";
 import {
@@ -24,6 +25,7 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { quillFormats, quillModules } from "../editors";
+import { socket } from "../TopNav";
 import Select from "react-select";
 const options = [
   { value: "Business", label: "Business", id: 0 },
@@ -90,7 +92,7 @@ export class AddCourse extends Component {
     if (this.state.category) category = this.state.category.label;
     const id = this.state.id;
 
-    const body = JSON.stringify({
+    let body = JSON.stringify({
       id,
       name,
       pic,
@@ -101,7 +103,17 @@ export class AddCourse extends Component {
       courseContent,
       category,
     });
-    await axios.post(URL + "api/Courses/", body, config);
+    const res = await axios.post(URL + "api/Courses/", body, config);
+    const user = this.props.user._id;
+    const newCourse = res.data._id;
+    const message = "You have a new course request: '" + res.data.name + "'";
+    body = JSON.stringify({ newCourse, message, user });
+    this.state.socket.emit("new_notification", {
+      body: body,
+      message: message,
+      user: user,
+      newCourse: newCourse,
+    });
   }
 
   topNavClick(stepItem, push) {
@@ -111,6 +123,9 @@ export class AddCourse extends Component {
     push(stepItem.id);
   }
   async componentDidMount() {
+    if (!this.state.socket) {
+      this.state.socket = socket;
+    }
     const values = queryString.parse(this.props.location.search);
     if (values.id) {
       let id = values.id;
@@ -332,4 +347,11 @@ export class AddCourse extends Component {
     );
   }
 }
-export default injectIntl(withRouter(AddCourse));
+
+const mapStateToProps = (state) => {
+  const { user } = state.auth;
+  return { user };
+};
+export default injectIntl(
+  withRouter(connect(mapStateToProps, null)(AddCourse))
+);

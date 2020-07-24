@@ -232,6 +232,7 @@ class TopNav extends Component {
           let match = false;
           let itself = false;
           const test = mess.replyComplaint != null;
+          const test2 = mess.newCourseRes != null;
           const isComplaint = mess.compuser === this.props.user._id;
           if (mess.course) {
             match = this.state.listCourse.find((u) => u === mess.course);
@@ -253,7 +254,7 @@ class TopNav extends Component {
               notifications: [mess, ...prevState.notifications],
               counter: this.state.counter + 1,
             }));
-          } else if (mess.complaint && this.props.user.roll === "admin") {
+          } else if (mess.newCourse && this.props.user.roll === "admin") {
             console.log("Herre 123");
             document.getElementById("notification-sound").play();
             this.setState((prevState) => ({
@@ -261,8 +262,18 @@ class TopNav extends Component {
               counter: this.state.counter + 1,
             }));
           } else if (isComplaint && test) {
-            console.log("Herre 4");
-            console.log("erere");
+            document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
+            }));
+          } else if (mess.complaint && this.props.user.roll === "admin") {
+            document.getElementById("notification-sound").play();
+            this.setState((prevState) => ({
+              notifications: [mess, ...prevState.notifications],
+              counter: this.state.counter + 1,
+            }));
+          } else if (isComplaint && test2) {
             document.getElementById("notification-sound").play();
             this.setState((prevState) => ({
               notifications: [mess, ...prevState.notifications],
@@ -589,7 +600,9 @@ class TopNav extends Component {
                           (match && !itself) ||
                           n.follower ||
                           n.complaint ||
-                          n.replyComplaint
+                          n.replyComplaint ||
+                          n.newCourse ||
+                          n.newCourseRes
                         ) {
                           return (
                             <div
@@ -607,19 +620,37 @@ class TopNav extends Component {
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 )}
-
                                 {n.complaint &&
                                 this.props.user.roll === "admin" ? (
                                   <a href="/app/admin/complaint">
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 ) : (
+                                  n.complaint && (
+                                    <a href="/app/help">
+                                      {this.setNotifications(n.message, n.date)}
+                                    </a>
+                                  )
+                                )}
+                                {n.replyComplaint && (
                                   <a href="/app/help">
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 )}
-                                {n.replyComplaint && (
-                                  <a href="/app/help">
+                                {n.newCourse &&
+                                this.props.user.roll === "admin" ? (
+                                  <a href="/app/admin/courserequest">
+                                    {this.setNotifications(n.message, n.date)}
+                                  </a>
+                                ) : (
+                                  n.newCourse && (
+                                    <a href="/app/profile/profile">
+                                      {this.setNotifications(n.message, n.date)}
+                                    </a>
+                                  )
+                                )}
+                                {n.newCourseRes && (
+                                  <a href="/app/profile/profile">
                                     {this.setNotifications(n.message, n.date)}
                                   </a>
                                 )}
