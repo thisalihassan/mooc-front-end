@@ -18,6 +18,8 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
+import { Image } from "react-bootstrap";
+import MSG from "./msg.svg";
 import { FormikSwitch } from "../../components/FormikFields";
 import { Formik, Form } from "formik";
 import { NavLink, Link } from "react-router-dom";
@@ -453,9 +455,11 @@ class ChatApplication extends Component {
       alert("You are already in a call!!");
     }
   }
-  deletConversation(e) {
-    this.props.deleteConversation(this.state.room);
-    window.location.reload();
+  async deletConversation(e) {
+    let room = this.state.room;
+    const body = JSON.stringify({ room });
+    await axios.post(URL + "api/message/delete", body, config);
+    await this.props.loadConversations(room);
   }
   leaveRoom(e) {
     const myroom = this.state.room;
@@ -619,66 +623,80 @@ class ChatApplication extends Component {
                   containerRef={(ref) => {}}
                   options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
-                  {this.state.messages.map((item, index) => {
-                    if (
-                      item.text.startsWith(AURL) &&
-                      !item.text.includes("&n=" + this.props.user.name)
-                    ) {
-                      item.text = item.text + "&n=" + this.props.user.name;
-                    }
-                    return (
-                      <Fragment key={index}>
-                        <Card
-                          id="rest"
-                          className={`d-inline-block mb-3 float-${
-                            item.user !== user.name ? "left" : "right"
-                          }`}
-                        >
-                          <div className="position-absolute  pt-1 pr-2 r-0">
-                            <span className="text-extra-small text-muted">
-                              {item.timeStamp}
-                            </span>
-                          </div>
-                          <CardBody>
-                            <div className="d-flex flex-row pb-1">
-                              <div className=" d-flex flex-grow-1 min-width-zero">
-                                <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                                  <div className="min-width-zero">
-                                    <p className="mb-0 truncate list-item-heading">
-                                      {owner.name === item.user
-                                        ? item.user + " (Teacher)"
-                                        : item.user}
-                                    </p>
+                  {this.state.messages.length > 0 ? (
+                    this.state.messages.map((item, index) => {
+                      if (
+                        item.text.startsWith(AURL) &&
+                        !item.text.includes("&n=" + this.props.user.name)
+                      ) {
+                        item.text = item.text + "&n=" + this.props.user.name;
+                      }
+                      return (
+                        <Fragment key={index}>
+                          <Card
+                            id="rest"
+                            className={`d-inline-block mb-3 float-${
+                              item.user !== user.name ? "left" : "right"
+                            }`}
+                          >
+                            <div className="position-absolute  pt-1 pr-2 r-0">
+                              <span className="text-extra-small text-muted">
+                                {item.timeStamp}
+                              </span>
+                            </div>
+                            <CardBody>
+                              <div className="d-flex flex-row pb-1">
+                                <div className=" d-flex flex-grow-1 min-width-zero">
+                                  <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                    <div className="min-width-zero">
+                                      <p className="mb-0 truncate list-item-heading">
+                                        {owner.name === item.user
+                                          ? item.user + " (Teacher)"
+                                          : item.user}
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <div
-                              className={`chat-text-${
-                                item.user !== user.name ? "left" : "right"
-                              }`}
-                            >
-                              {item.text.startsWith("http") ? (
-                                <p
-                                  onClick={(e) => this.joinCall(item.text)}
-                                  className="mb-0 text-semi-muted"
-                                >
-                                  An Audio Call has been started click on this
-                                  message to join
-                                </p>
-                              ) : (
-                                <p className="mb-0 text-semi-muted">
-                                  {item.text}
-                                </p>
-                              )}
-                            </div>
-                          </CardBody>
-                        </Card>
-                        <div className="clearfix" />
-                      </Fragment>
-                    );
-                  })}
+                              <div
+                                className={`chat-text-${
+                                  item.user !== user.name ? "left" : "right"
+                                }`}
+                              >
+                                {item.text.startsWith("http") ? (
+                                  <p
+                                    onClick={(e) => this.joinCall(item.text)}
+                                    className="mb-0 text-semi-muted"
+                                  >
+                                    An Audio Call has been started click on this
+                                    message to join
+                                  </p>
+                                ) : (
+                                  <p className="mb-0 text-semi-muted">
+                                    {item.text}
+                                  </p>
+                                )}
+                              </div>
+                            </CardBody>
+                          </Card>
+                          <div className="clearfix" />
+                        </Fragment>
+                      );
+                    })
+                  ) : (
+                    <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                      <Image
+                        className="mt-5"
+                        style={{ width: "35%" }}
+                        src={MSG}
+                        alt="Snow"
+                      />
+                      <div class="img_centered_c mt-3">
+                        <h3>No messages to show</h3>
+                      </div>
+                    </div>
+                  )}
                 </PerfectScrollbar>
               )}
             </Colxx>
@@ -765,10 +783,11 @@ class ChatApplication extends Component {
                     <h3 id="roo">Guidelines</h3>
 
                     <p id="roo">{this.state.guidelines}</p>
-                    
+
                     <Separator></Separator>
                     <br></br>
-                    <NavLink id="filter"
+                    <NavLink
+                      id="filter"
                       to={"/app/myrooms/roomview/?id=" + this.state.room}
                       onClick={(e) => this.leaveRoom(e)}
                     >
@@ -776,7 +795,8 @@ class ChatApplication extends Component {
                     </NavLink>
 
                     <br></br>
-                    <NavLink id="filter"
+                    <NavLink
+                      id="filter"
                       to={"/app/myrooms/roomview/?id=" + this.state.room}
                       onClick={(e) => this.deletConversation(e)}
                     >
@@ -842,7 +862,10 @@ class ChatApplication extends Component {
                                         <div className="d-flex flex-grow-1 min-width-zero">
                                           <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
-                                              <p className="mb-0 truncate" id="filter">
+                                              <p
+                                                className="mb-0 truncate"
+                                                id="filter"
+                                              >
                                                 {owner._id === item._id
                                                   ? item.name + " (Teacher)"
                                                   : item.name}
@@ -856,7 +879,7 @@ class ChatApplication extends Component {
                                           <div className="m-3 pl-3 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                             <div className="min-width-zero">
                                               <Link
-                                              id="filter"
+                                                id="filter"
                                                 to={
                                                   "/app/myrooms/roomview/?id=" +
                                                   this.state.room

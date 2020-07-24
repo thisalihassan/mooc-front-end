@@ -26,6 +26,8 @@ import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 import { socket } from "../../containers/TopNav";
 import queryString from "query-string";
+import { Image } from "react-bootstrap";
+import NoQuiz from "./noquiz.svg";
 
 let hidden = null;
 let visibilityChange = null;
@@ -133,6 +135,9 @@ class QuizViewDetails extends Component {
   }
 
   toggleTab(tab) {
+    if (tab == 2) {
+      console.log(2);
+    }
     if (this.state.activeTab !== tab) {
       this.setState({
         activeFirstTab: tab,
@@ -474,67 +479,87 @@ class QuizViewDetails extends Component {
                       </Colxx>
                     </Row>
                   </TabPane>
-                  {roll === "teacher" &&
-                    this.props.allSurveyItems &&
-                    this.props.allSurveyItems.map((item, index) => {
-                      return (
-                        <TabPane tabId="2">
-                          <Colxx xxs="12">
-                            <Card
-                              className="card d-flex flex-row mb-3"
-                              id="rest"
-                              id="rest"
-                            >
-                              <div className="d-flex flex-grow-1 min-width-zero">
-                                <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
-                                  <Link
-                                    to={`/app/profile/userprofile/?profile=${item.user._id}`}
-                                    target="_blank"
-                                    className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
-                                  >
-                                    <ThumbnailImage
-                                      rounded
-                                      small
-                                      src={item.user.avatar}
-                                      alt="profile"
-                                      className="m-4"
-                                    />
-                                    <i className="" />
-                                    <span className="align-middle d-inline-block">
-                                      {item.user.name}
-                                    </span>
-                                  </Link>
-                                  <div>
-                                    <Button
-                                      outline
-                                      color="primary"
-                                      className="mt-3"
+                  <TabPane tabId="2">
+                    {roll === "teacher" && this.props.allSurveyItems ? (
+                      this.props.allSurveyItems.length > 0 ? (
+                        this.props.allSurveyItems.map((item, index) => {
+                          return (
+                            <Colxx xxs="12">
+                              <Card
+                                className="card d-flex flex-row mb-3"
+                                id="rest"
+                                id="rest"
+                              >
+                                <div className="d-flex flex-grow-1 min-width-zero">
+                                  <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+                                    <Link
+                                      to={`/app/profile/userprofile/?profile=${item.user._id}`}
+                                      target="_blank"
+                                      className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
                                     >
-                                      <Link
-                                        to={`/app/myportal/viewquiz/${item._id}`}
-                                        target="_blank"
+                                      <ThumbnailImage
+                                        rounded
+                                        small
+                                        src={item.user.avatar}
+                                        alt="profile"
+                                        className="m-4"
+                                      />
+                                      <i className="" />
+                                      <span className="align-middle d-inline-block">
+                                        {item.user.name}
+                                      </span>
+                                    </Link>
+                                    <div>
+                                      <Button
+                                        outline
+                                        color="primary"
+                                        className="mt-3"
                                       >
-                                        Open Quiz
-                                      </Link>
-                                    </Button>
-                                    <br></br>
-                                    <Button
-                                      outline
-                                      className="mt-3"
-                                      onClick={(e) =>
-                                        this.deleteStudentQuiz(e, item._id)
-                                      }
-                                    >
-                                      Delete Quiz
-                                    </Button>
-                                  </div>
-                                </CardBody>
-                              </div>
-                            </Card>
-                          </Colxx>
-                        </TabPane>
-                      );
-                    })}
+                                        <Link
+                                          to={`/app/myportal/viewquiz/${item._id}`}
+                                          target="_blank"
+                                        >
+                                          Open Quiz
+                                        </Link>
+                                      </Button>
+                                      <br></br>
+                                      <Button
+                                        outline
+                                        className="mt-3"
+                                        onClick={(e) =>
+                                          this.deleteStudentQuiz(e, item._id)
+                                        }
+                                      >
+                                        Delete Quiz
+                                      </Button>
+                                    </div>
+                                  </CardBody>
+                                </div>
+                              </Card>
+                            </Colxx>
+                          );
+                        })
+                      ) : (
+                        <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                          <Image
+                            className="mt-4"
+                            style={{ width: "65%" }}
+                            src={NoQuiz}
+                            alt="Snow"
+                          />
+
+                          <div class="img_centered_c">
+                            <h3>
+                              None of the students have submitted this quiz
+                              yet!!
+                            </h3>
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      <div className="loading"></div>
+                    )}{" "}
+                  </TabPane>
                 </TabContent>
               </Fragment>
             ) : (

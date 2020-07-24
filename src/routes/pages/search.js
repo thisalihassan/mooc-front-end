@@ -10,6 +10,8 @@ import axios from "axios";
 import ThumbnailImage from "../../components/cards/ThumbnailImage";
 import queryString from "query-string";
 import { URL, config } from "../../constants/defaultValues";
+import { Image } from "react-bootstrap";
+import Void from "./void.svg";
 class SearchPages extends Component {
   constructor(props) {
     super(props);
@@ -89,78 +91,92 @@ class SearchPages extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12" className="mb-4">
-            {!isLoading && this.state.items.length ? (
-              this.state.items.map((item, i) => {
-                return (
-                  <div
-                    key={i}
-                    className={`${rowLength !== i + 1 ? "mb-3" : ""}`}
-                  >
-                    {this.props.searchBy === "User" && (
-                      <NavLink
-                        to={`/app/profile/userprofile/?profile=${item._id}`}
-                        className="w-40 w-sm-100"
-                      >
-                        <Card className="d-flex flex-row mb-4">
-                          <ThumbnailImage
-                            rounded
-                            small
-                            src={item.avatar}
-                            alt="profile"
-                            className="m-4"
-                          />
-                          <div className=" d-flex flex-grow-1 min-width-zero">
-                            <CardBody className=" pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                              <div className="min-width-zero">
-                                <CardSubtitle className="list-item-heading mb-1 color-theme-1">
-                                  {item.name}
-                                </CardSubtitle>
-                                <CardText className="text-muted text-small mb-2">
-                                  {item.roll.toUpperCase()}
-                                </CardText>
-                                <CardText className="text-muted text-small mb-2">
-                                  {item.description}
-                                </CardText>
-                              </div>
-                            </CardBody>
-                          </div>
-                        </Card>
-                      </NavLink>
-                    )}
-                    {this.props.searchBy === "Course" && (
-                      <NavLink
-                        to={`/app/mycourses/courseView/?id=${item._id}`}
-                        className="w-40 w-sm-100"
-                      >
-                        <Card className="d-flex flex-row mb-4">
-                          <ThumbnailImage
-                            rounded
-                            small
-                            src={item.pic}
-                            alt="profile"
-                            className="m-4"
-                          />
-                          <div className=" d-flex flex-grow-1 min-width-zero">
-                            <CardBody className=" pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                              <div className="min-width-zero">
-                                <CardSubtitle className="list-item-heading mb-1 color-theme-1">
-                                  {item.name}
-                                </CardSubtitle>
-                                <CardText className="text-muted text-small mb-2">
-                                  {item.description}
-                                </CardText>
-                              </div>
-                            </CardBody>
-                          </div>
-                        </Card>
-                      </NavLink>
-                    )}
-                    {rowLength !== i + 1 && <Separator />}
+            {!isLoading ? (
+              this.state.items.length ? (
+                this.state.items.map((item, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={`${rowLength !== i + 1 ? "mb-3" : ""}`}
+                    >
+                      {this.props.searchBy === "User" && (
+                        <NavLink
+                          to={`/app/profile/userprofile/?profile=${item._id}`}
+                          className="w-40 w-sm-100"
+                        >
+                          <Card className="d-flex flex-row mb-4">
+                            <ThumbnailImage
+                              rounded
+                              small
+                              src={item.avatar}
+                              alt="profile"
+                              className="m-4"
+                            />
+                            <div className=" d-flex flex-grow-1 min-width-zero">
+                              <CardBody className=" pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                <div className="min-width-zero">
+                                  <CardSubtitle className="list-item-heading mb-1 color-theme-1">
+                                    {item.name}
+                                  </CardSubtitle>
+                                  <CardText className="text-muted text-small mb-2">
+                                    {item.roll.toUpperCase()}
+                                  </CardText>
+                                  <CardText className="text-muted text-small mb-2">
+                                    {item.description}
+                                  </CardText>
+                                </div>
+                              </CardBody>
+                            </div>
+                          </Card>
+                        </NavLink>
+                      )}
+                      {this.props.searchBy === "Course" && (
+                        <NavLink
+                          to={`/app/mycourses/courseView/?id=${item._id}`}
+                          className="w-40 w-sm-100"
+                        >
+                          <Card className="d-flex flex-row mb-4">
+                            <ThumbnailImage
+                              rounded
+                              small
+                              src={item.pic}
+                              alt="profile"
+                              className="m-4"
+                            />
+                            <div className=" d-flex flex-grow-1 min-width-zero">
+                              <CardBody className=" pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                <div className="min-width-zero">
+                                  <CardSubtitle className="list-item-heading mb-1 color-theme-1">
+                                    {item.name}
+                                  </CardSubtitle>
+                                  <CardText className="text-muted text-small mb-2">
+                                    {item.description}
+                                  </CardText>
+                                </div>
+                              </CardBody>
+                            </div>
+                          </Card>
+                        </NavLink>
+                      )}
+                      {rowLength !== i + 1 && <Separator />}
+                    </div>
+                  );
+                })
+              ) : (
+                <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                  <Image
+                    className="mt-5"
+                    style={{ width: "35%" }}
+                    src={Void}
+                    alt="Snow"
+                  />
+                  <div class="img_centered_c mt-3">
+                    <h3>No search found!!</h3>
                   </div>
-                );
-              })
+                </div>
+              )
             ) : (
-              <div>No search found</div>
+              <div className="loading"></div>
             )}
           </Colxx>
           <Pagination

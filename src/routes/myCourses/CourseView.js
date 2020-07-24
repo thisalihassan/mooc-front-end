@@ -17,6 +17,8 @@ import ImageListView from "../../components/pages/ImageListView";
 import { connect } from "react-redux";
 import ReactGA from "react-ga";
 import uuid from "uuid";
+import { Image } from "react-bootstrap";
+import Recommended from "./recommended.svg";
 import {
   GetSubscription,
   GetTopCourses,
@@ -126,7 +128,7 @@ class ThumbListPages extends Component {
                   <TabPane tabId="1">
                     <Row>
                       {!this.props.recloading ? (
-                        this.props.recommendation ? (
+                        this.props.recommendation.length > 0 ? (
                           this.props.recommendation
                             .slice(start, end)
                             .map((product) => {
@@ -140,7 +142,20 @@ class ThumbListPages extends Component {
                               );
                             })
                         ) : (
-                          <div>You don't have any recommendations</div>
+                          <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                            <Image
+                              className="mt-5"
+                              style={{ width: "45%" }}
+                              src={Recommended}
+                              alt="Snow"
+                            />
+                            <div class="img_centered_c">
+                              <h6>
+                                Subscribe courses to personalize your
+                                recommendation
+                              </h6>
+                            </div>
+                          </div>
                         )
                       ) : (
                         <div className="loading"></div>

@@ -2350,7 +2350,7 @@ button {
     @include depth(1);
     width: $app-menu-width;
     float: right;
-    background: $foreground-color;
+    background: $foreground-color; //right wali sidebar ka color
     transition: transform $menu-collapse-time;
     height: calc(100% - #{$navbar-height});
     position: fixed;
@@ -8112,6 +8112,6 @@ i.large-icon {
     left: 0;
     position: absolute;
     text-align: center;
-    top: -22px;
+    top: -10px;
     width: 100%
 }

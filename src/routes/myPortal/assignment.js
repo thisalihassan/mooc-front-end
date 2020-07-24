@@ -173,6 +173,7 @@ class Assignment extends Component {
                 ) : (
                   <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
                     <Image
+                      className="mt-4"
                       style={{ width: "65%" }}
                       src={AddAssingment}
                       alt="Snow"
@@ -180,11 +181,11 @@ class Assignment extends Component {
 
                     {this.props.user.roll === "student" ? (
                       <div class="img_centered_c">
-                        <h2>You don't have any assignments for now</h2>
+                        <h3>You don't have any assignments for now</h3>
                       </div>
                     ) : (
                       <div class="img_centered_c">
-                        <h2>You can add assingments for your courses here!!</h2>
+                        <h3>You can add assingments for your courses here!!</h3>
                       </div>
                     )}
                   </div>

@@ -19,6 +19,9 @@ import io from "socket.io-client";
 import queryString from "query-string";
 import { socket } from "../../containers/TopNav";
 import axios from "axios";
+import { Image } from "react-bootstrap";
+import CHAT from "./chat.svg";
+import MSG from "./msg.svg";
 import { URL, AURL, config } from "./../../constants/defaultValues";
 class ChatApplication extends Component {
   constructor(props) {
@@ -373,71 +376,93 @@ class ChatApplication extends Component {
                 option={{ suppressScrollX: true, wheelPropagation: false }}
               >
                 {reciever ? (
-                  this.state.messages.map((item, index) => {
-                    return (
-                      <div key={index}>
-                        <Card
-                          className={`d-inline-block mb-3 float-${
-                            item.user !== user.name ? "left" : "right"
-                          }`}
-                        >
-                          <div className="position-absolute  pt-1 pr-2 r-0">
-                            <span className="text-extra-small text-muted">
-                              {item.timeStamp}
-                            </span>
-                          </div>
-                          <CardBody>
-                            <div className="d-flex flex-row pb-1">
-                              <div className=" d-flex flex-grow-1 min-width-zero">
-                                <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
-                                  <div className="min-width-zero">
-                                    <p className="mb-0 truncate list-item-heading">
-                                      {item.user}
-                                    </p>
+                  this.state.messages.length > 0 ? (
+                    this.state.messages.map((item, index) => {
+                      return (
+                        <div key={index}>
+                          <Card
+                            className={`d-inline-block mb-3 float-${
+                              item.user !== user.name ? "left" : "right"
+                            }`}
+                          >
+                            <div className="position-absolute  pt-1 pr-2 r-0">
+                              <span className="text-extra-small text-muted">
+                                {item.timeStamp}
+                              </span>
+                            </div>
+                            <CardBody>
+                              <div className="d-flex flex-row pb-1">
+                                <div className=" d-flex flex-grow-1 min-width-zero">
+                                  <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                    <div className="min-width-zero">
+                                      <p className="mb-0 truncate list-item-heading">
+                                        {item.user}
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <div
-                              className={`chat-text-${
-                                item.user === user.name ? "left" : "right"
-                              }`}
-                            >
-                              {item.text.startsWith("http") ? (
-                                <a
-                                  href={item.text.split("*")[0]}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  download
-                                >
-                                  {item.text.split("*")[1]}
-                                </a>
-                              ) : (
-                                <p className="mb-0 text-semi-muted">
-                                  {item.text}
-                                </p>
-                              )}
-                            </div>
-                          </CardBody>
-                        </Card>
-                        <div className="clearfix" />
+                              <div
+                                className={`chat-text-${
+                                  item.user === user.name ? "left" : "right"
+                                }`}
+                              >
+                                {item.text.startsWith("http") ? (
+                                  <a
+                                    href={item.text.split("*")[0]}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    download
+                                  >
+                                    {item.text.split("*")[1]}
+                                  </a>
+                                ) : (
+                                  <p className="mb-0 text-semi-muted">
+                                    {item.text}
+                                  </p>
+                                )}
+                              </div>
+                            </CardBody>
+                          </Card>
+                          <div className="clearfix" />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                      <Image
+                        className="mt-5"
+                        style={{ width: "35%" }}
+                        src={MSG}
+                        alt="Snow"
+                      />
+                      <div class="img_centered_c mt-3">
+                        <h3>No messages to show</h3>
                       </div>
-                    );
-                  })
+                    </div>
+                  )
                 ) : (
-                  <div class=" h-100 d-flex justify-content-center align-items-center">
-                    {this.state.profiles.length > 0 ? (
-                      <h3>
-                        Please Select Someone from your contacts to Start
-                        Converstation
-                      </h3>
-                    ) : (
-                      <h3>
-                        Please send a subscribe request. You don't have any
-                        contacts.
-                      </h3>
-                    )}
+                  <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                    <Image
+                      className="mt-5"
+                      style={{ width: "35%" }}
+                      src={CHAT}
+                      alt="Snow"
+                    />
+                    <div class="img_centered_c mt-3">
+                      {this.state.profiles.length > 0 ? (
+                        <h3>
+                          Please Select Someone from your contacts to Start
+                          Converstation
+                        </h3>
+                      ) : (
+                        <h3>
+                          Please send a subscribe request. You don't have any
+                          contacts.
+                        </h3>
+                      )}
+                    </div>
                   </div>
                 )}
               </PerfectScrollbar>
@@ -483,12 +508,11 @@ class ChatApplication extends Component {
 
         <ApplicationMenu>
           <CardHeader className="pl-0 pr-0"></CardHeader>
-
           <PerfectScrollbar
             option={{ suppressScrollX: true, wheelPropagation: false }}
           >
             <div className="pt-2 pr-4 pl-4 pb-2">
-              {this.state.profiles !== [] &&
+              {this.state.profiles ? (
                 this.state.profiles.map((item, index) => {
                   if (user) {
                     if (item._id !== user._id) {
@@ -510,7 +534,9 @@ class ChatApplication extends Component {
                             <div className="d-flex flex-grow-1 min-width-zero">
                               <div className="m-2 pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
                                 <div className="min-width-zero">
-                                  <p className="mb-0 truncate" id="filter">{item.name}</p>
+                                  <p className="mb-0 truncate" id="filter">
+                                    {item.name}
+                                  </p>
                                 </div>
                               </div>
                             </div>
@@ -519,7 +545,10 @@ class ChatApplication extends Component {
                       );
                     }
                   }
-                })}
+                })
+              ) : (
+                <div className="loading"></div>
+              )}
             </div>
           </PerfectScrollbar>
         </ApplicationMenu>

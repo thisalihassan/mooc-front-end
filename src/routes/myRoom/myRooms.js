@@ -16,6 +16,8 @@ import { GetSubscription, getRooms, setAlert } from "../../redux/actions";
 import axios from "axios";
 import { URL, config } from "../../constants/defaultValues";
 import { Separator } from "../../components/CustomBootstrap";
+import { Image } from "react-bootstrap";
+import RoomSvg from "./room.svg";
 class ThumbListPages extends Component {
   constructor(props) {
     super(props);
@@ -160,24 +162,48 @@ class ThumbListPages extends Component {
           <div className="disable-text-selection">
             <Row>
               {this.props.rooms ? (
-                this.props.rooms.map((product) => {
-                  return (
-                    <DataListView
-                      key={product._id}
-                      user={this.props.user._id}
-                      product={product}
-                      deleteClick={(id) => {
-                        this.deleteRoom(id);
-                      }}
-                      editClick={(id) => {
-                        this.editRoom(id);
-                      }}
-                      joinRoom={(id) => {
-                        this.joinRoom(id);
-                      }}
+                this.props.rooms.length > 0 ? (
+                  this.props.rooms.map((product) => {
+                    return (
+                      <DataListView
+                        key={product._id}
+                        user={this.props.user._id}
+                        product={product}
+                        deleteClick={(id) => {
+                          this.deleteRoom(id);
+                        }}
+                        editClick={(id) => {
+                          this.editRoom(id);
+                        }}
+                        joinRoom={(id) => {
+                          this.joinRoom(id);
+                        }}
+                      />
+                    );
+                  })
+                ) : (
+                  <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
+                    <Image
+                      className="mt-5"
+                      style={{ width: "45%" }}
+                      src={RoomSvg}
+                      alt="Snow"
                     />
-                  );
-                })
+
+                    {this.props.user.roll === "student" ? (
+                      <div class="img_centered_c">
+                        <h3>You don't have any online Rooms</h3>
+                      </div>
+                    ) : (
+                      <div class="img_centered_c">
+                        <h3>
+                          You can try making a room by going to one of your
+                          courses!!
+                        </h3>
+                      </div>
+                    )}
+                  </div>
+                )
               ) : (
                 <div className="loading"></div>
               )}

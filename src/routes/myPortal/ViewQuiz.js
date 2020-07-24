@@ -109,7 +109,7 @@ class SurveyDetailApp extends Component {
 
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
-                      {this.props.quiz &&
+                      {this.props.quiz ? (
                         this.props.quiz.questions.map((item, index) => {
                           return (
                             <li data-id={item.id} key={item.id}>
@@ -125,7 +125,10 @@ class SurveyDetailApp extends Component {
                               />
                             </li>
                           );
-                        })}
+                        })
+                      ) : (
+                        <div className="loading"></div>
+                      )}
                     </ul>
                   </Colxx>
                 </Row>

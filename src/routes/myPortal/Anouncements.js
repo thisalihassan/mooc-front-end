@@ -218,7 +218,7 @@ class TodoApp extends Component {
                     )}{" "}
                     {this.props.user.roll === "student" && (
                       <div class="img_centered_c">
-                        <h2>You don't have any announcements</h2>
+                        <h3>You don't have any announcements</h3>
                       </div>
                     )}
                   </div>

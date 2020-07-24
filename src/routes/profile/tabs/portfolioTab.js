@@ -220,12 +220,19 @@ class TheProfile extends React.Component {
                 })
               ) : (
                 <div class="imgNullContainer h-100 d-flex justify-content-center align-items-center">
-                  <Image style={{ width: "65%" }} src={Coursvg} alt="Snow" />
+                  <Image
+                    className="mt-4"
+                    style={{ width: "60%" }}
+                    src={Coursvg}
+                    alt="Snow"
+                  />
                   <div class="img_centered_c">
                     {this.props.user.roll === "teacher" ? (
-                      <h2> Please add your courses</h2>
+                      <h3>You can view the courses you have added here!!</h3>
                     ) : (
-                      <h2>Please Subscribe a course</h2>
+                      <h3>
+                        you can view the courses you have subscribed here!!
+                      </h3>
                     )}
                   </div>
                 </div>
