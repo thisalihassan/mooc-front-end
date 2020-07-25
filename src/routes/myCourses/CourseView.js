@@ -77,7 +77,7 @@ class ThumbListPages extends Component {
       currentPage: page,
       start:
         page === 1 ? 0 : start - (start / 6 === 1 ? 0 : Math.round(div) - 1),
-      end: page === 1 ? 6 : start + 7,
+      end: page === 1 ? 6 : start + 6,
     });
   }
 
