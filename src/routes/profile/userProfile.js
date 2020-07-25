@@ -66,14 +66,15 @@ class ProfilePortfolio extends Component {
           body,
           config
         );
-        this.setState({ myCourses: res.data, loading: false });
+        this.setState({ myCourses: res.data || [], loading: false });
       } else if (
         this.state.loading &&
         this.props.user.roll === "student" &&
-        this.props.subscribed.courses
+        this.props.subscribed
       ) {
+        console.log("jerere");
         this.setState({
-          myCourses: this.props.subscribed.courses,
+          myCourses: this.props.subscribed.courses || [],
           loading: false,
         });
       }
@@ -87,7 +88,8 @@ class ProfilePortfolio extends Component {
     let id = this.props.user._id;
     const body = JSON.stringify({ id });
     const res = await axios.post(URL + "api/Courses/mycourses", body, config);
-    this.setState({ myCourses: res.data, loading: false });
+    console.log(res.data);
+    this.setState({ myCourses: res.data || [], loading: false });
   }
   render() {
     const user = this.props.user;

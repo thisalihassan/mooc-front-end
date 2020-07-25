@@ -512,7 +512,7 @@ class ChatApplication extends Component {
             option={{ suppressScrollX: true, wheelPropagation: false }}
           >
             <div className="pt-2 pr-4 pl-4 pb-2">
-              {this.state.profiles ? (
+              {this.state.profiles &&
                 this.state.profiles.map((item, index) => {
                   if (user) {
                     if (item._id !== user._id) {
@@ -545,10 +545,7 @@ class ChatApplication extends Component {
                       );
                     }
                   }
-                })
-              ) : (
-                <div className="loading"></div>
-              )}
+                })}
             </div>
           </PerfectScrollbar>
         </ApplicationMenu>

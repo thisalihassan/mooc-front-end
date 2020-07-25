@@ -24,9 +24,10 @@ export const createRoom = (body) => async (dispatch) => {
 export const getRooms = (body) => async (dispatch) => {
   try {
     const res = await axios.post(URL + "api/room/getmyrooms", body, config);
+    console.log("erer");
     dispatch({
       type: GET_ROOMS,
-      payload: res.data,
+      payload: res.data || [],
     });
   } catch (err) {
     dispatch(setAlert(err, "danger"));

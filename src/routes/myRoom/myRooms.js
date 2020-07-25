@@ -47,14 +47,15 @@ class ThumbListPages extends Component {
 
   async loadRoom() {
     if (this.props.user.roll === "student") {
+      let course = [];
+      const roll = this.props.user.roll;
       if (this.props.courses) {
         this.makecoursesList();
-        const course = this.state.listCourse;
-        const roll = this.props.user.roll;
-        const body = JSON.stringify({ course, roll });
-        await this.props.getRooms(body);
-        this.setState({ firstRun: false });
+        course = this.state.listCourse;
       }
+      const body = JSON.stringify({ course, roll });
+      await this.props.getRooms(body);
+      this.setState({ firstRun: false });
     }
     if (this.props.user.roll === "teacher") {
       const roll = this.props.user.roll;
@@ -118,6 +119,7 @@ class ThumbListPages extends Component {
     this.toggleModal();
   }
   render() {
+    console.log(this.props.rooms);
     return (
       <Fragment>
         <Modal
@@ -215,10 +217,6 @@ class ThumbListPages extends Component {
                   onChangePage={(i) => this.onChangePage(i)}
                 />
               )}
-              {/* <ContextMenuContainer
-              onContextMenuClick={this.onContextMenuClick}
-              onContextMenu={this.onContextMenu}
-            /> */}
             </Row>
           </div>
         ) : (
