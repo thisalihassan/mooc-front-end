@@ -129,7 +129,7 @@ class AddNewSurveyModal extends Component {
               values,
             }) => (
               <Form className="av-tooltip tooltip-label-right">
-                <FormGroup className="form-group has-float-label">
+                <FormGroup className="form-group">
                   <Label className="d-block">
                     <IntlMessages id="quiz.name" />
                   </Label>
@@ -141,7 +141,7 @@ class AddNewSurveyModal extends Component {
                   )}
                 </FormGroup>
 
-                <FormGroup className="form-group has-float-label">
+                <FormGroup className="form-group">
                   <Label className="d-block">
                     <IntlMessages id="form-components.date" />
                   </Label>
@@ -165,7 +165,7 @@ class AddNewSurveyModal extends Component {
                   ) : null}
                 </FormGroup>
 
-                <FormGroup className="form-group has-float-label">
+                <FormGroup className="form-group">
                   <Label className="d-block">
                     <IntlMessages id="quiz.time" />
                   </Label>
@@ -184,10 +184,8 @@ class AddNewSurveyModal extends Component {
                     </div>
                   ) : null}
                 </FormGroup>
-                <FormGroup className="form-group has-float-label">
-                  <Label className="d-block">
-                    <IntlMessages id="quiz.marks" />
-                  </Label>
+                <FormGroup className="form-group">
+                  <Label className="d-block">Marks</Label>
                   <Input
                     type="Number"
                     id="marks"

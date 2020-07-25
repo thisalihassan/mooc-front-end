@@ -977,23 +977,20 @@ export class DetailsPages extends Component {
                       </TabPane>
                       <TabPane tabId="5">
                         <Row>
-                          <Colxx sm="12">
-                            {this.state.reviews &&
-                              this.state.reviews.CourseRate && (
-                                <CardBody>
-                                  {this.state.reviews.CourseRate.map(
-                                    (item, index) => {
-                                      return (
-                                        <Reviews
-                                          data={item}
-                                          key={item._id}
-                                        ></Reviews>
-                                      );
-                                    }
-                                  )}
-                                </CardBody>
+                          {this.state.reviews && this.state.reviews.CourseRate && (
+                            <CardBody>
+                              {this.state.reviews.CourseRate.map(
+                                (item, index) => {
+                                  return (
+                                    <Reviews
+                                      data={item}
+                                      key={item._id}
+                                    ></Reviews>
+                                  );
+                                }
                               )}
-                          </Colxx>
+                            </CardBody>
+                          )}
                         </Row>
                       </TabPane>
                       <TabPane tabId="6">
