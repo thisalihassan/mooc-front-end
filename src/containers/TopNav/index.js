@@ -587,6 +587,9 @@ class TopNav extends Component {
                       {this.state.notifications.map((n, index) => {
                         let match = false;
                         let itself = false;
+                        console.log(n.course);
+                        console.log(this.state.listCourse);
+
                         if (n.course) {
                           match = this.state.listCourse.find(
                             (u) => u === n.course
